@@ -1,0 +1,27 @@
+header {
+	width: 100%;
+	min-width: 600px;
+	height: 400px;
+	background-image: url(../images/video2.jpg);
+}
+#create-room {
+	width: 300px;
+	background-color: #990000;
+	color: #e6e6e6;
+	border: 1px solid;
+	border-radius: 3px;
+	border-color: #990000;
+	font-size: 28px;
+	padding: 15px;
+	min-width: 250px;
+}
+#create-room:active {
+	text-decoration: none;
+}
+#create-room:focus {
+	text-decoration: none;
+}
+#create-room:hover {
+	text-decoration: none;
+	background-color: #e60000;
+}
