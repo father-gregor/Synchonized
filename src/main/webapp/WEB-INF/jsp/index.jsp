@@ -16,6 +16,8 @@
 				<li><a href="#">Комната</a></li>
 				<li><a href="#">Про нас</a></li>
 				<li><a href="#">Контакты</a></li>
+				<li><a href="<c:url value='/login'/>">Авторизация</a></li>
+				<li><a href="<c:url value='/register'/>">Регистрация</a></li>
 			</ul>
 		</div>
 	</nav>

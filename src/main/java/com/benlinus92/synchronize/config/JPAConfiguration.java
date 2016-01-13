@@ -30,7 +30,7 @@ public class JPAConfiguration {
 		HibernateJpaVendorAdapter hiberAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(hiberAdapter);
 		em.setDataSource(dataSource());
-		em.setPackagesToScan(new String[] {"com.benlinus92.synchronize.dao"});
+		em.setPackagesToScan(new String[] {"com.benlinus92.synchronize"});
 		em.setJpaProperties(hibernateProperties());
 		return em; 
 	}
