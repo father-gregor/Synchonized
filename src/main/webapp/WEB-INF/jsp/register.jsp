@@ -20,6 +20,7 @@
       <label class="control-label"  for="username">Логин</label>
       <div class="controls">
         <form:input path="login" type="text" id="username" name="username" placeholder="" class="input-xlarge"/>
+        <form:errors path="login"/>
         <p class="help-block">Логин должен состоять из букв и цифр без пробелов</p>
       </div>
     </div>
@@ -29,6 +30,7 @@
       <label class="control-label" for="email">E-mail адрес</label>
       <div class="controls">
         <form:input path="email" type="text" id="email" name="email" placeholder="" class="input-xlarge"/>
+        <form:errors path="email"/>
         <p class="help-block">Предоставьте свой E-mail</p>
       </div>
     </div>
@@ -38,6 +40,7 @@
       <label class="control-label" for="password">Пароль</label>
       <div class="controls">
         <form:input path="password" type="password" id="password" name="password" placeholder="" class="input-xlarge"/>
+        <form:errors path="password"/>
         <p class="help-block">Длина пароля 7 или больше символов</p>
       </div>
     </div>
@@ -47,6 +50,7 @@
       <label class="control-label"  for="password_confirm">Подтвердите пароль</label>
       <div class="controls">
         <form:input path="passwordConfirm" type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge"/>
+        <form:errors path="passwordConfirm"/>
         <p class="help-block">Пожалуйста подтвердите пароль</p>
       </div>
     </div>

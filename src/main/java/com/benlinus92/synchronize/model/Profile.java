@@ -11,7 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="PROFILE")
@@ -20,16 +25,17 @@ public class Profile {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="user_id")
 	private int userId;
-	@NotNull
+	@Size(min=5, max=49)
 	@Column(name="login", nullable=false)
 	private String login;
-	@NotNull
+	@Size(min=7, max=65)
 	@Column(name="password", nullable=false)
 	private String password;
-	@NotNull
+	@Size(min=6, max=49)
+	@Email
 	@Column(name="email")
 	private String email;
-	@NotNull
+	@Size(min=7, max=65)
 	@Transient
 	private String passwordConfirm;
 	@OneToMany(mappedBy="userId", fetch = FetchType.LAZY)

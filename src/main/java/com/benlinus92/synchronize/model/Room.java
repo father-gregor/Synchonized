@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="ROOM")
@@ -20,6 +21,7 @@ public class Room {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="room_id")
 	private int roomId;
+	@Size(min=5, max=50)
 	@Column(name="title", nullable=false)
 	private String title;
 	@OneToMany(mappedBy="room", fetch = FetchType.LAZY)

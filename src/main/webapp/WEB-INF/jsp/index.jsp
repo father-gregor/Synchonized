@@ -16,8 +16,15 @@
 				<li><a href="#">Комната</a></li>
 				<li><a href="#">Про нас</a></li>
 				<li><a href="#">Контакты</a></li>
-				<li><a href="<c:url value='/login'/>">Авторизация</a></li>
-				<li><a href="<c:url value='/register'/>">Регистрация</a></li>
+				<c:if test="${userName == null }">
+					<li><a href="<c:url value='/login'/>">Авторизация</a></li>
+					<li><a href="<c:url value='/register'/>">Регистрация</a></li>
+				</c:if>
+				<c:if test="${userName != null }">
+					<li><a href="#">Привет, ${userName}</a></li>
+					<li><a href="<c:url value='/profile/${userName}'/>">Профиль</a></li>
+					<li><a href="<c:url value='/logout'/>">Выйти</a></li>
+				</c:if>
 			</ul>
 		</div>
 	</nav>
@@ -25,5 +32,10 @@
 		<div style="text-align:center;padding-top:120px;"><a href="<c:url value='/create-room'/>" id="create-room">Создать комнату</a></div>
 	</header>
 	<div>${objTest}</div>
+	<c:if test="${param.logout != null}">
+		<div class="alert alert-success">
+			<p>Выход из профиля произведен</p>
+		</div>
+	</c:if>
 </body>
 </html>

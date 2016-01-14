@@ -1,17 +1,20 @@
 package com.benlinus92.synchronize.config;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class SynchronizeInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return null;
+		return new Class<?>[] { AppConifg.class};
 	}
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class<?>[] { AppConifg.class};
+		return null;
 	}
 
 	@Override
@@ -19,4 +22,9 @@ public class SynchronizeInitializer extends AbstractAnnotationConfigDispatcherSe
 		return new String[] {"/"};
 	}
 
+	@Override
+	public void onStartup(ServletContext servletContex) throws ServletException {
+		super.onStartup(servletContex);
+		servletContex.addListener(new SessionListener());
+	}
 }

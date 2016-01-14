@@ -10,11 +10,18 @@
 </head>
 <body>
   <div class="wrapper">
-    <form class="form-signin">       
-      <h2 class="form-signin-heading">Пожалуйста, авторизируйтесь</h2>
-      <input type="text" class="form-control" name="username" placeholder="Логин" required="" autofocus="" />
-      <input type="password" class="form-control" name="password" placeholder="Пароль" required=""/>      
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>   
+  	<c:url var="loginUrl" value="/login" />
+    <form action="${loginUrl}" method="POST" class="form-signin">       
+    	<h2 class="form-signin-heading">Пожалуйста, авторизируйтесь</h2>
+      	<c:if test="${param.error != null}">
+	  		<div class="alert alert-danger">
+	  			<p>Неверный логин и пароль.</p>
+	  		</div>
+      	</c:if>
+		<input type="text" class="form-control" name="login" placeholder="Логин" required="" autofocus="" />
+		<input type="password" class="form-control" name="password" placeholder="Пароль" required=""/> 
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+		<input type="submit" class="btn btn-lg btn-primary btn-block">Войти</button>   
     </form>
   </div>
 </body>
