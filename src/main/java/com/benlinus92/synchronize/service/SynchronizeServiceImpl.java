@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.benlinus92.synchronize.dao.SynchronizeDao;
 import com.benlinus92.synchronize.model.Profile;
+import com.benlinus92.synchronize.model.Room;
 
 @Service("synchronizedService")
 public class SynchronizeServiceImpl implements SynchronizeService {
@@ -26,5 +27,11 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	@Override
 	public Profile findUserByLogin(String login) {
 		return dao.findUserByLogin(login);
+	}
+	@Override
+	public void saveRoom(Room room, String userName) {
+		Profile user = dao.findUserByLogin(userName);
+		room.setUserId(user);
+		dao.saveRoom(room);
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.benlinus92.synchronize.model.Profile;
+import com.benlinus92.synchronize.model.Room;
 
 @Repository
 @Transactional
@@ -51,5 +52,9 @@ public class SynchronizeDaoImpl implements SynchronizeDao {
 		} catch(NoResultException ex) { }
 		
 		return user;
+	}
+	@Override
+	public void saveRoom(Room room) {
+		em.persist(room);
 	}
 }

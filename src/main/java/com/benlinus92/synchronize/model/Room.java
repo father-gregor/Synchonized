@@ -37,9 +37,11 @@ public class Room {
 		this.roomId = roomId;
 	}
 	public String getTitle() {
+		System.out.println("ROOM get - " + title);
 		return title;
 	}
 	public void setTitle(String title) {
+		System.out.println("ROOM set - " + title);
 		this.title = title;
 	}
 	public List<Playlist> getVideosList() {
@@ -51,7 +53,7 @@ public class Room {
 	public Profile getUserId() {
 		return userId;
 	}
-	public void setCreatorId(Profile userId) {
+	public void setUserId(Profile userId) {
 		this.userId = userId;
 	}
 }

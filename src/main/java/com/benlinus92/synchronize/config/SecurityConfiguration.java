@@ -42,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.antMatchers("/create-room").access("hasRole('USER')")
 			.and().formLogin().loginPage("/login")
 			.usernameParameter("login").passwordParameter("password")
-			.and().csrf()
-			.and().exceptionHandling().accessDeniedPage("/");
+			.and().exceptionHandling().accessDeniedPage("/")
+			.and().csrf().disable();
 	}
 }
