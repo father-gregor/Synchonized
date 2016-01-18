@@ -47,12 +47,14 @@ public class SynchronizeDaoImpl implements SynchronizeDao {
 	}
 
 	@Override
-	public Profile findUserByLogin(String login) {
+	public Profile findUserByLogin(String login, boolean lazyInitialize) {
 		Profile user = null;
 		try {
 			Query q = em.createQuery("SELECT r from Profile r WHERE r.login=:login", Profile.class);
 			q.setParameter("login", login);
 			user = (Profile) q.getSingleResult();
+			if(lazyInitialize)
+				Hibernate.initialize(user.getRoomsList());
 		} catch(NoResultException ex) { }
 		
 		return user;
@@ -74,5 +76,17 @@ public class SynchronizeDaoImpl implements SynchronizeDao {
 			}
 		} catch(NoResultException e) { }
 		return list;
+	}
+	@Override
+	public Room findRoomById(int id) {
+		Room room = em.find(Room.class, id);
+		Hibernate.initialize(room.getUserId());
+		return room;
+	}
+	@Override
+	public void deleteRoomById(int id) {
+		Room room = em.find(Room.class, id);
+		if(room != null)
+			em.remove(room);
 	}
 }

@@ -8,7 +8,9 @@ import com.benlinus92.synchronize.model.Room;
 public interface SynchronizeDao {
 	void saveUser(Profile user);
 	boolean isUserUnique(Profile user);
-	Profile findUserByLogin(String login);
+	Profile findUserByLogin(String login, boolean lazyInitialize);
 	void saveRoom(Room room);
 	List<Room> getAllRooms();
+	void deleteRoomById(int id);
+	Room findRoomById(int id);
 }

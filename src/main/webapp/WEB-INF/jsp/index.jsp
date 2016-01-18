@@ -21,7 +21,7 @@
 					<li><a href="<c:url value='/register'/>">Регистрация</a></li>
 				</c:if>
 				<c:if test="${userName != null }">
-					<li><a href="#">Привет, ${userName}</a></li>
+					<li><a style="cursor: default">Привет, ${userName}</a></li>
 					<li><a href="<c:url value='/profile/${userName}'/>">Профиль</a></li>
 					<li><a href="<c:url value='/logout'/>">Выйти</a></li>
 				</c:if>

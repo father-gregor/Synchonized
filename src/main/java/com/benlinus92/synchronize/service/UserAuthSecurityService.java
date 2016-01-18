@@ -28,7 +28,7 @@ public class UserAuthSecurityService implements UserDetailsService {
 	@Transactional(readOnly=true)
 	public UserDetails loadUserByUsername(String login)
 			throws UsernameNotFoundException {
-		Profile user = service.findUserByLogin(login);
+		Profile user = service.findUserByLogin(login, false);
 		if(user == null)
 			throw new UsernameNotFoundException("Username not found");
 		GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");

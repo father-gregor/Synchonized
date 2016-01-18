@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Room</title>
+	<title>${roomName}</title>
 	<link href="<c:url value='../webstyle/css/bootstrap.min.css' />" rel="stylesheet">
 	<link href="<c:url value='../webstyle/build/mediaelementplayer.css' />" rel="stylesheet">
 	<link href="<c:url value='../webstyle/css/custom-index.css' />" rel="stylesheet">
@@ -23,7 +23,7 @@
 					<li><a href="<c:url value='/register'/>">Регистрация</a></li>
 				</c:if>
 				<c:if test="${userName != null }">
-					<li><a href="#">Привет, ${userName}</a></li>
+					<li><a style="cursor: default">Привет, ${userName}</a></li>
 					<li><a href="<c:url value='/profile/${userName}'/>">Профиль</a></li>
 					<li><a href="<c:url value='/logout'/>">Выйти</a></li>
 				</c:if>
@@ -31,10 +31,10 @@
 		</div>
 	</nav>
 	<video preload="auto" width="640" height="480"  controls="controls">
-	<source src="<c:url value='webstyle/oceans.mp4' />" type='video/mp4'>
+	<source src="<c:url value='../webstyle/oceans.mp4' />" type='video/mp4'>
 	</video>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
-	<script src="<c:url value='webstyle/build/mediaelement-and-player.min.js' />"></script>
+	<script src="<c:url value='../webstyle/build/mediaelement-and-player.min.js' />"></script>
 	<script>
 	$(document).ready(function(){$('video, audio').mediaelementplayer();});
 	</script>

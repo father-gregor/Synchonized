@@ -1,11 +1,12 @@
 package com.benlinus92.synchronize.validator;
 
+import org.hibernate.validator.internal.constraintvalidators.EmailValidator;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.benlinus92.synchronize.model.Profile;
 
-public class ProfileValidator implements Validator {
+public class EditedProfileValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> arg0) {
@@ -17,6 +18,9 @@ public class ProfileValidator implements Validator {
 		Profile user = (Profile) obj;
 		if(!user.getPassword().equals(user.getPasswordConfirm()))
 			e.rejectValue("passwordConfirm", "NotEqual.user.passwordConfirm");
+		EmailValidator eVal = new EmailValidator();
+		if(!eVal.isValid(user.getEmail(), null))
+			e.rejectValue("email", "Email.user.email");
 	}
 
 }

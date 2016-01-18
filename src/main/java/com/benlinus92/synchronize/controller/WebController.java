@@ -54,9 +54,6 @@ public class WebController {
 		model.addObject("objTest","Проверка проверочка");
 		if(user != null)
 			model.addObject("userName", user);
-		List<Room> list = service.getAllRooms();
-		System.out.println(list.get(0).getTitle());
-		System.out.println(list.get(0).getUserId().getLogin());
 		model.addObject("roomsList", service.getAllRooms());
 		return model;
 	}
@@ -96,13 +93,40 @@ public class WebController {
 		return "index";
 	}
 	@RequestMapping(value="/profile/{user}", method=RequestMethod.GET)
-	public String showProfilePage() {
-		//ModelAndView mav = new ModelAndView("/room");
-		return "room";
+	public String showProfilePage(@PathVariable String user, Model model) {
+		if(getPrincipal().equals(user)) {
+			model.addAttribute("profile", service.findUserByLogin(user, true));
+			return "profile";
+		}
+		model.addAttribute("profile", service.findUserByLogin(user, true));
+		return "profile";
+	}
+	@RequestMapping(value="/profile/edit", method=RequestMethod.GET)
+	public String showEditUserPage(Model model) {
+		model.addAttribute("editedUser", new Profile());
+		return "edit-profile";
+	}
+	@RequestMapping(value="/profile/edit", method=RequestMethod.POST)
+	public String editUserProfile(@ModelAttribute("editedUser") Profile editedUser, 
+			BindingResult result, Model model) {
+		editedUser.setLogin(getPrincipal());
+		ProfileValidator validator = new ProfileValidator();
+		validator.validate(editedUser, result);
+		if(result.hasErrors())
+			return "edit-profile";
+		try {
+			service.editUserProfile(editedUser, getPrincipal());
+		} catch(Exception e) {
+			e.printStackTrace();
+			return "edit-profile";
+		}
+		
+		return "redirect:/profile/{userName}";
 	}
 	@RequestMapping(value="/room/{roomName}", method=RequestMethod.GET)
 	public String showRoomByName(@PathVariable String roomName, Model model) {
 		System.out.println(roomName);
+		model.addAttribute("roomName", roomName);
 		return "room";
 	}
 	@RequestMapping(value="/create-room", method=RequestMethod.GET)
@@ -115,16 +139,13 @@ public class WebController {
 		if(result.hasErrors())
 			return "create-room";
 		String userName = getPrincipal();
-		System.out.println(room.getTitle());
-		try {
-			String newString = new String(room.getTitle().getBytes("UTF-8"), "Cp1251");
-			System.out.println(newString);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		service.saveRoom(room, userName);
-		return "redirect:profile/" + userName;
+		return "redirect:/room/"+room.getTitle();
+	}
+	@RequestMapping(value="/delete-room-{roomId}", method=RequestMethod.GET)
+	public String deleteRoomById(@PathVariable int roomId) {
+		service.deleteRoomById(roomId, getPrincipal());
+		return "redirect:/profile/{userName}";
 	}
 	private String getPrincipal() {
 		String userName = null;
