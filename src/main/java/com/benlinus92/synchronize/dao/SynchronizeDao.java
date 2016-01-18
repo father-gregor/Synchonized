@@ -1,5 +1,7 @@
 package com.benlinus92.synchronize.dao;
 
+import java.util.List;
+
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
 
@@ -8,4 +10,5 @@ public interface SynchronizeDao {
 	boolean isUserUnique(Profile user);
 	Profile findUserByLogin(String login);
 	void saveRoom(Room room);
+	List<Room> getAllRooms();
 }

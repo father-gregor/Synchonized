@@ -3,6 +3,7 @@ package com.benlinus92.synchronize.controller;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServlet;
@@ -23,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,12 +48,16 @@ public class WebController {
 	private MessageSource messageSource;
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
-	public ModelAndView getHello(){
+	public ModelAndView getIndexPage(){
 		ModelAndView model = new ModelAndView("/index");
 		String user = getPrincipal();
 		model.addObject("objTest","Проверка проверочка");
 		if(user != null)
 			model.addObject("userName", user);
+		List<Room> list = service.getAllRooms();
+		System.out.println(list.get(0).getTitle());
+		System.out.println(list.get(0).getUserId().getLogin());
+		model.addObject("roomsList", service.getAllRooms());
 		return model;
 	}
 	@RequestMapping(value="/login", method=RequestMethod.GET)
@@ -92,6 +98,11 @@ public class WebController {
 	@RequestMapping(value="/profile/{user}", method=RequestMethod.GET)
 	public String showProfilePage() {
 		//ModelAndView mav = new ModelAndView("/room");
+		return "room";
+	}
+	@RequestMapping(value="/room/{roomName}", method=RequestMethod.GET)
+	public String showRoomByName(@PathVariable String roomName, Model model) {
+		System.out.println(roomName);
 		return "room";
 	}
 	@RequestMapping(value="/create-room", method=RequestMethod.GET)

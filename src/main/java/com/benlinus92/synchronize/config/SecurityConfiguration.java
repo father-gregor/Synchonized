@@ -39,6 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.antMatchers("/").permitAll()
 			.antMatchers("/register").permitAll()
 			.antMatchers("/room/**").access("hasRole('USER')")
+			.antMatchers("/profile/**").access("hasRole('USER')")
 			.antMatchers("/create-room").access("hasRole('USER')")
 			.and().formLogin().loginPage("/login")
 			.usernameParameter("login").passwordParameter("password")

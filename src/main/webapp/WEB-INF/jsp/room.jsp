@@ -6,9 +6,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Room</title>
-	<link href="<c:url value='**/webstyle/css/bootstrap.min.css' />" rel="stylesheet">
-	<link href="<c:url value='**/webstyle/css/custom-room.css' />" rel="stylesheet">
-	<link href="<c:url value='**/webstyle/build/mediaelementplayer.css' />" rel="stylesheet">
+	<link href="<c:url value='../webstyle/css/bootstrap.min.css' />" rel="stylesheet">
+	<link href="<c:url value='../webstyle/build/mediaelementplayer.css' />" rel="stylesheet">
+	<link href="<c:url value='../webstyle/css/custom-index.css' />" rel="stylesheet">
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">

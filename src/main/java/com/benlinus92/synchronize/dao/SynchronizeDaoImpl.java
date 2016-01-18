@@ -1,5 +1,8 @@
 package com.benlinus92.synchronize.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -10,6 +13,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -56,5 +60,19 @@ public class SynchronizeDaoImpl implements SynchronizeDao {
 	@Override
 	public void saveRoom(Room room) {
 		em.persist(room);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Room> getAllRooms() {
+		List<Room> list = new ArrayList<Room>();
+		try {
+			Query q = em.createQuery("SELECT r from Room r");
+			list = (List<Room>) q.getResultList();
+			for(Room room: list) {
+				Hibernate.initialize(room.getUserId());
+			}
+		} catch(NoResultException e) { }
+		return list;
 	}
 }

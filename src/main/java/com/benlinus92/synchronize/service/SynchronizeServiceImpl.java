@@ -1,5 +1,7 @@
 package com.benlinus92.synchronize.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -33,5 +35,10 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 		Profile user = dao.findUserByLogin(userName);
 		room.setUserId(user);
 		dao.saveRoom(room);
+	}
+
+	@Override
+	public List<Room> getAllRooms() {
+		return dao.getAllRooms();
 	}
 }

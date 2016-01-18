@@ -31,11 +31,33 @@
 	<header>
 		<div style="text-align:center;padding-top:120px;"><a href="<c:url value='/create-room'/>" id="create-room">Создать комнату</a></div>
 	</header>
-	<div>${objTest}</div>
-	<c:if test="${param.logout != null}">
-		<div class="alert alert-success">
-			<p>Выход из профиля произведен</p>
-		</div>
-	</c:if>
+	<div class="container" style="margin-top: 50px">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>№</th>
+					<th>Название комнаты</th>
+					<th>Создатель</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="room" items="${roomsList}" varStatus="loop">
+					<tr>
+						<td>${loop.index + 1}</td>
+						<td class="room-link"><a href="<c:url value='/room/${room.title}'/>">${room.title}</a></td>
+						<td><a href="<c:url value='/profile/${room.userId.login}'/>">${room.userId.login}</a></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<div>${objTest}</div>
+		<c:if test="${param.logout != null}">
+			<div class="alert alert-success">
+				<p>Выход из профиля произведен</p>
+			</div>
+		</c:if>
+	</div>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="<c:url value='webstyle/js/index.js' />"></script>
 </body>
 </html>
