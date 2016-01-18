@@ -2,8 +2,10 @@ package com.benlinus92.synchronize.config;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -22,11 +24,10 @@ public class SynchronizeInitializer extends AbstractAnnotationConfigDispatcherSe
 		return null;
 	}
 	
-	/*@Override
+	@Override
 	protected Filter[] getServletFilters() {
 		return new Filter[] {new CharsetFilter()};
-	}*/
-
+	}
 
 	@Override
 	protected String[] getServletMappings() {
@@ -34,20 +35,21 @@ public class SynchronizeInitializer extends AbstractAnnotationConfigDispatcherSe
 	}
 	
 	@Override
+	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+		registration.setMultipartConfig(getMultipartConfigElement());
+	}
+	
+	private MultipartConfigElement getMultipartConfigElement() {
+		MultipartConfigElement mce = new MultipartConfigElement(AppConstants.TEMP_LOCATION, AppConstants.MAX_FILE_SIZE, 
+				AppConstants.MAX_REQUEST_SIZE, AppConstants.FILE_SIZE_THRESHOLD);
+		return mce;
+	}
+	/*@Override
 	protected Filter[] getServletFilters() {
 		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
 		encodingFilter.setEncoding("UTF-8");
 		encodingFilter.setForceEncoding(true);
 		return new Filter[] {encodingFilter};
-	}
+	}*/
 
-	@Override
-	public void onStartup(ServletContext servletContex) throws ServletException {
-		super.onStartup(servletContex);
-		FilterRegistration.Dynamic encodingFilter = servletContex.addFilter("encoding-filter", new CharacterEncodingFilter());
-		servletContex.addListener(new SessionListener());
-	      encodingFilter.setInitParameter("encoding", "UTF-8");
-	      encodingFilter.setInitParameter("forceEncoding", "true");
-	      encodingFilter.addMappingForUrlPatterns(null, true, "/*");
-	}
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.benlinus92.synchronize.dao.SynchronizeDao;
+import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
 
@@ -52,11 +53,33 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 		return dao.getAllRooms();
 	}
 	@Override
+	public Room findRoomById(int id) {
+		return dao.findRoomById(id);
+	}
+	@Override
 	public boolean deleteRoomById(int id, String userName) {
-		if(dao.findRoomById(id).getUserId().getLogin().equals(userName)) {
+		Room room = dao.findRoomById(id);
+		if(room.getUserId().getLogin().equals(userName)) {
+			List<Playlist> videos = room.getVideosList();
+			for(Playlist video: videos)
+				dao.deleteVideoById(video.getVideoId());
 			dao.deleteRoomById(id);
 			return true;
 		}
 		return false;
+	}
+	@Override
+	public void saveVideo(Playlist video, int roomId) {
+		Room room = dao.findRoomById(roomId);
+		video.setRoom(room);
+		dao.saveVideo(video);
+	}
+	@Override
+	public List<Playlist> getAllVideos() {
+		return dao.getAllVideos();
+	}
+	@Override
+	public void deleteVideo(int videoId) {
+		dao.deleteVideoById(videoId);
 	}
 }

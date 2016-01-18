@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -19,13 +20,17 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = "com.benlinus92.synchronize")
 @Import({SecurityConfiguration.class})
 public class AppConifg extends WebMvcConfigurerAdapter {
+	@Bean(name="multipartResolver")
+	public StandardServletMultipartResolver resolver() {
+		return new StandardServletMultipartResolver();
+	}
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver vr = new InternalResourceViewResolver();
 		vr.setViewClass(JstlView.class);
 		vr.setPrefix("/WEB-INF/jsp/");
 		vr.setSuffix(".jsp");
-		vr.setContentType("text/html; charset=UTF-8");//ajax problems?
+		//vr.setContentType("text/html; charset=UTF-8");//ajax problems?
 		return vr;
 	}
 	@Bean
@@ -41,5 +46,6 @@ public class AppConifg extends WebMvcConfigurerAdapter {
 	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/webstyle/**").addResourceLocations("/webstyle/");
+        registry.addResourceHandler("/videos/**").addResourceLocations("file:" + AppConstants.VIDEOSTORE_LOCATION);
     }
 }

@@ -58,7 +58,7 @@
 					<c:forEach var="room" items="${profile.roomsList}" varStatus="loop">
 						<tr>
 							<td>${loop.index + 1}</td>
-							<td class="room-link"><a href="<c:url value='/room/${room.title}'/>">${room.title}</a></td>
+							<td class="room-link"><a href="<c:url value='/room/${room.roomId}'/>">${room.title}</a></td>
 							<c:if test="${userName ==  profile.login}">
 								<td><a href="<c:url value='/delete-room-${room.roomId}'/>" role="button" class="btn btn-primary">Удалить</a></td>
 							</c:if>

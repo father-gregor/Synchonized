@@ -44,7 +44,7 @@
 				<c:forEach var="room" items="${roomsList}" varStatus="loop">
 					<tr>
 						<td>${loop.index + 1}</td>
-						<td class="room-link"><a href="<c:url value='/room/${room.title}'/>">${room.title}</a></td>
+						<td class="room-link"><a href="<c:url value='/room/${room.roomId}'/>">${room.title}</a></td>
 						<td><a href="<c:url value='/profile/${room.userId.login}'/>">${room.userId.login}</a></td>
 					</tr>
 				</c:forEach>

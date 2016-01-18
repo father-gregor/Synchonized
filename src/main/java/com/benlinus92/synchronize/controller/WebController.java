@@ -1,6 +1,9 @@
 package com.benlinus92.synchronize.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -32,6 +35,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.benlinus92.synchronize.config.AppConstants;
+import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
 import com.benlinus92.synchronize.service.SynchronizeService;
@@ -90,15 +95,14 @@ public class WebController {
 			result.addError(erEmail);
 			return "register";
 		}
-		return "index";
+		return "redirect:/";
 	}
 	@RequestMapping(value="/profile/{user}", method=RequestMethod.GET)
 	public String showProfilePage(@PathVariable String user, Model model) {
-		if(getPrincipal().equals(user)) {
-			model.addAttribute("profile", service.findUserByLogin(user, true));
-			return "profile";
-		}
-		model.addAttribute("profile", service.findUserByLogin(user, true));
+		Profile profile = service.findUserByLogin(user, true);
+		if(profile == null)
+			return "redirect:/";
+		model.addAttribute("profile", profile);
 		return "profile";
 	}
 	@RequestMapping(value="/profile/edit", method=RequestMethod.GET)
@@ -123,10 +127,13 @@ public class WebController {
 		
 		return "redirect:/profile/{userName}";
 	}
-	@RequestMapping(value="/room/{roomName}", method=RequestMethod.GET)
-	public String showRoomByName(@PathVariable String roomName, Model model) {
-		System.out.println(roomName);
-		model.addAttribute("roomName", roomName);
+	@RequestMapping(value="/room/{roomId}", method=RequestMethod.GET)
+	public String showRoomById(@PathVariable int roomId, Model model) {
+		Room room = service.findRoomById(roomId);
+		if(room == null)
+			return "redirect:/";
+		model.addAttribute("room", room);
+		model.addAttribute("videoObj", new Playlist());
 		return "room";
 	}
 	@RequestMapping(value="/create-room", method=RequestMethod.GET)
@@ -135,17 +142,40 @@ public class WebController {
 		return "create-room";
 	}
 	@RequestMapping(value="/create-room", method=RequestMethod.POST)
-	public String addNewRoom(@Valid Room room, BindingResult result, Model model) {
+	public String addNewRoom(@Valid Room room, BindingResult result) throws UnsupportedEncodingException {
 		if(result.hasErrors())
 			return "create-room";
-		String userName = getPrincipal();
-		service.saveRoom(room, userName);
-		return "redirect:/room/"+room.getTitle();
+		service.saveRoom(room, getPrincipal());
+		//URLEncoder.encode(room.getTitle(), "UTF-8"); maybe be valuable in future
+		return "redirect:/room/" + room.getRoomId();
 	}
 	@RequestMapping(value="/delete-room-{roomId}", method=RequestMethod.GET)
 	public String deleteRoomById(@PathVariable int roomId) {
 		service.deleteRoomById(roomId, getPrincipal());
 		return "redirect:/profile/{userName}";
+	}
+	@RequestMapping(value="/playlist/add-{videoType}-{roomId}", method=RequestMethod.POST)
+	public String addVideoToPlaylist(@ModelAttribute("videoObj")  Playlist video, @PathVariable String videoType,
+			@PathVariable int roomId, BindingResult result, HttpServletRequest request) {
+		if(result.hasErrors()) {
+			return "redirect:/room/" + roomId;
+		}
+		try {
+			video.setType(videoType);
+			video.setCurrTime("0");
+			if(videoType.equals(AppConstants.TYPE_UPLOAD_VIDEO)) {
+				String folderPath = AppConstants.VIDEOSTORE_LOCATION + roomId + "/";
+				video.setUrl(video.getFile().getOriginalFilename());
+				if(!new File(folderPath).exists())
+					new File(folderPath).mkdir();
+				video.getFile().transferTo(new File(folderPath + video.getFile().getOriginalFilename()));
+			}
+			service.saveVideo(video, roomId);
+		} catch(IOException e) {
+			e.printStackTrace();
+			return "redirect:/room/" + roomId;
+		}
+		return "redirect:/room/" + roomId;
 	}
 	private String getPrincipal() {
 		String userName = null;

@@ -1,5 +1,8 @@
 package com.benlinus92.synchronize.dao;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +20,8 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.benlinus92.synchronize.config.AppConstants;
+import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
 
@@ -72,15 +77,21 @@ public class SynchronizeDaoImpl implements SynchronizeDao {
 			Query q = em.createQuery("SELECT r from Room r");
 			list = (List<Room>) q.getResultList();
 			for(Room room: list) {
-				Hibernate.initialize(room.getUserId());
+				if(room != null)
+					Hibernate.initialize(room.getUserId());
 			}
-		} catch(NoResultException e) { }
+		} catch(NoResultException e) { 
+			e.printStackTrace();
+		}
 		return list;
 	}
 	@Override
 	public Room findRoomById(int id) {
 		Room room = em.find(Room.class, id);
-		Hibernate.initialize(room.getUserId());
+		if(room != null) {
+			Hibernate.initialize(room.getUserId());
+			Hibernate.initialize(room.getVideosList());
+		}
 		return room;
 	}
 	@Override
@@ -88,5 +99,39 @@ public class SynchronizeDaoImpl implements SynchronizeDao {
 		Room room = em.find(Room.class, id);
 		if(room != null)
 			em.remove(room);
+	}
+	@Override
+	public void saveVideo(Playlist video) {
+		em.persist(video);
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Playlist> getAllVideos() {
+		List<Playlist> list = new ArrayList<Playlist>();
+		try {
+			Query q = em.createQuery("SELECT r from Playlist r");
+			list = (List<Playlist>) q.getResultList();
+			for(Playlist video: list) {
+				if(video != null)
+					Hibernate.initialize(video.getRoom());
+			}
+		} catch(NoResultException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	@Override
+	public void deleteVideoById(int videoId) {
+		Playlist video = em.find(Playlist.class, videoId);
+		try {
+			if(video != null) {
+				int roomId = video.getRoom().getRoomId();
+				if(video.getType().equals(AppConstants.TYPE_UPLOAD_VIDEO))
+					Files.deleteIfExists(Paths.get(AppConstants.VIDEOSTORE_LOCATION + roomId + "/" + video.getUrl()));
+				em.remove(video);
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -13,7 +13,7 @@
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="">Synchronized</a>
+			<a class="navbar-brand" href="/">Synchronized</a>
 			<ul class="nav navbar-nav">
 				<li><a href="#">Комната</a></li>
 				<li><a href="#">Про нас</a></li>

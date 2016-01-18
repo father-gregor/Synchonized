@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name="PLAYLIST")
@@ -24,10 +27,10 @@ public class Playlist {
 	private String title;
 	@Column(name="url")
 	private String url;
-	@Column(name="overall_time")
-	private String overallTime;
 	@Column(name="curr_time")
 	private String currTime;
+	@Transient
+	public MultipartFile file;
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name= "room_id")
 	private Room room;
@@ -56,12 +59,6 @@ public class Playlist {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public String getOverallTime() {
-		return overallTime;
-	}
-	public void setOverallTime(String overallTime) {
-		this.overallTime = overallTime;
-	}
 	public String getCurrTime() {
 		return currTime;
 	}
@@ -73,5 +70,11 @@ public class Playlist {
 	}
 	public void setRoom(Room room) {
 		this.room = room;
+	}
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 }
