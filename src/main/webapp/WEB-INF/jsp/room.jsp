@@ -94,12 +94,12 @@
 						<c:choose>
 							<c:when test="${video.type == 'upvideo'}">
 								<li title="/videos/${roomId}/${video.url}" class="list-group-item playlist-li ${video.type}" id="video${loop.index + 1}">
-									${video.title} - ${video.url}
+									${video.title} (${video.url})
 								</li>
 							</c:when>
 							<c:when test="${video.type == 'youtube'}">
 								<li title="${video.url}" class="list-group-item playlist-li ${video.type}" id="video${loop.index + 1}">
-									${video.title} - YouTube
+									${video.title} (YouTube)
 								</li>
 							</c:when>
 						</c:choose>
