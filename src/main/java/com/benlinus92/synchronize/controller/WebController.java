@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,16 +27,20 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.benlinus92.synchronize.config.AppConstants;
+import com.benlinus92.synchronize.model.AjaxVideoTime;
 import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
@@ -135,6 +140,11 @@ public class WebController {
 		model.addAttribute("room", room);
 		model.addAttribute("videoObj", new Playlist());
 		return "room";
+	}
+	@RequestMapping(value="/sendtime-ajax", method=RequestMethod.POST)
+	public @ResponseBody String getVideoTimeByAjax(@RequestBody AjaxVideoTime video) throws HttpMediaTypeNotSupportedException {
+		System.out.println("Room: " + video.getRoomId() + "; Video: " + video.getVideoId()  + "; Time: " + video.getCurrTime());
+		return "Received";
 	}
 	@RequestMapping(value="/create-room", method=RequestMethod.GET)
 	public String showCreateRoomPage(Model model) {

@@ -89,17 +89,19 @@
 			</div>
 			<div style="padding: 15px;width: 700px">
 				<p class="text-center" style="font-size: 30px;font-weight: bold">Playlist</p>
-				<ul class="list-group">
+				<ul class="list-group" id="${roomId}">
 					<c:forEach var="video" items="${room.videosList}" varStatus="loop">
 						<c:choose>
 							<c:when test="${video.type == 'upvideo'}">
 								<li title="/videos/${roomId}/${video.url}" class="list-group-item playlist-li ${video.type}" id="video${loop.index + 1}">
 									${video.title} (${video.url})
+									<div id="${video.videoId}" style="display: none"></div>
 								</li>
 							</c:when>
 							<c:when test="${video.type == 'youtube'}">
 								<li title="${video.url}" class="list-group-item playlist-li ${video.type}" id="video${loop.index + 1}">
 									${video.title} (YouTube)
+									<div id="${video.videoId}" style="display: none"></div>
 								</li>
 							</c:when>
 						</c:choose>
