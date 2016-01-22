@@ -1,14 +1,18 @@
 
 $(function() {
 	var index = 1;
+	var firstPlay = true;
+	var currentPlayer = null;
 	var playerYoutube = null;
 	var playerUpload = new MediaElementPlayer(".player-upload", {
 		success: function(mediaEl, obj) {
 			mediaEl.setSrc("");
 			mediaEl.addEventListener("ended", function(e) {
 				console.log("Ended 1");
-				if($("li#video" + index).length > 0)
+				deleteVideoFromList();
+				if($("li#video" + index).length > 0) {
 					setCurrentPlayer();
+				} 
 				console.log("Ended 2");
 			});
 			mediaEl.addEventListener("timeupdate", function() {
@@ -20,10 +24,11 @@ $(function() {
 	$(".player-youtube").css("display", "none");
 	$("div.player-youtube").css("display", "none");
 	$("div.player-upload").css("display", "inline-block");
+	
 	$(window).load(function() {
 		console.log("READY987443");
 		setCurrentPlayer();
-		setTimeout(sendTimeToServer, 5000);
+		receiveTimeFromServer();
 	});
 	
 	function setCurrentPlayer() {
@@ -42,6 +47,7 @@ $(function() {
 				playerYoutube.load();
 				playerYoutube.play();
 			}
+			currentPlayer = playerYoutube;
 			videoId = currentEl.children().attr("id");
 			currPlayer = "youtube";
 		} else if(currentEl.hasClass("upvideo") == true) {
@@ -50,6 +56,13 @@ $(function() {
 			$("div.player-upload").css("display", "inline-block");
 			playerUpload.setSrc(currentEl.attr("title"));
 			playerUpload.play();
+			if(firstPlay == true) {
+				receiveTimeFromServer();
+				playerUpload.setCurrentTime(ajaxVideoTime);
+				firstPlay = false;
+				sendTimeToServer();
+			}
+			currentPlayer = playerUpload;
 			currPlayer = "upvideo";
 		} else
 			videoId = null;
@@ -71,14 +84,43 @@ $(function() {
 				console.log("Call success youtube");
 				mediaEl.addEventListener("canplay", function() {
 					console.log("CAN PLAY");
+					if(firstPlay == true) {
+						receiveTimeFromServer();
+						mediaEl.setCurrentTime(ajaxVideoTime);
+						firstPlay = false;
+						sendTimeToServer();
+					}
 					mediaEl.play();
 				});
 				mediaEl.addEventListener("timeupdate", function() {
 					videoTime = mediaEl.currentTime;
 				});
+				mediaEl.addEventListener("seeked", function() {
+					console.log("SEEKED");
+				});
+				mediaEl.addEventListener("seeking", function() {
+					console.log("MOVING");
+				});
+				mediaEl.addEventListener("pause", function() {
+					console.log("PAUSED");
+				});
+				mediaEl.addEventListener("loadedmetadata", function() {
+					console.log("LOADED METADATA");
+				}); 
+				mediaEl.addEventListener("loadeddata", function() {
+					console.log("LOADED VIDEO DATA");
+				});
+				mediaEl.addEventListener("play", function() {
+					console.log("PLAY VIDEO");
+				});
+				mediaEl.addEventListener("playing", function() {
+					console.log("PLAY VIDEO");
+				});
 				mediaEl.addEventListener("ended", function(e) {
-					if($("li#video" + index).length > 0)
+					deleteVideoFromList();
+					if($("li#video" + index).length > 0) {
 						setCurrentPlayer();
+					}
 				});
 				mediaEl.play();
 			},
@@ -88,25 +130,12 @@ $(function() {
 		});
 	}
 	var roomId = $("ul.list-group").attr("id");
+	var ajaxVideoTime = null;
 	var videoId = null;
 	var currPlayer = null;
 	var videoTime = null;
 	function sendTimeToServer() {
 		if(videoId != null) {
-			var json = null;
-			if(currPlayer == "youtube") {
-				json = {
-					"roomId": roomId,
-					"videoId": videoId,
-					"currTime": videoTime
-				};
-			} else if(currPlayer == "upvideo") {
-				json = {
-					"roomId": roomId,
-					"videoId": videoId,
-					"currTime": videoTime
-				};
-			}
 			$.ajax({
 				headers: { 
 			        'Accept': 'text/plain;charset=UTF-8',
@@ -114,22 +143,49 @@ $(function() {
 			    },
 				type: "POST",
 				url: "/sendtime-ajax",
-				data: JSON.stringify(json),
+				data: JSON.stringify({
+					"roomId": roomId,
+					"videoId": videoId,
+					"currTime": videoTime
+				}),
 				dataType: "json",
 				success: function(data) {
-					console.log(data);
+					
 				},
 				error: function(data, status, e) {
-					console.log("error: "+data+" status: "+status+" er:"+e);
+					
 				}
 			});
 		}
-		setTimeout(sendTimeToServer, 3000);
+		setTimeout(sendTimeToServer, 500);
 	}
 	
+	function receiveTimeFromServer() {
+		$.ajax({
+			type: "GET",
+			url: "/gettime-ajax-" + videoId,
+			success: function(data) {
+				ajaxVideoTime = data;
+			},
+			error: function(data, status, e) {
+				console.log("GETerror: "+data+" status: "+status+" er:"+e);
+			}
+		});
+	}
+	
+	function deleteVideoFromList() {
+		$.ajax({
+			type: "GET",
+			url: "/deletevideo-ajax-" + videoId,
+			success: function(data) {
+				
+			},
+			error: function(data, status, e) {
+				console.log("GETerror: "+data+" status: "+status+" er:"+e);
+			}
+		});
+	}
 	$("#upload-tabs a").click(function(e) {
-		console.log(playerYoutube.currentTime);
-		console.log(playerUpload.currentTime);
 		e.preventDefault();
 		$(this).tab("show");
 	});

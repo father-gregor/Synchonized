@@ -121,6 +121,10 @@ public class SynchronizeDaoImpl implements SynchronizeDao {
 		return list;
 	}
 	@Override
+	public Playlist findVideoById(int videoId) {
+		return em.find(Playlist.class, videoId);
+	}
+	@Override
 	public void deleteVideoById(int videoId) {
 		Playlist video = em.find(Playlist.class, videoId);
 		try {

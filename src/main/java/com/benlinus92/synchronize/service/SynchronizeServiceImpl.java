@@ -79,6 +79,10 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 		return dao.getAllVideos();
 	}
 	@Override
+	public Playlist findVideoById(String videoId) {
+		return dao.findVideoById(Integer.parseInt(videoId));
+	}
+	@Override
 	public void deleteVideo(int videoId) {
 		dao.deleteVideoById(videoId);
 	}

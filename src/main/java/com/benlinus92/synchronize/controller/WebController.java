@@ -141,11 +141,22 @@ public class WebController {
 		model.addAttribute("videoObj", new Playlist());
 		return "room";
 	}
+	private volatile String roomTime = "0"; 
+	@RequestMapping(value="/gettime-ajax-{videoId}", method=RequestMethod.GET)
+	public @ResponseBody String sendVideoTimeByAjax(@PathVariable String videoId) {
+		return service.findVideoById(videoId).getCurrTime();
+		//return roomTime;
+	}
 	@RequestMapping(value="/sendtime-ajax", method=RequestMethod.POST)
 	public @ResponseBody String getVideoTimeByAjax(@RequestBody AjaxVideoTime video) {
-		System.out.println("Room: " + video.getRoomId() + "; Video: " + video.getVideoId()  + "; Time: " + video.getCurrTime());
 		service.updateVideo(Integer.parseInt(video.getVideoId()), video.getCurrTime().toString());
-		return "Received";
+		//roomTime = video.getCurrTime().toString();
+		return "";
+	}
+	@RequestMapping(value="/deletevideo-ajax-{videoId}")
+	public @ResponseBody String deleteVideoFromDb(@PathVariable String videoId) {
+		service.deleteVideo(Integer.parseInt(videoId));
+		return "";
 	}
 	@RequestMapping(value="/create-room", method=RequestMethod.GET)
 	public String showCreateRoomPage(Model model) {

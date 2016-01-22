@@ -16,6 +16,7 @@ public interface SynchronizeDao {
 	Room findRoomById(int id);
 	void saveVideo(Playlist video);
 	List<Playlist> getAllVideos();
+	Playlist findVideoById(int videoId);
 	void deleteVideoById(int videoId);
 	void updateVideoTime(int videoId, String currTime);
 }

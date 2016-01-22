@@ -16,6 +16,7 @@ public interface SynchronizeService {
 	boolean deleteRoomById(int id, String userName);
 	void saveVideo(Playlist video, int roomId);
 	List<Playlist> getAllVideos();
+	Playlist findVideoById(String videoId);
 	void deleteVideo(int videoId);
 	void updateVideo(int videoId, String currTime);
 }
