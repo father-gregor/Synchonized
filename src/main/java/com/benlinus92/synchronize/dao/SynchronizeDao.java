@@ -17,4 +17,5 @@ public interface SynchronizeDao {
 	void saveVideo(Playlist video);
 	List<Playlist> getAllVideos();
 	void deleteVideoById(int videoId);
+	void updateVideoTime(int videoId, String currTime);
 }

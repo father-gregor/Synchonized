@@ -82,4 +82,8 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	public void deleteVideo(int videoId) {
 		dao.deleteVideoById(videoId);
 	}
+	@Override
+	public void updateVideo(int videoId, String currTime) {
+		dao.updateVideoTime(videoId, currTime);
+	}
 }

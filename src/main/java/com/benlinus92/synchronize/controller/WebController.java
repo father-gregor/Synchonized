@@ -142,8 +142,9 @@ public class WebController {
 		return "room";
 	}
 	@RequestMapping(value="/sendtime-ajax", method=RequestMethod.POST)
-	public @ResponseBody String getVideoTimeByAjax(@RequestBody AjaxVideoTime video) throws HttpMediaTypeNotSupportedException {
+	public @ResponseBody String getVideoTimeByAjax(@RequestBody AjaxVideoTime video) {
 		System.out.println("Room: " + video.getRoomId() + "; Video: " + video.getVideoId()  + "; Time: " + video.getCurrTime());
+		service.updateVideo(Integer.parseInt(video.getVideoId()), video.getCurrTime().toString());
 		return "Received";
 	}
 	@RequestMapping(value="/create-room", method=RequestMethod.GET)

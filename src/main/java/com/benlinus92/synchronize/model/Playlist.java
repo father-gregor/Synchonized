@@ -12,9 +12,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
+@DynamicUpdate
 @Table(name="PLAYLIST")
 public class Playlist {
 	@Id

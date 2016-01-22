@@ -134,4 +134,10 @@ public class SynchronizeDaoImpl implements SynchronizeDao {
 			e.printStackTrace();
 		}
 	}
+	@Override
+	public void updateVideoTime(int videoId, String currTime) {
+		Playlist video = em.find(Playlist.class, videoId);
+		if(video != null)
+			video.setCurrTime(currTime);
+	}
 }
