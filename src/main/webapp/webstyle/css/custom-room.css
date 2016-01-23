@@ -1,0 +1,20 @@
+.navbar-header {
+	float: none;
+}
+.navbar-right {
+	padding-right: 15px;
+}
+.tab-content {
+	border: 1px solid;
+    border-color: #ddd;
+    border-radius: 4px;
+}
+#upload-tabs {
+	border-bottom: 0px;
+}
+#your-file {
+	padding: 15px;
+}
+#youtube-url {
+	padding: 15px;
+}

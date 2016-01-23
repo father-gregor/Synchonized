@@ -11,10 +11,9 @@
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="navbar-header">
+		<div class="navbar-header" style="float: none">
 			<a class="navbar-brand" href="/">Synchronized</a>
 			<ul class="nav navbar-nav">
-				<li><a href="#">Комната</a></li>
 				<li><a href="#">Про нас</a></li>
 				<li><a href="#">Контакты</a></li>
 				<c:if test="${userName == null }">
@@ -24,6 +23,10 @@
 				<c:if test="${userName != null }">
 					<li><a style="cursor: default">Привет, ${userName}</a></li>
 					<li><a href="<c:url value='/profile/${userName}'/>">Профиль</a></li>
+				</c:if>
+			</ul>
+			<ul class="nav navbar-nav navbar-right"  style="padding-right: 15px">
+				<c:if test="${userName != null }">
 					<li><a href="<c:url value='/logout'/>">Выйти</a></li>
 				</c:if>
 			</ul>

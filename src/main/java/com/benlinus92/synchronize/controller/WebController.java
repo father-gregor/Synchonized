@@ -69,6 +69,8 @@ public class WebController {
 	}
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String showLoginForm() {
+		if(getPrincipal() != null)
+			return "redirect:/";
 		return "login";
 	}
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
@@ -83,6 +85,8 @@ public class WebController {
 	@RequestMapping(value="/register", method=RequestMethod.GET)
 	public String showRegistrationForm(Model model) {
 		model.addAttribute("user", new Profile());
+		if(getPrincipal() != null)
+			return "redirect:/";
 		return "register";
 	}
 	@RequestMapping(value="/register", method=RequestMethod.POST)
@@ -107,12 +111,18 @@ public class WebController {
 		Profile profile = service.findUserByLogin(user, true);
 		if(profile == null)
 			return "redirect:/";
+		String userName = getPrincipal();
+		if(userName != null)
+			model.addAttribute("userName", userName);
 		model.addAttribute("profile", profile);
 		return "profile";
 	}
 	@RequestMapping(value="/profile/edit", method=RequestMethod.GET)
 	public String showEditUserPage(Model model) {
 		model.addAttribute("editedUser", new Profile());
+		String userName = getPrincipal();
+		if(userName != null)
+			model.addAttribute("userName", userName);
 		return "edit-profile";
 	}
 	@RequestMapping(value="/profile/edit", method=RequestMethod.POST)
@@ -137,6 +147,9 @@ public class WebController {
 		Room room = service.findRoomById(roomId);
 		if(room == null)
 			return "redirect:/";
+		String userName = getPrincipal();
+		if(userName != null)
+			model.addAttribute("userName", userName);
 		model.addAttribute("room", room);
 		model.addAttribute("videoObj", new Playlist());
 		return "room";
@@ -144,7 +157,9 @@ public class WebController {
 	private volatile String roomTime = "0"; 
 	@RequestMapping(value="/gettime-ajax-{videoId}", method=RequestMethod.GET)
 	public @ResponseBody String sendVideoTimeByAjax(@PathVariable String videoId) {
-		return service.findVideoById(videoId).getCurrTime();
+		double editedTime = Double.parseDouble(service.findVideoById(videoId).getCurrTime()) + 1.0;
+		return String.valueOf(editedTime);
+		//return service.findVideoById(videoId).getCurrTime();
 		//return roomTime;
 	}
 	@RequestMapping(value="/sendtime-ajax", method=RequestMethod.POST)

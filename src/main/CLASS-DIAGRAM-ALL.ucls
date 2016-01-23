@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.9" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="com.benlinus92.synchronize.controller.WebController" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/controller/WebController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="430" width="426" x="32" y="16"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="2" language="java" name="com.benlinus92.synchronize.dao.SynchronizeDao" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/dao/SynchronizeDao.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1559" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="3" language="java" name="com.benlinus92.synchronize.dao.SynchronizeDaoImpl" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/dao/SynchronizeDaoImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1172" y="667"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="4" language="java" name="com.benlinus92.synchronize.service.SynchronizeService" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/service/SynchronizeService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="799" y="332"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="5" language="java" name="com.benlinus92.synchronize.service.SynchronizeServiceImpl" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/service/SynchronizeServiceImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1086" y="335"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="com.benlinus92.synchronize.validator.ProfileValidator" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/validator/ProfileValidator.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1314" y="73"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="com.benlinus92.synchronize.validator.EditedProfileValidator" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/validator/EditedProfileValidator.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1565" y="239"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="com.benlinus92.synchronize.service.UserAuthSecurityService" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/service/UserAuthSecurityService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="769" y="57"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="com.benlinus92.synchronize.config.AppConstants" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/config/AppConstants.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="847" y="606"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="com.benlinus92.synchronize.config.AppConifg" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/config/AppConifg.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="178" width="329" x="688" y="749"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="com.benlinus92.synchronize.config.CharsetFilter" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/config/CharsetFilter.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="160" width="275" x="328" y="759"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="com.benlinus92.synchronize.config.JPAConfiguration" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/config/JPAConfiguration.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="158" width="295" x="1443" y="-2"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="com.benlinus92.synchronize.config.SecurityConfiguration" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/config/SecurityConfiguration.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="160" width="324" x="1076" y="859"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="com.benlinus92.synchronize.config.SynchronizeInitializer" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/config/SynchronizeInitializer.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="426" y="594"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="com.benlinus92.synchronize.config.SessionListener" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/config/SessionListener.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1446" y="702"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="16" language="java" name="org.springframework.core.env.Environment" project="synchronize" 
+    file="C:/Users/puzomen/.m2/repository/org/springframework/spring-core/4.2.2.RELEASE/spring-core-4.2.2.RELEASE.jar" 
+    binary="true" corner="BOTTOM_RIGHT">    
+    <position height="104" width="197" x="1707" y="240"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="17" language="java" name="javax.servlet.http.HttpSessionListener" project="synchronize" 
+    file="C:/Users/puzomen/.m2/repository/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1.jar" 
+    binary="true" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1783" y="704"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="18" language="java" 
+    name="org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter" 
+    project="synchronize" 
+    file="C:/Users/puzomen/.m2/repository/org/springframework/security/spring-security-config/4.0.2.RELEASE/spring-security-config-4.0.2.RELEASE.jar" 
+    binary="true" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1644" y="940"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="19" language="java" name="org.springframework.validation.Validator" project="synchronize" 
+    file="C:/Users/puzomen/.m2/repository/org/springframework/spring-context/4.2.2.RELEASE/spring-context-4.2.2.RELEASE.jar" 
+    binary="true" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1325" y="235"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="20" language="java" name="com.benlinus92.synchronize.model.AjaxVideoTime" project="synchronize" 
+    file="/synchronize/src/main/java/com/benlinus92/synchronize/model/AjaxVideoTime.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="268" width="205" x="18" y="480"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter" 
+    project="synchronize" 
+    file="C:/Users/puzomen/.m2/repository/org/springframework/spring-webmvc/4.2.2.RELEASE/spring-webmvc-4.2.2.RELEASE.jar" 
+    binary="true" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1675" y="840"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <dependency id="22">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="9"/>  
+  </dependency>  
+  <association id="23">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="24" name="service">        
+        <position height="0" width="0" x="-97" y="5"/>      
+      </attribute>      
+      <multiplicity id="25" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-97" y="5"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="26">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="4"/>  
+  </realization>  
+  <association id="27">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="28" name="env">        
+        <position height="0" width="0" x="924" y="-1319"/>      
+      </attribute>      
+      <multiplicity id="29" minimum="0" maximum="1">        
+        <position height="0" width="0" x="924" y="-1319"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="30">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="19"/>  
+  </realization>  
+  <dependency id="31">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <realization id="32">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <dependency id="33">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="9"/>  
+  </dependency>  
+  <dependency id="34">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="20"/>  
+  </dependency>  
+  <dependency id="35">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
+  <dependency id="36">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <generalization id="37">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="18"/>  
+  </generalization>  
+  <realization id="38">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="19"/>  
+  </realization>  
+  <association id="39">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="40" name="dao">        
+        <position height="0" width="0" x="649" y="-531"/>      
+      </attribute>      
+      <multiplicity id="41" minimum="0" maximum="1">        
+        <position height="0" width="0" x="649" y="-531"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="42">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="9"/>  
+  </dependency>  
+  <dependency id="43">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <association id="44">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="45" name="service">        
+        <position height="0" width="0" x="-97" y="5"/>      
+      </attribute>      
+      <multiplicity id="46" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-97" y="5"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="47">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="9"/>  
+  </dependency>  
+  <realization id="48">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="17"/>  
+  </realization>  
+  <generalization id="49">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="21"/>  
+  </generalization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

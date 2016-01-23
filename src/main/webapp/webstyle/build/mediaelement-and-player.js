@@ -16,7 +16,7 @@
 var mejs = mejs || {};
 
 // version number
-mejs.version = '2.19.0'; 
+mejs.version = '2.18.1'; 
 
 
 // player number (for missing, same id attr)
@@ -180,18 +180,6 @@ mejs.Utility = {
 	secondsToTimeCode: function(time, options) {
 		if (time < 0) {
 			time = 0;
-		}
-
-		// Maintain backward compatibility with method signature before v2.18.
-		if (typeof options !== 'object') {
-			var format = 'm:ss';
-			format = arguments[1] ? 'hh:mm:ss' : format; // forceHours
-			format = arguments[2] ? format + ':ff' : format; // showFrameCount
-
-			options = {
-				currentTimeFormat: format,
-				framesPerSecond: arguments[3] || 25
-			};
 		}
 
 		var fps = options.framesPerSecond;
@@ -425,17 +413,16 @@ mejs.MediaFeatures = {
 		t.isGecko = (ua.match(/gecko/gi) !== null) && !t.isWebkit && !t.isIE;
 		t.isOpera = (ua.match(/opera/gi) !== null);
 		t.hasTouch = ('ontouchstart' in window); //  && window.ontouchstart != null); // this breaks iOS 7
-
-		// Borrowed from `Modernizr.svgasimg`, sources:
-		// - https://github.com/Modernizr/Modernizr/issues/687
-		// - https://github.com/Modernizr/Modernizr/pull/1209/files
-		t.svgAsImg = !!document.implementation.hasFeature('http://www.w3.org/TR/SVG11/feature#Image', '1.1');
+		
+		// borrowed from Modernizr
+		t.svg = !! document.createElementNS &&
+				!! document.createElementNS('http://www.w3.org/2000/svg','svg').createSVGRect;
 
 		// create HTML5 media elements for IE before 9, get a <video> element for fullscreen detection
 		for (i=0; i<html5Elements.length; i++) {
 			v = document.createElement(html5Elements[i]);
 		}
-
+		
 		t.supportsMediaTag = (typeof v.canPlayType !== 'undefined' || t.isBustedAndroid);
 
 		// Fix for IE9 on Windows 7N / Windows 7KN (Media Player not installer)
@@ -446,62 +433,62 @@ mejs.MediaFeatures = {
 		}
 
 		// detect native JavaScript fullscreen (Safari/Firefox only, Chrome still fails)
-
+		
 		// iOS
 		t.hasSemiNativeFullScreen = (typeof v.webkitEnterFullscreen !== 'undefined');
-
+		
 		// W3C
 		t.hasNativeFullscreen = (typeof v.requestFullscreen !== 'undefined');
-
+		
 		// webkit/firefox/IE11+
 		t.hasWebkitNativeFullScreen = (typeof v.webkitRequestFullScreen !== 'undefined');
 		t.hasMozNativeFullScreen = (typeof v.mozRequestFullScreen !== 'undefined');
 		t.hasMsNativeFullScreen = (typeof v.msRequestFullscreen !== 'undefined');
-
+		
 		t.hasTrueNativeFullScreen = (t.hasWebkitNativeFullScreen || t.hasMozNativeFullScreen || t.hasMsNativeFullScreen);
 		t.nativeFullScreenEnabled = t.hasTrueNativeFullScreen;
-
+		
 		// Enabled?
 		if (t.hasMozNativeFullScreen) {
 			t.nativeFullScreenEnabled = document.mozFullScreenEnabled;
 		} else if (t.hasMsNativeFullScreen) {
-			t.nativeFullScreenEnabled = document.msFullscreenEnabled;
+			t.nativeFullScreenEnabled = document.msFullscreenEnabled;		
 		}
-
+		
 		if (t.isChrome) {
 			t.hasSemiNativeFullScreen = false;
 		}
-
+		
 		if (t.hasTrueNativeFullScreen) {
-
+			
 			t.fullScreenEventName = '';
-			if (t.hasWebkitNativeFullScreen) {
+			if (t.hasWebkitNativeFullScreen) { 
 				t.fullScreenEventName = 'webkitfullscreenchange';
-
+				
 			} else if (t.hasMozNativeFullScreen) {
 				t.fullScreenEventName = 'mozfullscreenchange';
-
+				
 			} else if (t.hasMsNativeFullScreen) {
 				t.fullScreenEventName = 'MSFullscreenChange';
 			}
-
+			
 			t.isFullScreen = function() {
 				if (t.hasMozNativeFullScreen) {
 					return d.mozFullScreen;
-
+				
 				} else if (t.hasWebkitNativeFullScreen) {
 					return d.webkitIsFullScreen;
-
+				
 				} else if (t.hasMsNativeFullScreen) {
 					return d.msFullscreenElement !== null;
 				}
 			}
-
+					
 			t.requestFullScreen = function(el) {
-
+		
 				if (t.hasWebkitNativeFullScreen) {
 					el.webkitRequestFullScreen();
-
+					
 				} else if (t.hasMozNativeFullScreen) {
 					el.mozRequestFullScreen();
 
@@ -510,29 +497,29 @@ mejs.MediaFeatures = {
 
 				}
 			}
-
-			t.cancelFullScreen = function() {
+			
+			t.cancelFullScreen = function() {				
 				if (t.hasWebkitNativeFullScreen) {
 					document.webkitCancelFullScreen();
-
+					
 				} else if (t.hasMozNativeFullScreen) {
 					document.mozCancelFullScreen();
-
+					
 				} else if (t.hasMsNativeFullScreen) {
 					document.msExitFullscreen();
-
+					
 				}
-			}
-
+			}	
+			
 		}
-
-
+		
+		
 		// OS X 10.5 can't do this even if it says it can :(
 		if (t.hasSemiNativeFullScreen && ua.match(/mac os x 10_5/i)) {
 			t.hasNativeFullScreen = false;
 			t.hasSemiNativeFullScreen = false;
 		}
-
+		
 	}
 };
 mejs.MediaFeatures.init();
@@ -1014,7 +1001,7 @@ mejs.HtmlMediaElementShim = {
 
 	create: function(el, o) {
 		var
-			options = {},
+			options = mejs.MediaElementDefaults,
 			htmlMediaElement = (typeof(el) == 'string') ? document.getElementById(el) : el,
 			tagName = htmlMediaElement.tagName.toLowerCase(),
 			isMediaTag = (tagName === 'audio' || tagName === 'video'),
@@ -1027,13 +1014,9 @@ mejs.HtmlMediaElementShim = {
 			prop;
 
 		// extend options
-		for (prop in mejs.MediaElementDefaults) {
-			options[prop] = mejs.MediaElementDefaults[prop];
-		}
 		for (prop in o) {
 			options[prop] = o[prop];
-		}		
-		
+		}
 
 		// clean up attributes
 		src = 		(typeof src == 'undefined' 	|| src === null || src == '') ? null : src;		
@@ -2384,8 +2367,8 @@ if (typeof jQuery != 'undefined') {
 				$('<span class="mejs-offscreen">' + videoPlayerTitle + '</span>').insertBefore(t.$media);
 				// build container
 				t.container =
-					$('<div id="' + t.id + '" class="mejs-container ' + (mejs.MediaFeatures.svgAsImg ? 'svg' : 'no-svg') +
-					  '" tabindex="0" role="application" aria-label="' + videoPlayerTitle + '">'+
+					$('<div id="' + t.id + '" class="mejs-container ' + (mejs.MediaFeatures.svg ? 'svg' : 'no-svg') +
+                      '" tabindex="0" role="application" aria-label="' + videoPlayerTitle + '">'+
 						'<div class="mejs-inner">'+
 							'<div class="mejs-mediaelement"></div>'+
 							'<div class="mejs-layers"></div>'+
@@ -2414,8 +2397,23 @@ if (typeof jQuery != 'undefined') {
 
 
 				// move the <video/video> tag into the right spot
-				t.container.find('.mejs-mediaelement').append(t.$media);
+				if (mf.isiOS) {
 
+					// sadly, you can't move nodes in iOS, so we have to destroy and recreate it!
+					var $newMedia = t.$media.clone();
+
+					t.container.find('.mejs-mediaelement').append($newMedia);
+
+					t.$media.remove();
+					t.$node = t.$media = $newMedia;
+					t.node = t.media = $newMedia[0];
+
+				} else {
+
+					// normal way of moving it into place (doesn't work on iOS)
+					t.container.find('.mejs-mediaelement').append(t.$media);
+				}
+				
 				// needs to be assigned here, after iOS remap
 				t.node.player = t;
 
@@ -2697,7 +2695,7 @@ if (typeof jQuery != 'undefined') {
 
 						// show/hide controls
 						t.container
-							.bind('mouseenter', function () {
+							.bind('mouseenter mouseover', function () {
 								if (t.controlsEnabled) {
 									if (!t.options.alwaysShowControls ) {
 										t.killControlsTimer('enter');
@@ -2810,7 +2808,7 @@ if (typeof jQuery != 'undefined') {
 						t.setControlsSize();
 					}
 				}, false);
-
+				
 				// Only change the time format when necessary
 				var duration = null;
 				t.media.addEventListener('timeupdate',function() {
@@ -2818,7 +2816,7 @@ if (typeof jQuery != 'undefined') {
 						duration = this.duration;
 						mejs.Utility.calculateTimeFormat(duration, t.options, t.options.framesPerSecond || 25);
 					}
-				}, false);
+				}, false);				
 
 				t.container.focusout(function (e) {
 					if( e.relatedTarget ) { //FF is working on supporting focusout https://bugzilla.mozilla.org/show_bug.cgi?id=687787
@@ -2875,9 +2873,7 @@ if (typeof jQuery != 'undefined') {
 		handleError: function(e) {
 			var t = this;
 
-			if (t.controls) {
-				t.controls.hide();
-			}
+			t.controls.hide();
 
 			// Tell user that the file cannot be played
 			if (t.options.error) {
@@ -3215,9 +3211,8 @@ if (typeof jQuery != 'undefined') {
 				});
 
 				// listen for key presses
-				t.globalBind('keydown', function(event) {
-					player.hasFocus = $(event.target).closest('.mejs-container').length !== 0;
-					return t.onkeydown(player, media, event);
+				t.globalBind('keydown', function(e) {
+					return t.onkeydown(player, media, e);
 				});
 
 
@@ -3307,7 +3302,7 @@ if (typeof jQuery != 'undefined') {
 		},
 		remove: function() {
 			var t = this, featureIndex, feature;
-
+			
 			t.container.prev('.mejs-offscreen').remove();
 
 			// invoke features cleanup
@@ -3362,7 +3357,7 @@ if (typeof jQuery != 'undefined') {
 				//
 				t.setPlayerSize(t.width, t.height);
 				t.setControlsSize();
-			}, 50);
+			}, 50);            
 		}
 	};
 
@@ -3388,20 +3383,16 @@ if (typeof jQuery != 'undefined') {
 		}
 
 		mejs.MediaElementPlayer.prototype.globalBind = function(events, data, callback) {
-    	var t = this;
-      var doc = t.node ? t.node.ownerDocument : document;
-
+			var t = this;
 			events = splitEvents(events, t.id);
-			if (events.d) $(doc).bind(events.d, data, callback);
+			if (events.d) $(document).bind(events.d, data, callback);
 			if (events.w) $(window).bind(events.w, data, callback);
 		};
 
 		mejs.MediaElementPlayer.prototype.globalUnbind = function(events, callback) {
 			var t = this;
-      var doc = t.node ? t.node.ownerDocument : document;
-
 			events = splitEvents(events, t.id);
-			if (events.d) $(doc).unbind(events.d, callback);
+			if (events.d) $(document).unbind(events.d, callback);
 			if (events.w) $(window).unbind(events.w, callback);
 		};
 	})();
@@ -4135,6 +4126,9 @@ if (typeof jQuery != 'undefined') {
 					positionVolumeHandle(volume);
 					media.setVolume(volume);
 					return false;
+				})
+				.bind('blur', function () {
+					volumeSlider.hide();
 				});
 
 			// MUTE button
@@ -4763,12 +4757,6 @@ if (typeof jQuery != 'undefined') {
 				speedSelector = speedButton.find('.mejs-speed-selector');
 
 				playbackSpeed = t.options.defaultSpeed;
-
-				media.addEventListener('loadedmetadata', function(e) {
-					if (playbackSpeed) {
-						media.playbackRate = parseFloat(playbackSpeed);
-					}
-				}, true);
 
 				speedSelector
 					.on('click', 'input[type="radio"]', function() {

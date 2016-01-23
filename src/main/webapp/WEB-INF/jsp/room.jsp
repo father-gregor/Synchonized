@@ -9,21 +9,13 @@
 	<title>${room.title}</title>
 	<link href="<c:url value='../webstyle/css/bootstrap.min.css' />" rel="stylesheet">
 	<link href="<c:url value='../webstyle/build/mediaelementplayer.css' />" rel="stylesheet">
-	<link href="<c:url value='../webstyle/css/custom-index.css' />" rel="stylesheet">
+	<link href="<c:url value='../webstyle/css/custom-room.css' />" rel="stylesheet">
 </head>
 <body style="background:#595959; min-width: 547px">
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="fixed-navbar">
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span> 
-	        </button>
 			<a class="navbar-brand" href="/">Synchronized</a>
-		</div>
-		<div class="collapse navbar-collapse" id="fixed-navbar">
 			<ul class="nav navbar-nav">
-				<li><a href="#">Комната</a></li>
 				<li><a href="#">Про нас</a></li>
 				<li><a href="#">Контакты</a></li>
 				<c:if test="${userName == null }">
@@ -33,6 +25,10 @@
 				<c:if test="${userName != null }">
 					<li><a style="cursor: default">Привет, ${userName}</a></li>
 					<li><a href="<c:url value='/profile/${userName}'/>">Профиль</a></li>
+				</c:if>
+			</ul>
+			<ul class="nav navbar-nav navbar-right" >
+				<c:if test="${userName != null }">
 					<li><a href="<c:url value='/logout'/>">Выйти</a></li>
 				</c:if>
 			</ul>
@@ -48,8 +44,7 @@
 			</video>
 		</div>
 		<div style="width:100%; height: 500px; background: white">
-			<button type="button" id="show-tabs" class="btn btn-success">Добавить видео</button>
-			<div style="padding: 20px;width: 700px" id="div-tabs">
+			<div style="padding: 20px;width: 700px; margin: auto" id="div-tabs">
 				<ul class="nav nav-tabs"  id="upload-tabs">
 					<li class="active"><a href="#your-file">Свой файл</a></li>
 					<li><a href="#youtube-url">Ссылка на Youtube</a></li>
@@ -87,7 +82,7 @@
 					</div>
 				</div>
 			</div>
-			<div style="padding: 15px;width: 700px">
+			<div style="padding: 15px;width: 700px; margin: auto">
 				<p class="text-center" style="font-size: 30px;font-weight: bold">Playlist</p>
 				<ul class="list-group" id="${roomId}">
 					<c:forEach var="video" items="${room.videosList}" varStatus="loop">

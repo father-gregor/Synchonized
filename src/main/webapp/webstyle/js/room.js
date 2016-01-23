@@ -2,23 +2,36 @@
 $(function() {
 	var index = 1;
 	var firstPlay = true;
+	var pausePressed = false;
 	var currentPlayer = null;
 	var playerYoutube = null;
 	var playerUpload = new MediaElementPlayer(".player-upload", {
 		success: function(mediaEl, obj) {
 			mediaEl.setSrc("");
 			mediaEl.addEventListener("ended", function(e) {
-				console.log("Ended 1");
 				deleteVideoFromList();
 				if($("li#video" + index).length > 0) {
 					setCurrentPlayer();
 				} 
-				console.log("Ended 2");
+			});
+			$("div.player-upload span.mejs-time-total").bind("click", function() {
+				pausePressed = false;
+				clearTimeout(timeoutId);
+				receiveTimeFromServer();
+			});
+			mediaEl.addEventListener("pause", function() {
+				clearTimeout(timeoutId);
+				pausePressed = true;
+			});
+			mediaEl.addEventListener("play", function() {
+				if(pausePressed == true) {
+					pausePressed = false;
+					receiveTimeFromServer();
+				}
 			});
 			mediaEl.addEventListener("timeupdate", function() {
 				videoTime = mediaEl.currentTime;
 			});
-			console.log("Call success upload");
 		}
 	}); 
 	$(".player-youtube").css("display", "none");
@@ -26,44 +39,38 @@ $(function() {
 	$("div.player-upload").css("display", "inline-block");
 	
 	$(window).load(function() {
-		console.log("READY987443");
 		setCurrentPlayer();
-		receiveTimeFromServer();
 	});
 	
 	function setCurrentPlayer() {
 		var currentEl = $("li#video" + index);
-		console.log(index + " !!!!!!!!!!!!!y " + currentEl.hasClass("youtube"));
-		console.log(index + " !!!!!!!!!!!!!up " + currentEl.hasClass("upvideo"));
 		if(currentEl.hasClass("youtube") == true) {
 			$("div.player-upload").css("display", "none");
 			$("div.player-youtube").css("display", "inline-block");
 			if($(".player-youtube source").attr("src") == "") {
-				console.log("######First Youtube");
 				$(".player-youtube source").attr("src", currentEl.attr("title"));
 				createYoutubePlayer();
 			} else {
 				playerYoutube.setSrc(currentEl.attr("title"));
 				playerYoutube.load();
 				playerYoutube.play();
+				currentPlayer = playerYoutube;
 			}
-			currentPlayer = playerYoutube;
 			videoId = currentEl.children().attr("id");
-			currPlayer = "youtube";
 		} else if(currentEl.hasClass("upvideo") == true) {
 			videoId = currentEl.children().attr("id");
 			$("div.player-youtube").css("display", "none");
 			$("div.player-upload").css("display", "inline-block");
-			playerUpload.setSrc(currentEl.attr("title"));
-			playerUpload.play();
+			currentPlayer = playerUpload;
+			currentPlayer.setSrc(currentEl.attr("title"));
 			if(firstPlay == true) {
 				receiveTimeFromServer();
-				playerUpload.setCurrentTime(ajaxVideoTime);
 				firstPlay = false;
-				sendTimeToServer();
+				//sendTimeToServer();
+			} else {
+				currentPlayer.load();
+				currentPlayer.play();
 			}
-			currentPlayer = playerUpload;
-			currPlayer = "upvideo";
 		} else
 			videoId = null;
 		$("li#video" + (index-1)).css({
@@ -75,46 +82,35 @@ $(function() {
 			"color": "white"
 		});
 		index++;
-		console.log("setCurrentPlayer END");
 	};
 	function createYoutubePlayer() {
 		playerYoutube = new MediaElementPlayer(".player-youtube", {
 			alwaysShowControls: true,
 			success: function(mediaEl, obj) {
-				console.log("Call success youtube");
 				mediaEl.addEventListener("canplay", function() {
-					console.log("CAN PLAY");
+					currentPlayer = mediaEl;
 					if(firstPlay == true) {
 						receiveTimeFromServer();
-						mediaEl.setCurrentTime(ajaxVideoTime);
 						firstPlay = false;
-						sendTimeToServer();
 					}
-					mediaEl.play();
 				});
 				mediaEl.addEventListener("timeupdate", function() {
 					videoTime = mediaEl.currentTime;
 				});
-				mediaEl.addEventListener("seeked", function() {
-					console.log("SEEKED");
-				});
-				mediaEl.addEventListener("seeking", function() {
-					console.log("MOVING");
+				$("div.player-youtube span.mejs-time-total").bind("click", function() {
+					pausePressed = false;
+					clearTimeout(timeoutId);
+					receiveTimeFromServer();
 				});
 				mediaEl.addEventListener("pause", function() {
-					console.log("PAUSED");
-				});
-				mediaEl.addEventListener("loadedmetadata", function() {
-					console.log("LOADED METADATA");
-				}); 
-				mediaEl.addEventListener("loadeddata", function() {
-					console.log("LOADED VIDEO DATA");
+					clearTimeout(timeoutId);
+					pausePressed = true;
 				});
 				mediaEl.addEventListener("play", function() {
-					console.log("PLAY VIDEO");
-				});
-				mediaEl.addEventListener("playing", function() {
-					console.log("PLAY VIDEO");
+					if(pausePressed == true) {
+						pausePressed = false;
+						receiveTimeFromServer();
+					}
 				});
 				mediaEl.addEventListener("ended", function(e) {
 					deleteVideoFromList();
@@ -122,7 +118,6 @@ $(function() {
 						setCurrentPlayer();
 					}
 				});
-				mediaEl.play();
 			},
 			error: function() {
 				console.log("Error youtube");
@@ -132,10 +127,11 @@ $(function() {
 	var roomId = $("ul.list-group").attr("id");
 	var ajaxVideoTime = null;
 	var videoId = null;
-	var currPlayer = null;
 	var videoTime = null;
+	var timeoutId = null;
 	function sendTimeToServer() {
-		if(videoId != null) {
+		if(videoTime != null) {
+			console.log("sendTime");
 			$.ajax({
 				headers: { 
 			        'Accept': 'text/plain;charset=UTF-8',
@@ -157,7 +153,7 @@ $(function() {
 				}
 			});
 		}
-		setTimeout(sendTimeToServer, 500);
+		timeoutId = setTimeout(sendTimeToServer, 500);
 	}
 	
 	function receiveTimeFromServer() {
@@ -165,7 +161,9 @@ $(function() {
 			type: "GET",
 			url: "/gettime-ajax-" + videoId,
 			success: function(data) {
-				ajaxVideoTime = data;
+				currentPlayer.setCurrentTime(data);
+				currentPlayer.play();
+				sendTimeToServer();
 			},
 			error: function(data, status, e) {
 				console.log("GETerror: "+data+" status: "+status+" er:"+e);

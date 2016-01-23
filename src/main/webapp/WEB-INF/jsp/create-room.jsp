@@ -11,11 +11,10 @@
 	<link href="<c:url value='webstyle/css/custom-createroom.css' />" rel="stylesheet">
 </head>
 <body>
-	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="navbar-header">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-header" style="float: none">
 			<a class="navbar-brand" href="/">Synchronized</a>
 			<ul class="nav navbar-nav">
-				<li><a href="#">Комната</a></li>
 				<li><a href="#">Про нас</a></li>
 				<li><a href="#">Контакты</a></li>
 				<c:if test="${userName == null }">
@@ -24,12 +23,16 @@
 				</c:if>
 				<c:if test="${userName != null }">
 					<li><a style="cursor: default">Привет, ${userName}</a></li>
-					<li><a h         ref="<c:url value='/profile/${userName}'/>">Профиль</a></li>
+					<li><a href="<c:url value='/profile/${userName}'/>">Профиль</a></li>
+				</c:if>
+			</ul>
+			<ul class="nav navbar-nav navbar-right"  style="padding-right: 15px">
+				<c:if test="${userName != null }">
 					<li><a href="<c:url value='/logout'/>">Выйти</a></li>
 				</c:if>
 			</ul>
 		</div>
-	</div>
+	</nav>
 	<div class="container" style="margin-top: 100px">
 		<c:url var="createroomUrl" value="/create-room" />
 		<form action="create-room" method="POST" id="form-room" >
