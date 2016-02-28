@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -168,6 +170,13 @@ public class WebController {
 		//roomTime = video.getCurrTime().toString();
 		return "";
 	}
+	
+	@MessageMapping("/add")
+	@SendTo("/topic/showResult")
+	public void addNum(AjaxVideoTime time) {
+		
+	}
+	
 	@RequestMapping(value="/deletevideo-ajax-{videoId}")
 	public @ResponseBody String deleteVideoFromDb(@PathVariable String videoId) {
 		service.deleteVideo(Integer.parseInt(videoId));
