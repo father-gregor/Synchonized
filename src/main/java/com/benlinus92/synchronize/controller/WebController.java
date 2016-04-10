@@ -45,6 +45,7 @@ import com.benlinus92.synchronize.config.AppConstants;
 import com.benlinus92.synchronize.model.AjaxVideoTime;
 import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
+import com.benlinus92.synchronize.model.Result;
 import com.benlinus92.synchronize.model.Room;
 import com.benlinus92.synchronize.service.SynchronizeService;
 import com.benlinus92.synchronize.validator.ProfileValidator;
@@ -171,10 +172,10 @@ public class WebController {
 		return "";
 	}
 	
-	@MessageMapping("/add")
-	@SendTo("/topic/showResult")
-	public void addNum(AjaxVideoTime time) {
-		
+	@MessageMapping("/disconn")
+	@SendTo("/topic/disconnectTest")
+	public Result disconnectionTest(AjaxVideoTime time) {
+		return new Result("WEBSOCKET WORKING");
 	}
 	
 	@RequestMapping(value="/deletevideo-ajax-{videoId}")

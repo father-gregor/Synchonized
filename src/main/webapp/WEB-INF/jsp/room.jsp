@@ -106,6 +106,8 @@
 		</div>
 	</div>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="<c:url value='../webstyle/js/stomp.js' />"></script>
+	<script src="<c:url value='../webstyle/js/sockjs.min.js'/>"></script>
 	<script src="<c:url value='../webstyle/js/bootstrap.min.js' />"></script>
 	<script src="<c:url value='../webstyle/build/mediaelement-and-player.min.js' />"></script>
 	<script src="<c:url value='../webstyle/js/room.js' />"></script>
