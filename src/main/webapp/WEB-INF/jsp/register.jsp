@@ -21,7 +21,8 @@
 	      <label class="control-label"  for="username">Логин</label>
 	      <div class="controls">
 	        <form:input path="login" type="text" id="username" name="username" placeholder="" class="form-control"/>
-	        <form:errors path="login"/>
+	        <div class="alert alert-danger alert-dismissible" role="alert">
+	        <form:errors path="login" element="div" cssClass="alert alert-danger alert-dismissible error"/>
 	        <p class="help-block">Логин должен состоять из букв и цифр без пробелов</p>
 	      </div>
 	    </div>
@@ -31,7 +32,13 @@
 	      <label class="control-label" for="email">E-mail адрес</label>
 	      <div class="controls">
 	        <form:input path="email" type="text" id="email" name="email" placeholder="" class="form-control"/>
-	        <form:errors path="email"/>
+	       	<c:set var="loginError">
+	       		<form:errors path="email"/>
+	        </c:set>
+	        <c:if test="${loginError != null}">
+	        	<h2>PASSED</h2>
+	        </c:if>
+	        <!--<form:errors path="email" element="div" cssClass="alert alert-danger alert-dismissible error"/>-->
 	        <p class="help-block">Напишите свой E-mail</p>
 	      </div>
 	    </div>
@@ -41,7 +48,7 @@
 	      <label class="control-label" for="password">Пароль</label>
 	      <div class="controls">
 	        <form:input path="password" type="password" id="password" name="password" placeholder="" class="form-control"/>
-	        <form:errors path="password"/>
+	        <form:errors path="password" element="div" cssClass="alert alert-danger alert-dismissible error"/>
 	        <p class="help-block">Длина пароля 7 или больше символов</p>
 	      </div>
 	    </div>
@@ -51,7 +58,7 @@
 	      <label class="control-label"  for="password_confirm">Подтвердите пароль</label>
 	      <div class="controls">
 	        <form:input path="passwordConfirm" type="password" id="password_confirm" name="password_confirm" placeholder="" class="form-control"/>
-	        <form:errors path="passwordConfirm"/>
+	        <form:errors path="passwordConfirm" element="div" cssClass="alert alert-danger alert-dismissible error"/>
 	        <p class="help-block">Пожалуйста подтвердите пароль</p>
 	      </div>
 	    </div>
