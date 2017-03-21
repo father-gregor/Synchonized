@@ -7,16 +7,25 @@ body {
   max-width: 350px;
   width: 100% !important;
   background-color: #F7F7F7;
+<<<<<<< HEAD
   margin: 30px auto 30px auto;
+=======
+  margin: 0 auto;
+>>>>>>> d7e5a838cf5436a29f139e0ec6c9bb09bfa33ae5
   border-radius: 2px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
 .wrapper h2 {
 	text-align: center;
+<<<<<<< HEAD
 	margin-bottom: 20px;
 }
 input[type='text'], input[type='password'] {
+=======
+}
+input[type='login'], input[type='password'] {
+>>>>>>> d7e5a838cf5436a29f139e0ec6c9bb09bfa33ae5
 	height: 44px;
 	font-size: 16px;width: 100%;
 	margin-bottom: 10px;
@@ -29,7 +38,11 @@ input[type='text'], input[type='password'] {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 }
+<<<<<<< HEAD
 input[type='text']:hover, input[type='password']:hover {
+=======
+input[type='login']:hover, input[type='password']:hover {
+>>>>>>> d7e5a838cf5436a29f139e0ec6c9bb09bfa33ae5
 	border: 1px solid #b9b9b9;
 	border-top: 1px solid #a0a0a0;
 	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
@@ -41,12 +54,15 @@ input[type='submit'] {
 	display: block;
 	margin-bottom: 10px;
 	position: relative;
+<<<<<<< HEAD
 	border: 0px;
 	color: #fff;
 	text-shadow: 0 1px rgba(0,0,0,0.1); 
 	background-color: #4d90fe;
 	padding: 12px 0px;
 	font-size: medium;
+=======
+>>>>>>> d7e5a838cf5436a29f139e0ec6c9bb09bfa33ae5
 }
 input[type='submit']:hover {
 	border: 0px;
