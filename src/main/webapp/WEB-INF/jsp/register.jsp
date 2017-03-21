@@ -17,15 +17,14 @@
 	      <legend class="">Регистрация</legend>
 	    </div>
 	    <div class="control-group">
-	      <!-- Username -->
 	      <label class="control-label"  for="username">Логин</label>
 	      <div class="controls">
 	      	<c:set var="loginError">
 	       		<form:errors path="login"/>
 	        </c:set>
 	        <form:input path="login" type="text" id="username" name="username" placeholder="" class="form-control"/>
-	        <c:if test="${loginError != null}">
-		        <div class="alert alert-danger alert-dismissible" role="alert">
+	        <c:if test="${loginError != ''}">
+		        <div class="alert alert-danger alert-dismissible error" role="alert">
 		  			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		  			<p>${loginError}</p>
 		  		</div>
@@ -35,26 +34,23 @@
 	    </div>
 	 
 	    <div class="control-group">
-	      <!-- E-mail -->
 	      <label class="control-label" for="email">E-mail адрес</label>
 	      <div class="controls">
 	        <form:input path="email" type="text" id="email" name="email" placeholder="" class="form-control"/>
 	       	<c:set var="emailError">
 	       		<form:errors path="email"/>
 	        </c:set>
-	        <c:if test="${emailError != null}">
+	        <c:if test="${emailError != ''}">
 		        <div class="alert alert-danger alert-dismissible" role="alert">
 		  			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		  			<p>${emailError}</p>
 		  		</div>
 	        </c:if>
-	        <!--<form:errors path="email" element="div" cssClass="alert alert-danger alert-dismissible error"/>-->
 	        <p class="help-block">Напишите свой E-mail</p>
 	      </div>
 	    </div>
 	 
 	    <div class="control-group">
-	      <!-- Password-->
 	      <label class="control-label" for="password">Пароль</label>
 	      <div class="controls">
 	      	<c:set var="passError">
@@ -72,7 +68,6 @@
 	    </div>
 	 
 	    <div class="control-group">
-	      <!-- Password -->
 	      <label class="control-label"  for="password_confirm">Подтвердите пароль</label>
 	      <div class="controls">
 	      	<c:set var="confPassError">
@@ -90,7 +85,6 @@
 	    </div>
 	 
 	    <div class="control-group">
-	      <!-- Button -->
 	      <div class="controls">
 	        <form:button type="submit" value="register" class="btn btn-lg btn-primary btn-block">Регистрация</form:button>
 	      </div>
