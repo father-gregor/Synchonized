@@ -28,7 +28,7 @@
 </body>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
-	$(".close-btn").click(function() {
+	$(".close").click(function() {
 		$(this).parent().css("display", "none");
 	});
 </script>
