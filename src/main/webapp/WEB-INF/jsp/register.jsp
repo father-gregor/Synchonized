@@ -24,10 +24,12 @@
 	       		<form:errors path="login"/>
 	        </c:set>
 	        <form:input path="login" type="text" id="username" name="username" placeholder="" class="form-control"/>
-	        <div class="alert alert-danger alert-dismissible ${not empty loginError?"has-error":""}" role="alert">
-	        	<h3>Error found</h3>
-	        </div>
-	        <form:errors path="login" element="div" cssClass="alert alert-danger alert-dismissible error"/>
+	        <c:if test="${loginError != null}">
+		        <div class="alert alert-danger alert-dismissible" role="alert">
+		  			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		  			<p>${loginError}</p>
+		  		</div>
+	        </c:if>
 	        <p class="help-block">Логин должен состоять из букв и цифр без пробелов</p>
 	      </div>
 	    </div>
@@ -41,7 +43,10 @@
 	       		<form:errors path="email"/>
 	        </c:set>
 	        <c:if test="${emailError != null}">
-	        	<h2>${emailError}</h2>
+		        <div class="alert alert-danger alert-dismissible" role="alert">
+		  			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		  			<p>${emailError}</p>
+		  		</div>
 	        </c:if>
 	        <!--<form:errors path="email" element="div" cssClass="alert alert-danger alert-dismissible error"/>-->
 	        <p class="help-block">Напишите свой E-mail</p>
@@ -52,8 +57,16 @@
 	      <!-- Password-->
 	      <label class="control-label" for="password">Пароль</label>
 	      <div class="controls">
+	      	<c:set var="passError">
+	       		<form:errors path="password"/>
+	        </c:set>	      
 	        <form:input path="password" type="password" id="password" name="password" placeholder="" class="form-control"/>
-	        <form:errors path="password" element="div" cssClass="alert alert-danger alert-dismissible error"/>
+	        <c:if test="${passError != null}">
+		        <div class="alert alert-danger alert-dismissible" role="alert">
+		  			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		  			<p>${passError}</p>
+		  		</div>
+	        </c:if>
 	        <p class="help-block">Длина пароля 7 или больше символов</p>
 	      </div>
 	    </div>
@@ -62,8 +75,16 @@
 	      <!-- Password -->
 	      <label class="control-label"  for="password_confirm">Подтвердите пароль</label>
 	      <div class="controls">
+	      	<c:set var="confPassError">
+	       		<form:errors path="passwordConfirm"/>
+	        </c:set>
 	        <form:input path="passwordConfirm" type="password" id="password_confirm" name="password_confirm" placeholder="" class="form-control"/>
-	        <form:errors path="passwordConfirm" element="div" cssClass="alert alert-danger alert-dismissible error"/>
+	        <c:if test="${confPassError != null}">
+		        <div class="alert alert-danger alert-dismissible" role="alert">
+		  			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		  			<p>${confPassError}</p>
+		  		</div>
+	        </c:if>
 	        <p class="help-block">Пожалуйста подтвердите пароль</p>
 	      </div>
 	    </div>
@@ -78,4 +99,10 @@
 	</form:form>
 </div>
 </body>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+	$(".close").click(function() {
+		$(this).parent().css("display", "none");
+	});
+</script>
 </html>
