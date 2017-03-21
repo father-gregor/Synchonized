@@ -20,8 +20,13 @@
 	      <!-- Username -->
 	      <label class="control-label"  for="username">Логин</label>
 	      <div class="controls">
+	      	<c:set var="loginError">
+	       		<form:errors path=login"/>
+	        </c:set>
 	        <form:input path="login" type="text" id="username" name="username" placeholder="" class="form-control"/>
-	        <div class="alert alert-danger alert-dismissible" role="alert">
+	        <div class="alert alert-danger alert-dismissible ${not empty loginError?"has-error":""}" role="alert">
+	        	<h3>Error found</h3>
+	        </div>
 	        <form:errors path="login" element="div" cssClass="alert alert-danger alert-dismissible error"/>
 	        <p class="help-block">Логин должен состоять из букв и цифр без пробелов</p>
 	      </div>
@@ -32,11 +37,11 @@
 	      <label class="control-label" for="email">E-mail адрес</label>
 	      <div class="controls">
 	        <form:input path="email" type="text" id="email" name="email" placeholder="" class="form-control"/>
-	       	<c:set var="loginError">
+	       	<c:set var="emailError">
 	       		<form:errors path="email"/>
 	        </c:set>
-	        <c:if test="${loginError != null}">
-	        	<h2>PASSED</h2>
+	        <c:if test="${emailError != null}">
+	        	<h2>${emailError}</h2>
 	        </c:if>
 	        <!--<form:errors path="email" element="div" cssClass="alert alert-danger alert-dismissible error"/>-->
 	        <p class="help-block">Напишите свой E-mail</p>

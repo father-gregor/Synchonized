@@ -12,7 +12,7 @@
   <div class="wrapper">
   	<c:url var="loginUrl" value="/login" />
     <form action="${loginUrl}" method="POST" class="form-signin">       
-    	<h2 class="form-signin-heading">Авторизация</h2>
+    	<h3 class="form-signin-heading">Авторизация</h3>
 		<input type="text" class="form-control" name="login" placeholder="Логин" required="" autofocus="" />
 		<input type="password" class="form-control" name="password" placeholder="Пароль" required=""/> 
 		<c:if test="${param.error != null}">
