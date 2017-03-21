@@ -61,7 +61,7 @@
 	       		<form:errors path="password"/>
 	        </c:set>	      
 	        <form:input path="password" type="password" id="password" name="password" placeholder="" class="form-control"/>
-	        <c:if test="${passError != null}">
+	        <c:if test="${passError != ''}">
 		        <div class="alert alert-danger alert-dismissible" role="alert">
 		  			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		  			<p>${passError}</p>
@@ -79,7 +79,7 @@
 	       		<form:errors path="passwordConfirm"/>
 	        </c:set>
 	        <form:input path="passwordConfirm" type="password" id="password_confirm" name="password_confirm" placeholder="" class="form-control"/>
-	        <c:if test="${confPassError != null}">
+	        <c:if test="${confPassError != ''}">
 		        <div class="alert alert-danger alert-dismissible" role="alert">
 		  			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		  			<p>${confPassError}</p>
