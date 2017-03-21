@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Авторизация</title>
+<link href="<c:url value='webstyle/css/bootstrap.min.css' />" rel="stylesheet">
 <link href="<c:url value='webstyle/css/custom-login.css' />" rel="stylesheet">
 </head>
 <body>
@@ -15,7 +16,8 @@
 		<input type="text" class="form-control" name="login" placeholder="Логин" required="" autofocus="" />
 		<input type="password" class="form-control" name="password" placeholder="Пароль" required=""/> 
 		<c:if test="${param.error != null}">
-	  		<div class="alert alert-danger">
+	  		<div class="alert alert-danger alert-dismissible" role="alert">
+	  			<button type="button" class="close-btn" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	  			<p>Неверный логин или пароль</p>
 	  		</div>
       	</c:if>
@@ -24,4 +26,10 @@
     </form>
   </div>
 </body>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+	$(".close-btn").click(function() {
+		$(this).parent().css("display", "none");
+	});
+</script>
 </html>
