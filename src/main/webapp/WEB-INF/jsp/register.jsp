@@ -21,7 +21,7 @@
 	      <label class="control-label"  for="username">Логин</label>
 	      <div class="controls">
 	      	<c:set var="loginError">
-	       		<form:errors path=login"/>
+	       		<form:errors path="login"/>
 	        </c:set>
 	        <form:input path="login" type="text" id="username" name="username" placeholder="" class="form-control"/>
 	        <div class="alert alert-danger alert-dismissible ${not empty loginError?"has-error":""}" role="alert">
