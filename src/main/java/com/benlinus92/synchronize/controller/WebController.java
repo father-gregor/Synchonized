@@ -175,7 +175,7 @@ public class WebController {
 	@MessageMapping("/videoroom")
 	@SendTo("/topic/currtime")
 	public Result disconnectionTest(Result res) {
-		System.out.println("Result: " + res.getResult());
+		System.out.println("Result: ");
 		return new Result("WEBSOCKET WORKING");
 	}
 	
