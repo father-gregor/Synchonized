@@ -2,6 +2,7 @@
 $(function() {
 	var stompClient = null;
 	function send() {
+		console.log("SENDED MESSAGE");
 		stompClient.send("/app/hello", {}, JSON.stringify({"result": "Websocket connection established"}))
 	}
 	function connect() {
@@ -16,6 +17,7 @@ $(function() {
 			})
 		});
 	}
+	document.getElementById("sendid").onclick = send;
 	function disconnect() {
 		stompClient.disconnect();
 	}

@@ -17,7 +17,7 @@
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/">Synchronized</a>
 			<ul class="nav navbar-nav">
-				<li><a href="#" onclick="send()">Про нас</a></li>
+				<li><a href="#">Про нас</a></li>
 				<li><a href="#">Контакты</a></li>
 				<c:if test="${userName == null }">
 					<li><a href="<c:url value='/login'/>">Авторизация</a></li>
@@ -81,6 +81,7 @@
 			</div>
 			<div style="padding: 15px;width: 700px; margin: auto">
 				<p class="text-center" style="font-size: 30px;font-weight: bold">Playlist</p>
+				<button id="sendid">PRESS</button>
 				<ul class="list-group" id="${roomId}">
 					<c:forEach var="video" items="${room.videosList}" varStatus="loop">
 						<c:choose>
