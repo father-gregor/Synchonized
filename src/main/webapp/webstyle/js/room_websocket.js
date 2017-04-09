@@ -5,7 +5,7 @@ $(function() {
 		stompClient.send("/app/videoroom", {}, JSON.stringify({"result": "Websocket connection established"}))
 	}
 	function connect() {
-		var socket = new SockJS("/videoroom");
+		var socket = new SockJS("<c:url value='/videoroom'/>");
 		stompClient = Stomp.over(socket);
 		stompClient.connect({}, function(frame) {
 			console.log("Connected: " + frame);
