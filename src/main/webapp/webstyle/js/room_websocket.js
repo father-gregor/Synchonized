@@ -12,7 +12,7 @@ $(function() {
 			console.log("Connected: " + frame);
 			//send();
 			stompClient.subscribe("/topic/currtime", function(res) {
-				console.log(JSON.parse(res.body).result);
+				console.log("Received - " + JSON.parse(res.body).result);
 			})
 		});
 	}

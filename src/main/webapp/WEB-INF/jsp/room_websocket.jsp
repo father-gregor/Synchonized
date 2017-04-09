@@ -17,7 +17,7 @@
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/">Synchronized</a>
 			<ul class="nav navbar-nav">
-				<li><a href="#">Про нас</a></li>
+				<li><a href="#" onclick="send()">Про нас</a></li>
 				<li><a href="#">Контакты</a></li>
 				<c:if test="${userName == null }">
 					<li><a href="<c:url value='/login'/>">Авторизация</a></li>
