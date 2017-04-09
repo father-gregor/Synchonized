@@ -105,10 +105,9 @@
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<script src="http://vjs.zencdn.net/5.19.1/video.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-youtube/2.3.2/Youtube.min.js"></script>
-	<script src="<c:url value='../webstyle/js/stomp.js' />"></script>
-	<script src="<c:url value='../webstyle/js/sockjs.min.js'/>"></script>
-	<script src="<c:url value='../webstyle/js/bootstrap.min.js' />"></script>
-	<script src="<c:url value='../webstyle/build/mediaelement-and-player.min.js' />"></script>
-	<script src="<c:url value='../webstyle/js/room.js' />"></script>
+	<script src="<c:url value='https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js' />"></script>
+	<script src="<c:url value='https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.2/sockjs.min.js'/>"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="<c:url value='../webstyle/js/room_websocket.js' />"></script>
 </body>
 </html>
