@@ -13,8 +13,6 @@ $(function() {
 			stompClient.subscribe("/topic/currtime", function(res) {
 				console.log(JSON.parse(res.body).result);
 			})
-		}, function(error) {
-			console.log("Connection not established: " + error.headers.message);
 		});
 	}
 	function disconnect() {
@@ -27,6 +25,6 @@ $(function() {
 		techOrder: ["html5", "youtube", "flash"]
 	});
 	player.ready(function() {
-		player.src({type: "video/webm", src: "link to file"});
+		//player.src({type: "video/webm", src: "link to file"});
 	});
 });
