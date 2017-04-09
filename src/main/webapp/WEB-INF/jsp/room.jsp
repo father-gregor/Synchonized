@@ -7,7 +7,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>${room.title}</title>
-	<link href="<c:url value='../webstyle/css/bootstrap.min.css' />" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link href="<c:url value='../webstyle/build/mediaelementplayer.css' />" rel="stylesheet">
 	<link href="<c:url value='../webstyle/css/custom-room.css' />" rel="stylesheet">
 </head>
@@ -106,6 +106,8 @@
 		</div>
 	</div>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="<c:url value='../webstyle/js/stomp.js' />"></script>
+	<script src="<c:url value='../webstyle/js/sockjs.min.js'/>"></script>
 	<script src="<c:url value='../webstyle/js/bootstrap.min.js' />"></script>
 	<script src="<c:url value='../webstyle/build/mediaelement-and-player.min.js' />"></script>
 	<script src="<c:url value='../webstyle/js/room.js' />"></script>

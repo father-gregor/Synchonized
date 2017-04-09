@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,6 +45,7 @@ import com.benlinus92.synchronize.config.AppConstants;
 import com.benlinus92.synchronize.model.AjaxVideoTime;
 import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
+import com.benlinus92.synchronize.model.Result;
 import com.benlinus92.synchronize.model.Room;
 import com.benlinus92.synchronize.service.SynchronizeService;
 import com.benlinus92.synchronize.validator.ProfileValidator;
@@ -168,6 +171,13 @@ public class WebController {
 		//roomTime = video.getCurrTime().toString();
 		return "";
 	}
+	
+	@MessageMapping("/disconn")
+	@SendTo("/topic/disconnectTest")
+	public Result disconnectionTest(AjaxVideoTime time) {
+		return new Result("WEBSOCKET WORKING");
+	}
+	
 	@RequestMapping(value="/deletevideo-ajax-{videoId}")
 	public @ResponseBody String deleteVideoFromDb(@PathVariable String videoId) {
 		service.deleteVideo(Integer.parseInt(videoId));

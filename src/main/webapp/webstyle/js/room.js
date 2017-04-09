@@ -40,6 +40,7 @@ $(function() {
 	
 	$(window).load(function() {
 		setCurrentPlayer();
+		connect();
 	});
 	
 	function setCurrentPlayer() {
@@ -187,4 +188,34 @@ $(function() {
 		e.preventDefault();
 		$(this).tab("show");
 	});
+	
+	var stompClient = null; 
+    function connect() {
+        var socket = new SockJS('/disconn');
+		stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            setConnected(true);
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/disconnectTest', function(calResult){
+            	console.log(JSON.parse(calResult.body).result);
+            	showResult(JSON.parse(calResult.body).result);
+            });
+        });
+    }
+    function disconnect() {
+        stompClient.disconnect();
+        console.log("Disconnected");
+    }
+    function sendNum() {
+        var num1 = document.getElementById('num1').value;
+        var num2 = document.getElementById('num2').value;
+        stompClient.send("/calcApp/add", {}, JSON.stringify({
+			"roomId": roomId,
+			"videoId": videoId,
+			"currTime": videoTime
+		}));
+    }
+    function showResult(message) {
+        console.log(message);
+    }
 });

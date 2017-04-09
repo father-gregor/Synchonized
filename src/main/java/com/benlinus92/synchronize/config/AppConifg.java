@@ -18,11 +18,11 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.benlinus92.synchronize")
-@Import({SecurityConfiguration.class})
+@Import({SecurityConfiguration.class, AppWebSocketConfig.class})
 public class AppConifg extends WebMvcConfigurerAdapter {
 	@Bean(name="multipartResolver")
 	public StandardServletMultipartResolver resolver() {
-		return new StandardServletMultipartResolver();
+		return new StandardServletMultipartResolver();//testnhjgbn
 	}
 	@Bean
 	public ViewResolver viewResolver() {
