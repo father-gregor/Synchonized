@@ -155,7 +155,7 @@ public class WebController {
 			model.addAttribute("userName", userName);
 		model.addAttribute("room", room);
 		model.addAttribute("videoObj", new Playlist());
-		return "room";
+		return "room_websocket";
 	}
 	private volatile String roomTime = "0"; 
 	@RequestMapping(value="/gettime-ajax-{videoId}", method=RequestMethod.GET)
@@ -172,9 +172,10 @@ public class WebController {
 		return "";
 	}
 	
-	@MessageMapping("/disconn")
-	@SendTo("/topic/disconnectTest")
-	public Result disconnectionTest(AjaxVideoTime time) {
+	@MessageMapping("/videoroom")
+	@SendTo("/topic/currtime")
+	public Result disconnectionTest(Result res) {
+		System.out.println("Result: " + res.getResult());
 		return new Result("WEBSOCKET WORKING");
 	}
 	
