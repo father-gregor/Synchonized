@@ -2,7 +2,7 @@
 $(function() {
 	var stompClient = null;
 	function send() {
-		stompClient.send("/app/videoroom", {}, JSON.stringify({"result": "Websocket connection established"}))
+		stompClient.send("/app/hello", {}, JSON.stringify({"result": "Websocket connection established"}))
 	}
 	function connect() {
 		var socket = new SockJS("/videoroom");

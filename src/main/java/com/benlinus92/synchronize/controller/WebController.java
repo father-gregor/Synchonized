@@ -172,7 +172,7 @@ public class WebController {
 		return "";
 	}
 	
-	@MessageMapping("/videoroom")
+	@MessageMapping("/hello")
 	@SendTo("/topic/currtime")
 	public Result disconnectionTest(Result res) {
 		System.out.println("Result: ");
