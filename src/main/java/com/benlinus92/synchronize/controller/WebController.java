@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
@@ -174,8 +175,11 @@ public class WebController {
 	
 	@MessageMapping("/hello")
 	@SendTo("/topic/currtime")
-	public Result disconnectionTest(Result res) {
-		System.out.println("Result: ");
+	public Result disconnectionTest(Message<Object> mes, Result res) {
+		for(String str: mes.getHeaders().keySet()) {
+			System.out.println("Header: " + str);
+		}
+		System.out.println("What we receive: " + res);
 		return new Result("WEBSOCKET WORKING");
 	}
 	
