@@ -1,3 +1,4 @@
-The OpenShift `jbossews` cartridge documentation can be found at:
+# Synchronized
+Web application for simultaneous video viewing based on Spring, Hibernate and AJAX. Synchonization via AJAX will be replaced with Websocket in future.
 
-http://openshift.github.io/documentation/oo_cartridge_guide.html#tomcat
+Front page contains list of available rooms. Each room has list of videos associated with it. Video can be either from Youtube link or uploaded directly to app server in Webm format.
