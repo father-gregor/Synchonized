@@ -36,8 +36,8 @@
 		</div>
 	</nav>
 	<div class="container" style="margin-top: 100px; margin-bottom: 40px">
-		<div class="video-wrapper no-svg">
-			<video class="video-js vjs-default-skin player-upload" id="room-player" width="640" height="360" style="position:inherit; width:100%; height:100%">
+		<div class="video-wrapper no-svg" style="position:inherit">
+			<video class="video-js vjs-default-skin player-upload" id="room-player" width="640" height="360" style="width:100%; height:100%">
 			</video>
 		</div>
 		<div style="width:100%; height: 500px; background: white">
