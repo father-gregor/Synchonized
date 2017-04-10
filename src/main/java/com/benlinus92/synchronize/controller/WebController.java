@@ -174,12 +174,11 @@ public class WebController {
 	}
 	
 	@MessageMapping("/hello")
-	@SendTo("/topic/currtime")
 	public Result disconnectionTest(Message<Object> mes, Result res) {
 		for(String str: mes.getHeaders().keySet()) {
 			System.out.println("Header: " + str);
 		}
-		System.out.println("What we receive: " + res);
+		System.out.println("What we receive: " + res.getResult());
 		return new Result("WEBSOCKET WORKING");
 	}
 	

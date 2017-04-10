@@ -28,6 +28,11 @@ $(function() {
 	});
 	player.ready(function() {
 		console.log("Player's ready");
-		player.src({type: "video/webm", src: "link to file"});
+		player.src({type: "video/webm", src: "http://vjs.zencdn.net/v/oceans.mp4"});
+	});
+	
+	$("#upload-tabs a").click(function(e) {
+		e.preventDefault();
+		$(this).tab("show");
 	});
 });
