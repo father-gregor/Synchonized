@@ -28,7 +28,7 @@ $(function() {
 	});
 	player.ready(function() {
 		console.log("Player's ready");
-		player.src({type: "video/webm", src: "https://www.youtube.com/watch?v=1dONxX9rifs"});
+		player.src({type: "video/youtube", src: "https://www.youtube.com/watch?v=1dONxX9rifs"});
 	});
 	
 	$("#upload-tabs a").click(function(e) {
