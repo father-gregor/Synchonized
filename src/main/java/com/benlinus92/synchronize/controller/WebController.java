@@ -221,6 +221,7 @@ public class WebController {
 					new File(folderPath).mkdir();
 				video.getFile().transferTo(new File(folderPath + video.getFile().getOriginalFilename()));
 			}
+			System.out.println("VIDEO URL: " + video.getTitle() + "   " + video.getUrl());
 			service.saveVideo(video, roomId);
 		} catch(IOException e) {
 			e.printStackTrace();
