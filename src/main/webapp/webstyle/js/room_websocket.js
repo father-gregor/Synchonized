@@ -32,7 +32,7 @@ $(function() {
 			});
 			stompClient.subscribe("/topic/newvideo", function(res) {
 				console.log(res.body);
-				//playlist.push(JSON.parse(res.body));
+				playlist.push(JSON.parse(res.body));
 			});
 			stompClient.subscribe("/topic/currtime", function(res) {
 				console.log("Received - " + JSON.parse(res.body).result);

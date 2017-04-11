@@ -244,7 +244,7 @@ public class WebController {
 			}
 			System.out.println("VIDEO URL: " + video.getTitle() + "   " + video.getUrl());
 			service.saveVideo(video, roomId);
-			simp.convertAndSend("/topic/newvideo", "144");
+			simp.convertAndSend("/topic/newvideo", video);
 		} catch(IOException e) {
 			e.printStackTrace();
 			return "redirect:/room/" + roomId;

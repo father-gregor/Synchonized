@@ -70,10 +70,11 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 		return false;
 	}
 	@Override
-	public void saveVideo(Playlist video, int roomId) {
+	public Playlist saveVideo(Playlist video, int roomId) {
 		Room room = dao.findRoomById(roomId);
 		video.setRoom(room);
 		dao.saveVideo(video);
+		return video;
 	}
 	@Override
 	public List<Playlist> getAllVideos() {
