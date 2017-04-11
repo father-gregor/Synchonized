@@ -73,8 +73,10 @@ $(function() {
 		}
 	});
 	player.on("loadeddata", function() {
+		console.log(player.readyState);
 		player.play();
 	});
+	player.readyState
 	function setCurrentVideo() {
 		var videoType = "";
 		var url = "";
