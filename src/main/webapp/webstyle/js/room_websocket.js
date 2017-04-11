@@ -1,7 +1,7 @@
 
 $(function() {
 	var stompClient = null;
-	var playlistObj = $("#room-model-obj");
+	var playlistObj = $("#room-model-obj").val;
 	function send() {
 		console.log("SENDED MESSAGE");
 		stompClient.send("/app/hello", {}, JSON.stringify({"result": "Websocket connection established"}))
