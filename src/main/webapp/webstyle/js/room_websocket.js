@@ -30,7 +30,10 @@ $(function() {
 				console.log(res.body);
 				//console.log("Time object - " + JSON.parser(res.body));
 			});
-			
+			stompClient.subscribe("/topic/newvideo", function(res) {
+				console.log(res.body);
+				//playlist.push(JSON.parse(res.body));
+			});
 			stompClient.subscribe("/topic/currtime", function(res) {
 				console.log("Received - " + JSON.parse(res.body).result);
 			})
@@ -82,7 +85,11 @@ $(function() {
 		player.play();
 	});
 	player.on("ended", function() {
-		console.log("ENDED");
+		var index = getIndexByVideoId(currentVideo.id);
+		if(index <= playlist.length - 1) {
+			currentVideo.id = playlist[++index].videoId;
+			setCurrentVideo();
+		}
 	});
 	function setCurrentVideo() {
 		var videoType = "";

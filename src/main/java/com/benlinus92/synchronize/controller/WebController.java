@@ -22,6 +22,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -61,6 +62,8 @@ public class WebController {
 	private SynchronizeService service;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private SimpMessagingTemplate simp;
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public ModelAndView getIndexPage(){
@@ -190,6 +193,11 @@ public class WebController {
 		return new AjaxVideoTime(videoObj.getRoomId(), videoObj.getVideoId(), Double.valueOf(video.getCurrTime()));
 	}
 	
+	@MessageMapping("/newvideo")
+	public @ResponseBody Playlist sendNewVideo() {
+		return new Playlist();
+	}
+	
 	@RequestMapping(value="/getvideolist-{roomId}", method=RequestMethod.GET)
 	public @ResponseBody List<Playlist> getVideoList(@PathVariable int roomId) {
 		return service.getVideoListFromRoom(roomId);
@@ -236,6 +244,7 @@ public class WebController {
 			}
 			System.out.println("VIDEO URL: " + video.getTitle() + "   " + video.getUrl());
 			service.saveVideo(video, roomId);
+			simp.convertAndSend("/topic/newvideo", "144");
 		} catch(IOException e) {
 			e.printStackTrace();
 			return "redirect:/room/" + roomId;

@@ -103,6 +103,8 @@ public class SynchronizeDaoImpl implements SynchronizeDao {
 	@Override
 	public void saveVideo(Playlist video) {
 		em.persist(video);
+		em.flush();
+		System.out.println(video.getVideoId());
 	}
 	@SuppressWarnings("unchecked")
 	@Override
