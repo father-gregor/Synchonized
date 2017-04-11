@@ -15,6 +15,9 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @DynamicUpdate
 @Table(name="PLAYLIST")
@@ -35,6 +38,7 @@ public class Playlist {
 	public MultipartFile file;
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name= "room_id")
+	@JsonIgnore
 	private Room room;
 	
 	public int getVideoId() {
@@ -67,9 +71,11 @@ public class Playlist {
 	public void setCurrTime(String currTime) {
 		this.currTime = currTime;
 	}
+	@JsonIgnore
 	public Room getRoom() {
 		return room;
 	}
+	@JsonProperty("room")
 	public void setRoom(Room room) {
 		this.room = room;
 	}

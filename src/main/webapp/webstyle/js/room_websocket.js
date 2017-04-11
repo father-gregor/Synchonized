@@ -32,7 +32,7 @@ $(function() {
 		var roomId = $("ul.list-group").attr("id");
 		$.ajax({
 			type: "GET",
-			url: "/getroom-" + roomId,
+			url: "/getvideolist-" + roomId,
 			success: function(data) {
 				console.log(data);
 				return data;

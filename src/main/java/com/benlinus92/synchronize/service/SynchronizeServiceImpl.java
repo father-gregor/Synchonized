@@ -94,9 +94,8 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 
 	@Override
 	@Transactional(propagation=Propagation.NOT_SUPPORTED)
-	public Room getRoomWithoutProfile(int roomId) {
-		Room room = dao.findRoomById(roomId);
-		room.setUserId(null);
-		return room;
+	public List<Playlist> getVideoListFromRoom(int roomId) {
+		List<Playlist> list = dao.findRoomById(roomId).getVideosList();;
+		return list;
 	}
 }
