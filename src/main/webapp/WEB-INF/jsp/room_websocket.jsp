@@ -40,8 +40,8 @@
 			<video class="video-js vjs-default-skin player-upload" id="room-player" width="640" height="400" style="width:100%">
 			</video>
 		</div>
-		<div style="width:100%; height: 500px; background: white">
-			<div style="padding: 20px;width: 700px; margin: auto" id="div-tabs">
+		<div style="width:100%; min-height: 500px; background: white">
+			<div style="padding: 20px; width: 700px; margin: auto" id="div-tabs">
 				<ul class="nav nav-tabs"  id="upload-tabs">
 					<li class="active"><a href="#your-file">Свой файл</a></li>
 					<li><a href="#youtube-url">Ссылка на Youtube</a></li>
@@ -82,19 +82,17 @@
 			<div style="padding: 15px;width: 700px; margin: auto">
 				<p class="text-center" style="font-size: 30px;font-weight: bold">Playlist</p>
 				<button id="sendid">PRESS</button>
-				<ul class="list-group" id="${roomId}">
+				<ul class="list-group playlist-ul" id="${roomId}">
 					<c:forEach var="video" items="${room.videosList}" varStatus="loop">
 						<c:choose>
 							<c:when test="${video.type == 'upvideo'}">
-								<li title="/videos/${roomId}/${video.url}" class="list-group-item playlist-li ${video.type}" id="video${loop.index + 1}">
-									${video.title} (${video.url})
-									<div id="${video.videoId}" style="display: none"></div>
+								<li title="/videos/${roomId}/${video.url}" class="list-group-item playlist-li ${video.type}" id="video${video.videoId}">
+									${video.title}
 								</li>
 							</c:when>
 							<c:when test="${video.type == 'youtube'}">
-								<li title="${video.url}" class="list-group-item playlist-li ${video.type}" id="video${loop.index + 1}">
+								<li title="${video.url}" class="list-group-item playlist-li ${video.type}" id="video${video.videoId}">
 									${video.title} (YouTube)
-									<div id="${video.videoId}" style="display: none"></div>
 								</li>
 							</c:when>
 						</c:choose>

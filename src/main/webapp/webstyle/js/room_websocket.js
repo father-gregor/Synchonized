@@ -32,7 +32,18 @@ $(function() {
 			});
 			stompClient.subscribe("/topic/newvideo", function(res) {
 				console.log(res.body);
-				playlist.push(JSON.parse(res.body));
+				var video = JSON.parse(res.body);
+				playlist.push(video);
+				var url = "";
+				if(video.type === "upvideo") {
+					url = "/videos/" + roomId + "/" + video.url;
+				} else if(video.type === "youtube") {
+					url = video.url;
+				}
+				$(".playlist-ul").append(
+						$("<li>").attr("title", url).attr("class", "list-group-item playlist-li " + video.type).attr("id", "video" + video.id).append(
+								video.title)
+				);
 			});
 			stompClient.subscribe("/topic/currtime", function(res) {
 				console.log("Received - " + JSON.parse(res.body).result);
