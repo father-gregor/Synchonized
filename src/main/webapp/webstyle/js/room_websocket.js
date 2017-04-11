@@ -39,7 +39,7 @@ $(function() {
 			type: "GET",
 			url: "/getvideolist-" + roomId,
 			success: function(list) {
-				console.log(data);
+				console.log(list);
 				playlist = list;
 				currentVideo.id = playlist[0].videoId;
 			},
