@@ -74,7 +74,11 @@ $(function() {
 	});
 	player.on("loadeddata", function() {
 		console.log(player.readyState);
-		player.play();
+		//player.play();
+		console.log(JSON.stringify(player));
+	});
+	player.on("canplaythrough", function() {
+		console.log(player.readyState());
 	});
 	player.readyState
 	function setCurrentVideo() {
