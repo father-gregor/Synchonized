@@ -19,6 +19,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
@@ -182,10 +183,11 @@ public class WebController {
 		return new Result("WEBSOCKET WORKING");
 	}
 	
-	@MessageMapping("/timecenter/{videoId}")
-	public AjaxVideoTime getTimeFromUser(AjaxVideoTime timeObj) {
-		Playlist video = service.findVideoById(timeObj.getVideoId());
-		return new AjaxVideoTime(timeObj.getRoomId(), timeObj.getVideoId(), Double.valueOf(video.getCurrTime()));
+	@MessageMapping("/timecenter/{roomId}")
+	public @ResponseBody AjaxVideoTime getTimeFromUser(@DestinationVariable String roomId, AjaxVideoTime videoObj) {
+		Playlist video = service.findVideoById(videoObj.getVideoId());
+		System.out.println("Time - "  + videoObj.getCurrTime());
+		return new AjaxVideoTime(videoObj.getRoomId(), videoObj.getVideoId(), Double.valueOf(video.getCurrTime()));
 	}
 	
 	@RequestMapping(value="/getvideolist-{roomId}", method=RequestMethod.GET)

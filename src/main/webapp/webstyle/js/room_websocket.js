@@ -11,7 +11,7 @@ $(function() {
 	function send() {
 		console.log("SENDED MESSAGE");
 		console.log(player.currentTime());
-		//stompClient.send("/app/hello", {}, JSON.stringify({"result": "Websocket connection established"}))
+		stompClient.send("/app/timecenter/" + roomId, {}, JSON.stringify({roomId: roomId, videoId: currentVideo.id, currTime: player.currentTime()}))
 	}
 	function connect() {
 		var socket = new SockJS("/videoroom");
@@ -28,6 +28,7 @@ $(function() {
 		if(stompClient !== null && playlist !== null) {
 			stompClient.subscribe("/topic/timecenter/" + roomId, function(res) {
 				console.log("Time object - " + JSON.parser(res.body));
+				//console.log("Time object - " + JSON.parser(res.body));
 			});
 			
 			stompClient.subscribe("/topic/currtime", function(res) {
@@ -75,10 +76,10 @@ $(function() {
 		}
 	});
 	player.on("loadeddata", function() {
-		player.play();
+		//player.play();
 	});
 	player.on("canplaythrough", function() {
-		//player.play();
+		player.play();
 	});
 	player.on("ended", function() {
 		console.log("ENDED");
