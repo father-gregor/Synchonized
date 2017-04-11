@@ -55,7 +55,8 @@ $(function() {
 	connect();
 	var player = videojs("room-player", {
 		controls: true,
-		techOrder: ["html5", "youtube", "flash"]
+		techOrder: ["html5", "youtube", "flash"],
+		youtube: { autoplay: 1}
 	});
 	player.ready(function() {
 		console.log("Player's ready");
@@ -73,12 +74,13 @@ $(function() {
 		}
 	});
 	player.on("loadeddata", function() {
-		console.log(player.readyState);
+		console.log(player.readyState());
 		//player.play();
 		console.log(JSON.stringify(player));
 	});
 	player.on("canplaythrough", function() {
 		console.log(player.readyState());
+		player.play();
 	});
 	player.readyState
 	function setCurrentVideo() {
