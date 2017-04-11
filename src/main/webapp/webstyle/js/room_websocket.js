@@ -26,7 +26,7 @@ $(function() {
 	}
 	function initStompSubscribe() {
 		if(stompClient !== null && playlist !== null) {
-			stompClient.subscribe("/topic/timecenter/53", function(res) {
+			stompClient.subscribe("/topic/timecenter/" + roomId, function(res) {
 				console.log("Time object - " + JSON.parser(res.body));
 			});
 			
@@ -76,13 +76,13 @@ $(function() {
 	});
 	player.on("loadeddata", function() {
 		player.play();
-		console.log(player.onPlayerStateChange);
-		console.log(player.onPlayerStateChange());
 	});
 	player.on("canplaythrough", function() {
 		//player.play();
 	});
-	player.readyState
+	player.on("ended", function() {
+		console.log("ENDED");
+	});
 	function setCurrentVideo() {
 		var videoType = "";
 		var url = "";
