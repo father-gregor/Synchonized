@@ -20,11 +20,11 @@ $(function() {
 			console.log("Connected: " + frame);
 			console.log(JSON.stringify(playlist));
 			//send();
-			makeSubscribe();
+			initStompSubscribe();
 		});
 	}
-	function makeSubscribe() {
-		if(stompClient !== null && playlistObj !== null) {
+	function initStompSubscribe() {
+		if(stompClient !== null && playlist !== null) {
 			stompClient.subscribe("/topic/timecenter/53", function(res) {
 				console.log("Time object - " + JSON.parser(res.body));
 			});
