@@ -10,7 +10,8 @@ $(function() {
 	getVideoList();
 	function send() {
 		console.log("SENDED MESSAGE");
-		stompClient.send("/app/hello", {}, JSON.stringify({"result": "Websocket connection established"}))
+		console.log(player.currentTime());
+		//stompClient.send("/app/hello", {}, JSON.stringify({"result": "Websocket connection established"}))
 	}
 	function connect() {
 		var socket = new SockJS("/videoroom");
@@ -74,13 +75,12 @@ $(function() {
 		}
 	});
 	player.on("loadeddata", function() {
-		console.log(player.readyState());
-		//player.play();
-		console.log(JSON.stringify(player));
+		player.play();
+		console.log(player.onPlayerStateChange);
+		console.log(player.onPlayerStateChange());
 	});
 	player.on("canplaythrough", function() {
-		console.log(player.readyState());
-		player.play();
+		//player.play();
 	});
 	player.readyState
 	function setCurrentVideo() {
