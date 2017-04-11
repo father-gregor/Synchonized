@@ -35,6 +35,7 @@ public class Playlist {
 	@Column(name="curr_time")
 	private String currTime;
 	@Transient
+	@JsonIgnore
 	public MultipartFile file;
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name= "room_id")
@@ -79,9 +80,11 @@ public class Playlist {
 	public void setRoom(Room room) {
 		this.room = room;
 	}
+	@JsonIgnore
 	public MultipartFile getFile() {
 		return file;
 	}
+	@JsonProperty("file")
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}

@@ -1,7 +1,13 @@
 
 $(function() {
 	var stompClient = null;
-	var playlistObj = getRoomObject();
+	var playlist = null;
+	var currentVideo = {
+			id: -1
+	};
+	var roomId = $("ul.list-group").attr("id");
+	var setVideoTimerId = null;
+	getVideoList();
 	function send() {
 		console.log("SENDED MESSAGE");
 		stompClient.send("/app/hello", {}, JSON.stringify({"result": "Websocket connection established"}))
@@ -28,18 +34,17 @@ $(function() {
 			})
 		}
 	}
-	function getRoomObject() {
-		var roomId = $("ul.list-group").attr("id");
+	function getVideoList() {
 		$.ajax({
 			type: "GET",
 			url: "/getvideolist-" + roomId,
-			success: function(data) {
+			success: function(list) {
 				console.log(data);
-				return data;
+				playlist = list;
+				currentVideo.id = playlist[0].videoId;
 			},
 			error: function(data, status, e) {
 				console.log("GETerror: "+data+" status: "+status+" er:"+e);
-				return null;
 			}
 		});
 	}
@@ -54,12 +59,39 @@ $(function() {
 	});
 	player.ready(function() {
 		console.log("Player's ready");
-		if(playlistObj !== null) {
+		if(playlist !== null) {
 			//if(playlistObj.videosList[0].)
+			setCurrentVideo();
 			player.src({type: "video/youtube", src: "https://www.youtube.com/watch?v=1dONxX9rifs"});
+		} else {
+			setVideoTimerId = setInterval(function() {
+				if(playlist !== null) {
+					setCurrentVideo();
+					clearInterval(setVideoTimerId);
+				}
+			}, 5000);
 		}
 	});
-	
+	function setCurrentVideo() {
+		var videoType = "";
+		var url = "";
+		var index = getIndexByVideoId(currentVideo.id);
+		if(playlist[index].type === "upvideo") {
+			videoType = "video/" + playlist[index].url.split(".").pop();
+			url = "/videos/" + roomId + "/" + playlist[index].url;
+		} else if(playlist[index].type === "youtube") {
+			videoType = "video/youtube";
+			url = playlist[index].url;
+		}
+		player.src({type: videoType, src: url});
+	}
+	function getIndexByVideoId(videoId) {
+		for(var i = 0; i < playlist.length; i++) {
+			if(playlist[i].videoId == videoId)
+				return i;
+		}
+		return -1;
+	}
 	$("#upload-tabs a").click(function(e) {
 		e.preventDefault();
 		$(this).tab("show");
