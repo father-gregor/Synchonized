@@ -186,15 +186,19 @@ public class WebController {
 		return new Result("WEBSOCKET WORKING");
 	}
 	
-	@MessageMapping("/timecenter/{roomId}")
-	public @ResponseBody AjaxVideoTime getTimeFromUser(@DestinationVariable String roomId, AjaxVideoTime videoObj) {
-		Playlist video = service.findVideoById(videoObj.getVideoId());
-		System.out.println("Time - "  + videoObj.getCurrTime());
-		return new AjaxVideoTime(videoObj.getRoomId(), videoObj.getVideoId(), Double.valueOf(video.getCurrTime()));
+	@MessageMapping("/timecenter/{roomId}/gettime")
+	public @ResponseBody AjaxVideoTime provideCurrentTime(@DestinationVariable String roomId, String videoId) {
+		Playlist video = service.findVideoById(videoId);
+		//System.out.println("Time - "  + videoObj.getCurrTime());
+		return new AjaxVideoTime();
+	}
+	@MessageMapping("/timecenter/{roomId}/reporttime")
+	public String getCurrentTime(@DestinationVariable String roomId, String videoId) {
+		return "";
 	}
 	
-	@MessageMapping("/newvideo")
-	public @ResponseBody Playlist sendNewVideo() {
+	@MessageMapping("/newvideo/{roomId}")
+	public @ResponseBody Playlist sendNewVideo(@DestinationVariable String roomId) {
 		return new Playlist();
 	}
 	
@@ -244,7 +248,7 @@ public class WebController {
 			}
 			System.out.println("VIDEO URL: " + video.getTitle() + "   " + video.getUrl());
 			service.saveVideo(video, roomId);
-			simp.convertAndSend("/topic/newvideo", video);
+			simp.convertAndSend("/topic/newvideo/" + roomId, video);
 		} catch(IOException e) {
 			e.printStackTrace();
 			return "redirect:/room/" + roomId;

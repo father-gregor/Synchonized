@@ -26,11 +26,18 @@ $(function() {
 	}
 	function initStompSubscribe() {
 		if(stompClient !== null && playlist !== null) {
-			stompClient.subscribe("/topic/timecenter/" + roomId, function(res) {
+			stompClient.subscribe("/topic/timecenter/" + roomId +"/gettime", function(res) {
 				console.log(res.body);
+				var video = JSON.parse(res.body);
+				if(currentVideo.id === video.videoId) {
+					player.currentTime(video.currTime);
+				}
 				//console.log("Time object - " + JSON.parser(res.body));
 			});
-			stompClient.subscribe("/topic/newvideo", function(res) {
+			stompClient.subscribe("/topic/timecenter/" + roomId + "/reporttime", function(res) {
+				console.log(res.body);
+			})
+			stompClient.subscribe("/topic/newvideo/" + roomId, function(res) {
 				console.log(res.body);
 				var video = JSON.parse(res.body);
 				playlist.push(video);
@@ -41,14 +48,17 @@ $(function() {
 					url = video.url;
 				}
 				$(".playlist-ul").append(
-						$("<li>").attr("title", url).attr("class", "list-group-item playlist-li " + video.type).attr("id", "video" + video.id).append(
-								video.title)
+						$("<li>").attr("title", url).attr("class", "list-group-item playlist-li " + video.type)
+						.attr("id", "video" + video.videoId).append(video.title)
 				);
 			});
 			stompClient.subscribe("/topic/currtime", function(res) {
 				console.log("Received - " + JSON.parse(res.body).result);
 			})
 		}
+	}
+	function getCurrentTime(videoId, success) {
+		stompClient.send("/app/timecenter/" + roomId + "/gettime", {}, currentVideo.id);
 	}
 	function getVideoList() {
 		$.ajax({
@@ -93,11 +103,13 @@ $(function() {
 		//player.play();
 	});
 	player.on("canplaythrough", function() {
+		getCurrentTime(currentVideo.id);
 		player.play();
 	});
 	player.on("ended", function() {
 		var index = getIndexByVideoId(currentVideo.id);
 		if(index <= playlist.length - 1) {
+			$("#video" + currentVideo.id).css({"background-color": "#ffffff", "color": "#000000"});
 			currentVideo.id = playlist[++index].videoId;
 			setCurrentVideo();
 		}
@@ -114,6 +126,7 @@ $(function() {
 			url = playlist[index].url;
 		}
 		player.src({type: videoType, src: url});
+		$("#video" + currentVideo.id).css({"background-color": "#b22222", "color": "#ffffff"});
 	}
 	function getIndexByVideoId(videoId) {
 		for(var i = 0; i < playlist.length; i++) {
