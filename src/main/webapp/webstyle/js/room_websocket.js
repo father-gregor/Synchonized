@@ -27,7 +27,7 @@ $(function() {
 	function initStompSubscribe() {
 		if(stompClient !== null && playlist !== null) {
 			stompClient.subscribe("/topic/timecenter/" + roomId, function(res) {
-				console.log("Time object - " + JSON.parser(res.body));
+				console.log(res.body);
 				//console.log("Time object - " + JSON.parser(res.body));
 			});
 			
