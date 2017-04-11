@@ -189,7 +189,7 @@ public class WebController {
 	}
 	
 	@RequestMapping(value="/getroom-{roomId}", method=RequestMethod.GET)
-	public Room getRoomObject(@PathVariable int roomId) {
+	public @ResponseBody Room getRoomObject(@PathVariable int roomId) {
 		return service.getRoomWithoutProfile(roomId);
 	}
 	
