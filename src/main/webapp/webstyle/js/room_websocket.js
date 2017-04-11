@@ -72,11 +72,9 @@ $(function() {
 			}, 5000);
 		}
 	});
-	player.on("progress", function() {
-		if(player.bufferedPercent() > .5) {
-			player.play();
-		}
-	})
+	player.on("loadeddata", function() {
+		player.play();
+	});
 	function setCurrentVideo() {
 		var videoType = "";
 		var url = "";
