@@ -12,7 +12,7 @@ $(function() {
 		console.log("First");
 		stompClient.connect({}, function(frame) {
 			console.log("Connected: " + frame);
-			console.log("RoomObj - " + playlistObj);
+			console.log(JSON.stringify(playlistObj));
 			//send();
 			makeSubscribe();
 		});
@@ -39,7 +39,10 @@ $(function() {
 	});
 	player.ready(function() {
 		console.log("Player's ready");
-		player.src({type: "video/youtube", src: "https://www.youtube.com/watch?v=1dONxX9rifs"});
+		if(playlistObj !== null) {
+			//if(playlistObj.videosList[0].)
+			player.src({type: "video/youtube", src: "https://www.youtube.com/watch?v=1dONxX9rifs"});
+		}
 	});
 	
 	$("#upload-tabs a").click(function(e) {
