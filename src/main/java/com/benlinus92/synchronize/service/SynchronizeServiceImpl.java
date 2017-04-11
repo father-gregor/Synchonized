@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.benlinus92.synchronize.dao.SynchronizeDao;
@@ -92,6 +93,7 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.NOT_SUPPORTED)
 	public Room getRoomWithoutProfile(int roomId) {
 		Room room = dao.findRoomById(roomId);
 		room.setUserId(null);

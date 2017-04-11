@@ -30,6 +30,9 @@ public class Room {
 	@JoinColumn(name="user_id")
 	private Profile userId; 
 	
+	public Room() {
+		
+	}
 	public int getRoomId() {
 		return roomId;
 	}
