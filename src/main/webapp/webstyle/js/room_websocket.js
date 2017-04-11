@@ -18,7 +18,7 @@ $(function() {
 		console.log("First");
 		stompClient.connect({}, function(frame) {
 			console.log("Connected: " + frame);
-			console.log(JSON.stringify(playlistObj));
+			console.log(JSON.stringify(playlist));
 			//send();
 			makeSubscribe();
 		});
