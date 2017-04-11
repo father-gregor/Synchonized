@@ -13,6 +13,7 @@ public interface SynchronizeService {
 	void saveRoom(Room room, String userName);
 	List<Room> getAllRooms();
 	Room findRoomById(int id);
+	Room getRoomWithoutProfile(int roomId);
 	boolean deleteRoomById(int id, String userName);
 	void saveVideo(Playlist video, int roomId);
 	List<Playlist> getAllVideos();

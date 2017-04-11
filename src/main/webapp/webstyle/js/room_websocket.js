@@ -1,7 +1,7 @@
 
 $(function() {
 	var stompClient = null;
-	//var playlistObj = $("#room-model-obj").val;
+	var playlistObj = getRoomObject();
 	function send() {
 		console.log("SENDED MESSAGE");
 		stompClient.send("/app/hello", {}, JSON.stringify({"result": "Websocket connection established"}))
@@ -27,6 +27,21 @@ $(function() {
 				console.log("Received - " + JSON.parse(res.body).result);
 			})
 		}
+	}
+	function getRoomObject() {
+		var roomId = $("ul.list-group").attr("id");
+		$.ajax({
+			type: "GET",
+			url: "/getroom-" + roomId,
+			success: function(data) {
+				console.log(data);
+				return data;
+			},
+			error: function(data, status, e) {
+				console.log("GETerror: "+data+" status: "+status+" er:"+e);
+				return null;
+			}
+		});
 	}
 	document.getElementById("sendid").onclick = send;
 	function disconnect() {

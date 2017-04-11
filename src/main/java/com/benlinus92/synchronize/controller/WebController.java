@@ -188,6 +188,11 @@ public class WebController {
 		return new AjaxVideoTime(timeObj.getRoomId(), timeObj.getVideoId(), Double.valueOf(video.getCurrTime()));
 	}
 	
+	@RequestMapping(value="/getroom-{roomId}", method=RequestMethod.GET)
+	public Room getRoomObject(@PathVariable int roomId) {
+		return service.getRoomWithoutProfile(roomId);
+	}
+	
 	@RequestMapping(value="/deletevideo-ajax-{videoId}")
 	public @ResponseBody String deleteVideoFromDb(@PathVariable String videoId) {
 		service.deleteVideo(Integer.parseInt(videoId));

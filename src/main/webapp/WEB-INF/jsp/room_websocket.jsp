@@ -81,7 +81,6 @@
 			</div>
 			<div style="padding: 15px;width: 700px; margin: auto">
 				<p class="text-center" style="font-size: 30px;font-weight: bold">Playlist</p>
-				<input type="hidden" id="room-model-obj" value="${room}">
 				<button id="sendid">PRESS</button>
 				<ul class="list-group" id="${roomId}">
 					<c:forEach var="video" items="${room.videosList}" varStatus="loop">
@@ -111,9 +110,5 @@
 	<script src="<c:url value='https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.2/sockjs.min.js'/>"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="<c:url value='../webstyle/js/room_websocket.js' />"></script>
-	<script type="text/javascript">
-		var playlistObj = "${room-model-obj}";
-		console.log(JSON.stringify(playlistObj));
-	</script>
 </body>
 </html>

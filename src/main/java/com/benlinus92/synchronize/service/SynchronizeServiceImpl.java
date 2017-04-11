@@ -90,4 +90,11 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	public void updateVideo(int videoId, String currTime) {
 		dao.updateVideoTime(videoId, currTime);
 	}
+
+	@Override
+	public Room getRoomWithoutProfile(int roomId) {
+		Room room = dao.findRoomById(roomId);
+		room.setUserId(null);
+		return room;
+	}
 }
