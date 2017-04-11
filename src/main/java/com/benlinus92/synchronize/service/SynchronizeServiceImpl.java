@@ -74,7 +74,6 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 		Room room = dao.findRoomById(roomId);
 		video.setRoom(room);
 		dao.saveVideo(video);
-		return video;
 	}
 	@Override
 	public List<Playlist> getAllVideos() {
