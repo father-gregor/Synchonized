@@ -182,6 +182,12 @@ public class WebController {
 		return new Result("WEBSOCKET WORKING");
 	}
 	
+	@MessageMapping("/timecenter/{videoId}")
+	public AjaxVideoTime getTimeFromUser(AjaxVideoTime timeObj) {
+		Playlist video = service.findVideoById(timeObj.getVideoId());
+		return new AjaxVideoTime(timeObj.getRoomId(), timeObj.getVideoId(), Double.valueOf(video.getCurrTime()));
+	}
+	
 	@RequestMapping(value="/deletevideo-ajax-{videoId}")
 	public @ResponseBody String deleteVideoFromDb(@PathVariable String videoId) {
 		service.deleteVideo(Integer.parseInt(videoId));

@@ -1,6 +1,7 @@
 
 $(function() {
 	var stompClient = null;
+	var playlistObj = $("#room-model-obj");
 	function send() {
 		console.log("SENDED MESSAGE");
 		stompClient.send("/app/hello", {}, JSON.stringify({"result": "Websocket connection established"}))
@@ -11,11 +12,21 @@ $(function() {
 		console.log("First");
 		stompClient.connect({}, function(frame) {
 			console.log("Connected: " + frame);
+			console.log("RoomObj - " + playlistObj);
 			//send();
+			makeSubscribe();
+		});
+	}
+	function makeSubscribe() {
+		if(stompClient !== null && playlistObj !== null) {
+			stompClient.subscribe("/topic/timecenter/53", function(res) {
+				console.log("Time object - " + JSON.parser(res.body));
+			});
+			
 			stompClient.subscribe("/topic/currtime", function(res) {
 				console.log("Received - " + JSON.parse(res.body).result);
 			})
-		});
+		}
 	}
 	document.getElementById("sendid").onclick = send;
 	function disconnect() {

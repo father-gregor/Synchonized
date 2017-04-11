@@ -81,6 +81,7 @@
 			</div>
 			<div style="padding: 15px;width: 700px; margin: auto">
 				<p class="text-center" style="font-size: 30px;font-weight: bold">Playlist</p>
+				<input type="hidden" id="room-model-obj" value="${room}">
 				<button id="sendid">PRESS</button>
 				<ul class="list-group" id="${roomId}">
 					<c:forEach var="video" items="${room.videosList}" varStatus="loop">
