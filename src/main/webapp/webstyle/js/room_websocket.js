@@ -62,7 +62,7 @@ $(function() {
 		if(playlist !== null) {
 			//if(playlistObj.videosList[0].)
 			setCurrentVideo();
-			player.src({type: "video/youtube", src: "https://www.youtube.com/watch?v=1dONxX9rifs"});
+			//player.src({type: "video/youtube", src: "https://www.youtube.com/watch?v=1dONxX9rifs"});
 		} else {
 			setVideoTimerId = setInterval(function() {
 				if(playlist !== null) {
@@ -72,6 +72,11 @@ $(function() {
 			}, 5000);
 		}
 	});
+	player.on("progress", function() {
+		if(player.bufferedPercent() > .5) {
+			player.play();
+		}
+	})
 	function setCurrentVideo() {
 		var videoType = "";
 		var url = "";
