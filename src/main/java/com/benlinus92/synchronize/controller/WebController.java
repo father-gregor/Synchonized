@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -192,20 +193,20 @@ public class WebController {
 	}
 	
 	@MessageMapping("/timecenter/{roomId}/asktime")
-	public void getAskForCurrentTime(@DestinationVariable String roomId, SimpMessageHeaderAccessor header, String videoId) {
+	public void getAskForCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor header, String videoId) {
 		//Playlist video = service.findVideoById(videoId);
 		System.out.println("SessionID - " + header.getSessionId());
-		service.createAndSaveWaitingUser(header.getSessionId(), getPrincipal(), roomId, videoId);
+		service.createAndSaveWaitingUser(header.getSessionId(), userCred.getName(), roomId, videoId);
 		simp.convertAndSend("/topic/timecenter/" + roomId + "/reporttime", videoId);
 		//System.out.println("Time - "  + videoObj.getCurrTime());
 		//return new AjaxVideoTime();
 	}
 	@MessageMapping("/timecenter/{roomId}/reporttime")
-	public void getCurrentTime(@DestinationVariable String roomId, SimpMessageHeaderAccessor header, AjaxVideoTime video) {
+	public void getCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor header, AjaxVideoTime video) {
 		List<WaitingUser> waitingList = service.findWaitingUsersByRoom(Integer.parseInt(video.getRoomId()));
 		if(waitingList != null) {
 			for(WaitingUser user: waitingList) {
-				if(!getPrincipal().equals(user.getLogin()) || !header.getSessionId().equals(user.getSessionId())) {
+				if(!userCred.getName().equals(user.getLogin()) || !header.getSessionId().equals(user.getSessionId())) {
 					System.out.println(SimpMessageHeaderAccessor.SESSION_ID_HEADER);
 					SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create();
 					headerAccessor.setSessionId(user.getSessionId());
