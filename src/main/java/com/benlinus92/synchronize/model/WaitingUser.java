@@ -27,6 +27,7 @@ public class WaitingUser {
 		
 	}
 	public WaitingUser(String sessionId, String login, Room room, Playlist video) {
+		this.sessionId = sessionId;
 		this.login = login;
 		this.room = room;
 		this.video = video;
