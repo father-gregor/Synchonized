@@ -24,6 +24,7 @@ import com.benlinus92.synchronize.config.AppConstants;
 import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
+import com.benlinus92.synchronize.model.WaitingUser;
 
 @Repository
 @Transactional
@@ -145,5 +146,32 @@ public class SynchronizeDaoImpl implements SynchronizeDao {
 		Playlist video = em.find(Playlist.class, videoId);
 		if(video != null)
 			video.setCurrTime(currTime);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<WaitingUser> findWaitingUsersByRoom(int roomId) {
+		List<WaitingUser> list = new ArrayList<WaitingUser>();
+		try {
+			Query query = em.createQuery("SELECT r FROM WaitingUsers WHERE r.room=:roomId");
+			query.setParameter("roomId", roomId);
+			list = (List<WaitingUser>)query.getResultList();
+		} catch(NoResultException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public void saveWaitingUser(WaitingUser user) {
+		em.persist(user);
+	}
+
+	@Override
+	public void deleteWaitingUserBySession(String sessionId) {
+		WaitingUser user = em.find(WaitingUser.class, sessionId);
+		if(user != null) {
+			em.remove(user);
+		}
 	}
 }

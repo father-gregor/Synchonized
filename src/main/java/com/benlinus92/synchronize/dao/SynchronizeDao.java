@@ -5,6 +5,7 @@ import java.util.List;
 import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
+import com.benlinus92.synchronize.model.WaitingUser;
 
 public interface SynchronizeDao {
 	void saveUser(Profile user);
@@ -15,6 +16,9 @@ public interface SynchronizeDao {
 	void deleteRoomById(int id);
 	Room findRoomById(int id);
 	void saveVideo(Playlist video);
+	List<WaitingUser> findWaitingUsersByRoom(int roomId);
+	void saveWaitingUser(WaitingUser user);
+	void deleteWaitingUserBySession(String sessionId);
 	List<Playlist> getAllVideos();
 	Playlist findVideoById(int videoId);
 	void deleteVideoById(int videoId);

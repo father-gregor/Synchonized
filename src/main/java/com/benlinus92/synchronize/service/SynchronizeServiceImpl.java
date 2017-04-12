@@ -12,6 +12,7 @@ import com.benlinus92.synchronize.dao.SynchronizeDao;
 import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
+import com.benlinus92.synchronize.model.WaitingUser;
 
 @Service("synchronizedService")
 @Transactional
@@ -97,5 +98,22 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	public List<Playlist> getVideoListFromRoom(int roomId) {
 		List<Playlist> list = dao.findRoomById(roomId).getVideosList();;
 		return list;
+	}
+
+	@Override
+	public List<WaitingUser> findWaitingUsersByRoom(int roomId) {
+		dao.findWaitingUsersByRoom(roomId);
+		return null;
+	}
+
+	@Override
+	public void createAndSaveWaitingUser(String sessionId, String login, String roomId, String videoId) { 
+		WaitingUser user = new WaitingUser(sessionId, login, dao.findRoomById(Integer.parseInt(roomId)), dao.findVideoById(Integer.parseInt(videoId)));
+		dao.saveWaitingUser(user);
+	}
+
+	@Override
+	public void deleteWaitingUser(String sessionId) {
+		dao.deleteWaitingUserBySession(sessionId);
 	}
 }

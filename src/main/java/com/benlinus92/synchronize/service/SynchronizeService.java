@@ -5,6 +5,7 @@ import java.util.List;
 import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
+import com.benlinus92.synchronize.model.WaitingUser;
 
 public interface SynchronizeService {
 	boolean saveUser(Profile user);
@@ -14,6 +15,9 @@ public interface SynchronizeService {
 	List<Room> getAllRooms();
 	Room findRoomById(int id);
 	List<Playlist> getVideoListFromRoom(int roomId);
+	List<WaitingUser> findWaitingUsersByRoom(int roomId);
+	void createAndSaveWaitingUser(String sessionId, String login, String roomId, String videoId);
+	void deleteWaitingUser(String sessionId);
 	boolean deleteRoomById(int id, String userName);
 	void saveVideo(Playlist video, int roomId);
 	List<Playlist> getAllVideos();
