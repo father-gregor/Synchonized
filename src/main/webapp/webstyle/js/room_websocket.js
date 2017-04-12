@@ -26,17 +26,20 @@ $(function() {
 	}
 	function initStompSubscribe() {
 		if(stompClient !== null && playlist !== null) {
-			stompClient.subscribe("/topic/timecenter/" + roomId +"/gettime", function(res) {
-				console.log(res.body);
+			stompClient.subscribe("/queue/timecenter/" + roomId +"/asktime", function(res) {
+				
+			});
+			stompClient.subscribe("/topic/timecenter/" + roomId + "/reporttime", function(res) {
+				//console.log(res.body);
+			});
+			stompClient.subscribe("user/queue/timecenter/" + roomId + "/gettime", function(res) {
+				console.log("Received time - " + res.body);
 				var video = JSON.parse(res.body);
 				if(currentVideo.id === video.videoId) {
 					player.currentTime(video.currTime);
 				}
 				//console.log("Time object - " + JSON.parser(res.body));
 			});
-			stompClient.subscribe("/topic/timecenter/" + roomId + "/reporttime", function(res) {
-				console.log(res.body);
-			})
 			stompClient.subscribe("/topic/newvideo/" + roomId, function(res) {
 				console.log(res.body);
 				var video = JSON.parse(res.body);
@@ -52,13 +55,10 @@ $(function() {
 						.attr("id", "video" + video.videoId).append(video.title)
 				);
 			});
-			stompClient.subscribe("/topic/currtime", function(res) {
-				console.log("Received - " + JSON.parse(res.body).result);
-			})
 		}
 	}
 	function getCurrentTime(videoId, success) {
-		stompClient.send("/app/timecenter/" + roomId + "/gettime", {}, currentVideo.id);
+		stompClient.send("/app/timecenter/" + roomId + "/asktime", {}, currentVideo.id);
 	}
 	function getVideoList() {
 		$.ajax({
