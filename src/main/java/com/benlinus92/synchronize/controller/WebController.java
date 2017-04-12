@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,14 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,6 +54,7 @@ import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Result;
 import com.benlinus92.synchronize.model.Room;
+import com.benlinus92.synchronize.model.WaitingUser;
 import com.benlinus92.synchronize.service.SynchronizeService;
 import com.benlinus92.synchronize.validator.ProfileValidator;
 
@@ -186,16 +191,35 @@ public class WebController {
 		return new Result("WEBSOCKET WORKING");
 	}
 	
-	@MessageMapping("/timecenter/{roomId}/gettime")
-	public @ResponseBody AjaxVideoTime provideCurrentTime(@DestinationVariable String roomId, String videoId) {
-		Playlist video = service.findVideoById(videoId);
+	@MessageMapping("/timecenter/{roomId}/asktime")
+	public void getAskForCurrentTime(@DestinationVariable String roomId, SimpMessageHeaderAccessor header, String videoId) {
+		//Playlist video = service.findVideoById(videoId);
+		System.out.println("SessionID - " + header.getSessionId());
+		service.createAndSaveWaitingUser(header.getSessionId(), getPrincipal(), roomId, videoId);
+		simp.convertAndSend("/topic/timecenter/" + roomId + "/reporttime", videoId);
 		//System.out.println("Time - "  + videoObj.getCurrTime());
-		return new AjaxVideoTime();
+		//return new AjaxVideoTime();
 	}
 	@MessageMapping("/timecenter/{roomId}/reporttime")
-	public String getCurrentTime(@DestinationVariable String roomId, String videoId) {
-		return "";
+	public void getCurrentTime(@DestinationVariable String roomId, SimpMessageHeaderAccessor header, AjaxVideoTime video) {
+		List<WaitingUser> waitingList = service.findWaitingUsersByRoom(Integer.parseInt(video.getRoomId()));
+		if(waitingList != null) {
+			for(WaitingUser user: waitingList) {
+				if(!getPrincipal().equals(user.getLogin()) || !header.getSessionId().equals(user.getSessionId())) {
+					System.out.println(SimpMessageHeaderAccessor.SESSION_ID_HEADER);
+					SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create();
+					headerAccessor.setSessionId(user.getSessionId());
+					headerAccessor.setLeaveMutable(true);
+					simp.convertAndSendToUser(user.getLogin(),"/queue/timecenter/" + roomId + "/gettime", video, headerAccessor.getMessageHeaders());
+					service.deleteWaitingUser(user.getSessionId());
+				}
+			}
+		}
+		//return "";
 	}
+	
+	//@MessageMapping("/timecenter/{roomId}/gettime")
+	//public AjaxVideoTime sendCurrentTime(@DestinationVariable String roomId)
 	
 	@MessageMapping("/newvideo/{roomId}")
 	public @ResponseBody Playlist sendNewVideo(@DestinationVariable String roomId) {
