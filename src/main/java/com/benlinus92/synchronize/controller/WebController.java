@@ -21,6 +21,7 @@ import javax.validation.Valid;
 import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.Message;
@@ -61,6 +62,7 @@ import com.benlinus92.synchronize.model.Room;
 import com.benlinus92.synchronize.model.WaitingUser;
 import com.benlinus92.synchronize.service.SynchronizeService;
 import com.benlinus92.synchronize.validator.ProfileValidator;
+import com.google.gson.annotations.Since;
 
 @Controller
 @RequestMapping("/")
@@ -80,13 +82,13 @@ public class WebController {
 	public ModelAndView getIndexPage(){
 		ModelAndView model = new ModelAndView("/index");
 		String user = getPrincipal();
-		taskScheduler.scheduleAtFixedRate(new Runnable() {
+		/*taskScheduler.scheduleAtFixedRate(new Runnable() {
 			
 			@Override
 			public void run() {
 				System.out.println("Task Executed in " + Thread.currentThread().getName());
 			}
-		}, 5000);
+		}, 5000);*/
 		if(user != null)
 			model.addObject("userName", user);
 		model.addObject("roomsList", service.getAllRooms());
