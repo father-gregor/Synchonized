@@ -7,7 +7,9 @@ import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.security.Principal;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,6 +30,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -70,12 +73,20 @@ public class WebController {
 	private MessageSource messageSource;
 	@Autowired
 	private SimpMessagingTemplate simp;
+	@Autowired
+	private TaskScheduler taskScheduler;
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public ModelAndView getIndexPage(){
 		ModelAndView model = new ModelAndView("/index");
 		String user = getPrincipal();
-		model.addObject("objTest","Проверка проверочка");
+		taskScheduler.scheduleAtFixedRate(new Runnable() {
+			
+			@Override
+			public void run() {
+				System.out.println("Task Executed in " + System.currentTimeMillis());
+			}
+		}, 5000);
 		if(user != null)
 			model.addObject("userName", user);
 		model.addObject("roomsList", service.getAllRooms());
