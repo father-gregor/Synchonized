@@ -10,8 +10,10 @@ import java.security.Principal;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +33,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.support.GenericMessage;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -206,18 +210,21 @@ public class WebController {
 	}
 	
 	@MessageMapping("/timecenter/{roomId}/asktime")
-	public void getAskForCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor header, String videoId) {
+	public void getAskForCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor headers, String videoId) {
 		//Playlist video = service.findVideoById(videoId);
-		System.out.println("SessionID - " + header.getSessionId());
-		service.createAndSaveWaitingUser(header.getSessionId(), userCred.getName(), roomId, videoId);
-		simp.convertAndSend("/topic/timecenter/" + roomId + "/reporttime", videoId);
+		System.out.println("SessionID - " + headers.getSessionId());
+		//service.createAndSaveWaitingUser(header.getSessionId(), userCred.getName(), roomId, videoId);
+		Map<String, Object> simpAttr = new HashMap<String, Object>();
+		simpAttr.put("roomId", roomId);
+		headers.setSessionAttributes(simpAttr);
+		simp.convertAndSend("/topic/timecenter/" + roomId + "/reporttime", videoId, headers.getMessageHeaders());
 		//System.out.println("Time - "  + videoObj.getCurrTime());
 		//return new AjaxVideoTime();
 	}
 	@MessageMapping("/timecenter/{roomId}/reporttime")
 	public void getCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor header, AjaxVideoTime video) {
-		List<WaitingUser> waitingList = service.findWaitingUsersByRoom(Integer.parseInt(video.getRoomId()));
-		if(waitingList != null) {
+		//List<WaitingUser> waitingList = null;
+		/*if(waitingList != null) {
 			for(WaitingUser user: waitingList) {
 				if(!userCred.getName().equals(user.getLogin()) || !header.getSessionId().equals(user.getSessionId())) {
 					System.out.println(SimpMessageHeaderAccessor.SESSION_ID_HEADER);
@@ -225,10 +232,9 @@ public class WebController {
 					headerAccessor.setSessionId(user.getSessionId());
 					headerAccessor.setLeaveMutable(true);
 					simp.convertAndSendToUser(user.getLogin(),"/queue/timecenter/" + roomId + "/gettime", video, headerAccessor.getMessageHeaders());
-					service.deleteWaitingUser(user.getSessionId());
 				}
 			}
-		}
+		}*/
 		//return "";
 	}
 	

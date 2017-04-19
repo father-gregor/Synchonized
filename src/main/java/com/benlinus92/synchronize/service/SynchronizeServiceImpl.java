@@ -102,22 +102,6 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 		return list;
 	}
 
-	@Override
-	public List<WaitingUser> findWaitingUsersByRoom(int roomId) {
-		dao.findWaitingUsersByRoom(roomId);
-		return null;
-	}
-
-	@Override
-	public void createAndSaveWaitingUser(String sessionId, String login, String roomId, String videoId) { 
-		WaitingUser user = new WaitingUser(sessionId, login, dao.findRoomById(Integer.parseInt(roomId)), dao.findVideoById(Integer.parseInt(videoId)));
-		dao.saveWaitingUser(user);
-	}
-
-	@Override
-	public void deleteWaitingUser(String sessionId) {
-		dao.deleteWaitingUserBySession(sessionId);
-	}
 	public void increaseRoomUsersCounter(int roomId) {
 		if(roomClientsMap.containsKey(roomId)) {
 			roomClientsMap.put(roomId, roomClientsMap.get(roomId) + 1);

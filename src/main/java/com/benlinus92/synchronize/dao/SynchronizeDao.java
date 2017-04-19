@@ -16,9 +16,6 @@ public interface SynchronizeDao {
 	void deleteRoomById(int id);
 	Room findRoomById(int id);
 	void saveVideo(Playlist video);
-	List<WaitingUser> findWaitingUsersByRoom(int roomId);
-	void saveWaitingUser(WaitingUser user);
-	void deleteWaitingUserBySession(String sessionId);
 	List<Playlist> getAllVideos();
 	Playlist findVideoById(int videoId);
 	void deleteVideoById(int videoId);
