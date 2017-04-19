@@ -1,6 +1,7 @@
 package com.benlinus92.synchronize.service;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -20,6 +21,7 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	@Autowired
 	SynchronizeDao dao;
 	
+	private ConcurrentHashMap<Integer, Integer> roomClientsMap;
 	@Override
 	public boolean saveUser(Profile user) {
 		if(dao.isUserUnique(user)) {
@@ -115,5 +117,20 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	@Override
 	public void deleteWaitingUser(String sessionId) {
 		dao.deleteWaitingUserBySession(sessionId);
+	}
+	public void increaseRoomUsersCounter(int roomId) {
+		if(roomClientsMap.containsKey(roomId)) {
+			roomClientsMap.put(roomId, roomClientsMap.get(roomId) + 1);
+		} else
+			roomClientsMap.put(roomId, 0);
+	}
+	public void decreaseRoomUsersCounter(int roomId) {
+		if(roomClientsMap.containsKey(roomId)) {
+			int clients = roomClientsMap.get(roomId);
+			if(clients - 1 <= 0)
+				roomClientsMap.remove(roomId);
+			else
+				roomClientsMap.put(roomId, clients - 1);
+		}
 	}
 }

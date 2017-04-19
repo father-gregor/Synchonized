@@ -10,6 +10,11 @@ public class VideolistReceivedEventHandler implements ApplicationListener<Sessio
 	@Override
 	public void onApplicationEvent(SessionSubscribeEvent event) {
 		System.out.println("SUBSCRIBE: " + event.getUser().getName() + "  ; PLACE: " + event.getMessage().toString());
+		System.out.println("ID: " + event.getMessage().getHeaders().ID);
+		for(String header: event.getMessage().getHeaders().keySet()) {
+			System.out.println("HEADER: " + header);
+		}
+		System.out.println("\n\n");
 	}
 
 }
