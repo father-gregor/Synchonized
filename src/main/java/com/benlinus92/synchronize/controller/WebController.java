@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -212,6 +213,9 @@ public class WebController {
 	public void getAskForCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor headers, String videoId) {
 		//Playlist video = service.findVideoById(videoId);
 		System.out.println("SessionID - " + headers.getSessionId());
+		for(Entry<String, Object> entry: headers.toMap().entrySet()) {
+			System.out.println("Header asktime: " + entry.getKey() + " - " + entry.getValue());
+		}
 		//service.createAndSaveWaitingUser(header.getSessionId(), userCred.getName(), roomId, videoId);
 		Map<String, Object> simpAttr = new HashMap<String, Object>();
 		simpAttr.put("roomId", roomId);
