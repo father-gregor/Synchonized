@@ -24,7 +24,8 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	@Autowired
 	SynchronizeDao dao;
 	
-	private ConcurrentHashMap<String, List<String>> roomClientsMap;
+	private ConcurrentHashMap<String, List<String>> roomClientsMap = new ConcurrentHashMap<String, List<String>>();
+	
 	@Override
 	public boolean saveUser(Profile user) {
 		if(dao.isUserUnique(user)) {
