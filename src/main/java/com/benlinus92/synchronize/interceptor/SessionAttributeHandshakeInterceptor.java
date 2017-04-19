@@ -1,5 +1,6 @@
 package com.benlinus92.synchronize.interceptor;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,10 +21,14 @@ public class SessionAttributeHandshakeInterceptor implements HandshakeIntercepto
 				System.out.println("   Value: " + el);
 			}
 		}
-		System.out.println("Attributes: ");
-		for(Entry<String, Object> ent: attributes.entrySet()) {
-			System.out.println("   " + ent.getKey() + " - " + ent.getValue());
+		ByteArrayOutputStream result = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		int length;
+		while ((length = req.getBody().read(buffer)) != -1) {
+		    result.write(buffer, 0, length);
 		}
+		
+		System.out.println("Body: " + result.toString("UTF-8"));
 		return true;
 	}
 	
