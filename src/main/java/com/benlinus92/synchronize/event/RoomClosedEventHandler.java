@@ -21,8 +21,7 @@ public class RoomClosedEventHandler implements ApplicationListener<SessionDiscon
 	@Override
 	public void onApplicationEvent(SessionDisconnectEvent event) {
 		StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
-		System.out.println("UNSUBSCRIBE: " + event.getUser().getName() + "  ; PLACE: " + event.getMessage().toString());
-		System.out.println("ID: " + event.getMessage().getHeaders().ID);
+		//System.out.println("ID: " + event.getMessage().getHeaders().ID);
 		for(String header: sha.getMessageHeaders().keySet()) {
 			System.out.println("HEADER: " + header + " - " + (String)sha.getMessageHeaders().get(header));
 		}
