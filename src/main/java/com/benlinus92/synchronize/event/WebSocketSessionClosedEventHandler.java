@@ -14,7 +14,7 @@ import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 import com.benlinus92.synchronize.service.SynchronizeService;
 
 @Component
-public class RoomClosedEventHandler implements ApplicationListener<SessionDisconnectEvent> {
+public class WebSocketSessionClosedEventHandler implements ApplicationListener<SessionDisconnectEvent> {
 
 	@Autowired
 	private SynchronizeService service;
@@ -22,6 +22,7 @@ public class RoomClosedEventHandler implements ApplicationListener<SessionDiscon
 	@Override
 	public void onApplicationEvent(SessionDisconnectEvent event) {
 		StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
+		service.removeUserFromRoomMap(sha.getSessionId());
 		//System.out.println("ID: " + event.getMessage().getHeaders().ID);
 		for(Entry<String, Object> entry: sha.toMap().entrySet()) {
 			System.out.println("MAP: " + entry.getKey() + " - " + entry.getValue());
