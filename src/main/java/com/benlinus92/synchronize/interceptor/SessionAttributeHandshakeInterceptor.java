@@ -21,19 +21,12 @@ public class SessionAttributeHandshakeInterceptor implements HandshakeIntercepto
 				System.out.println("   Value: " + el);
 			}
 		}
-		ByteArrayOutputStream result = new ByteArrayOutputStream();
-		byte[] buffer = new byte[1024];
-		int length;
-		while ((length = resp.getBody().read(buffer)) != -1) {
-		    result.write(buffer, 0, length);
-		}
 		for(Entry<String, List<String>> ent: resp.getHeaders().entrySet()) {
 			System.out.println("Response: " + ent.getKey());
 			for(String el: ent.getValue()) {
 				System.out.println("   Value: " + el);
 			}
 		}
-		System.out.println("Body: " + result.toString("UTF-8"));
 		return true;
 	}
 	
