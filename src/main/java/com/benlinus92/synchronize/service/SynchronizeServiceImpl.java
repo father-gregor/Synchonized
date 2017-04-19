@@ -1,7 +1,11 @@
 package com.benlinus92.synchronize.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -20,7 +24,7 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	@Autowired
 	SynchronizeDao dao;
 	
-	private ConcurrentHashMap<Integer, Integer> roomClientsMap;
+	private ConcurrentHashMap<String, List<String>> roomClientsMap;
 	@Override
 	public boolean saveUser(Profile user) {
 		if(dao.isUserUnique(user)) {
@@ -101,19 +105,30 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 		return list;
 	}
 
-	public void increaseRoomUsersCounter(int roomId) {
+	@Override
+	public void addUserToRoomMap(String roomId, String simpSessionId) {
 		if(roomClientsMap.containsKey(roomId)) {
-			roomClientsMap.put(roomId, roomClientsMap.get(roomId) + 1);
-		} else
-			roomClientsMap.put(roomId, 0);
+			roomClientsMap.get(roomId).add(simpSessionId);
+			//roomClientsMap.put(roomId, roomClientsMap.get(roomId) + 1);
+		} else {
+			roomClientsMap.put(roomId, new ArrayList<String>());
+			roomClientsMap.get(roomId).add(simpSessionId);
+		}
+		System.out.println("ROOM " + roomId + " size: " + roomClientsMap.get(roomId).size());
 	}
-	public void decreaseRoomUsersCounter(int roomId) {
-		if(roomClientsMap.containsKey(roomId)) {
-			int clients = roomClientsMap.get(roomId);
-			if(clients - 1 <= 0)
-				roomClientsMap.remove(roomId);
-			else
-				roomClientsMap.put(roomId, clients - 1);
+	@Override
+	public void removeUserFromRoomMap(String simpSessionId) {
+		for(Entry<String, List<String>> entry: roomClientsMap.entrySet()) {
+			if(entry.getValue().contains(simpSessionId)) {
+				String roomId = entry.getKey();
+				int clients = roomClientsMap.get(roomId).size();
+				System.out.println("ROOM " + roomId + " size: " + clients);
+				if(clients - 1 <= 0)
+					roomClientsMap.remove(roomId);
+				else
+					roomClientsMap.get(roomId).remove(simpSessionId);
+				break;
+			}
 		}
 	}
 }
