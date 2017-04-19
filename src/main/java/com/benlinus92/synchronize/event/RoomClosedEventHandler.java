@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
@@ -22,11 +23,8 @@ public class RoomClosedEventHandler implements ApplicationListener<SessionDiscon
 	public void onApplicationEvent(SessionDisconnectEvent event) {
 		StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
 		//System.out.println("ID: " + event.getMessage().getHeaders().ID);
-		for(String header: sha.getMessageHeaders().keySet()) {
-			System.out.println("HEADER: " + header + " - " + (String)sha.getMessageHeaders().get(header));
-		}
 		for(Entry<String, Object> entry: sha.toMap().entrySet()) {
-			System.out.println("MAP: " + entry.getKey() + " - " + (String)entry.getValue());
+			System.out.println("MAP: " + entry.getKey() + " - " + entry.getValue());
 		}
 		System.out.println("\n\n");
 	}

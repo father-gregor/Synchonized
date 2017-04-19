@@ -75,9 +75,6 @@ $(function() {
 		});
 	}
 	document.getElementById("sendid").onclick = send;
-	function disconnect() {
-		stompClient.disconnect();
-	}
 	connect();
 	var player = videojs("room-player", {
 		controls: true,
@@ -134,6 +131,11 @@ $(function() {
 				return i;
 		}
 		return -1;
+	}
+	window.onbeforeunload = disconnectWebsocket;
+	function disconnectWebsocket() {
+		stompClient.disconnect();
+		console.log("Disconnected");
 	}
 	$("#upload-tabs a").click(function(e) {
 		e.preventDefault();
