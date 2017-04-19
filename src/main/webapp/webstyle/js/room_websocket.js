@@ -17,7 +17,7 @@ $(function() {
 		var socket = new SockJS("/videoroom");
 		stompClient = Stomp.over(socket);
 		console.log("First");
-		stompClient.connect({}, function(frame) {
+		stompClient.connect({roomId: roomId}, function(frame) {
 			console.log("Connected: " + frame);
 			console.log(JSON.stringify(playlist));
 			//send();
