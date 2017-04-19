@@ -24,7 +24,6 @@ import com.benlinus92.synchronize.config.AppConstants;
 import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
-import com.benlinus92.synchronize.model.WaitingUser;
 
 @Repository
 @Transactional

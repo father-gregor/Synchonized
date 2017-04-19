@@ -63,7 +63,6 @@ import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Result;
 import com.benlinus92.synchronize.model.Room;
-import com.benlinus92.synchronize.model.WaitingUser;
 import com.benlinus92.synchronize.service.SynchronizeService;
 import com.benlinus92.synchronize.validator.ProfileValidator;
 import com.google.gson.annotations.Since;

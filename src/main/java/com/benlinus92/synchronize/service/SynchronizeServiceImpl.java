@@ -13,7 +13,6 @@ import com.benlinus92.synchronize.dao.SynchronizeDao;
 import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
-import com.benlinus92.synchronize.model.WaitingUser;
 
 @Service("synchronizedService")
 @Transactional
