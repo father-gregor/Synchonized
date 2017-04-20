@@ -8,7 +8,8 @@ $(function() {
 	};*/
 	$(window).on('beforeunload', function() {
 		stompClient.disconnect();
-		return 'Your own message goes here...';
+		console.log("Disconnected");
+		//return 'Your own message goes here...';
 	});
 	var playlist = null;
 	var currentVideo = {
