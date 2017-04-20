@@ -138,7 +138,7 @@ $(function() {
 		return null;
 	}
 	window.addEventListener("beforeunload", disconnectWebsocket);
-	window.addEventListener("unload", disconnectWebsocket);
+	//window.addEventListener("unload", disconnectWebsocket);
 	$("#upload-tabs a").click(function(e) {
 		e.preventDefault();
 		$(this).tab("show");
