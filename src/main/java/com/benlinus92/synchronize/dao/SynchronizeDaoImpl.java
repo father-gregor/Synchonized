@@ -123,7 +123,7 @@ public class SynchronizeDaoImpl implements SynchronizeDao {
 		return list;
 	}
 	@Override
-	public Playlist findVideoById(int videoId) {
+	public Playlist findVideoById(String videoId) {
 		return em.find(Playlist.class, videoId);
 	}
 	@Override

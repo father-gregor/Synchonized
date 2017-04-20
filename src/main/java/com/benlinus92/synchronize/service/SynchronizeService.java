@@ -20,6 +20,7 @@ public interface SynchronizeService {
 	Playlist findVideoById(String videoId);
 	void deleteVideo(int videoId);
 	void updateVideo(int videoId, String currTime);
+	boolean isRoomOpened(String roomId, String simpSessionId, String videoId);
 	void addUserToRoomMap(String roomId, String simpSessionId);
 	void removeUserFromRoomMap(String simpSessionId);
 }

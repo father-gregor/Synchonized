@@ -113,6 +113,7 @@ $(function() {
 	});
 	player.on("canplaythrough", function() {
 		getCurrentTime(currentVideo.id);
+		console.log("Duration " + player.duration());
 		player.play();
 	});
 	player.on("ended", function() {

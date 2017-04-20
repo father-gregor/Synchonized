@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -23,6 +24,8 @@ import com.benlinus92.synchronize.model.Room;
 public class SynchronizeServiceImpl implements SynchronizeService {
 	@Autowired
 	SynchronizeDao dao;
+	@Autowired
+	TaskScheduler taskScheduler;
 	
 	private ConcurrentHashMap<String, List<String>> roomClientsMap = new ConcurrentHashMap<String, List<String>>();
 	
@@ -88,7 +91,7 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	}
 	@Override
 	public Playlist findVideoById(String videoId) {
-		return dao.findVideoById(Integer.parseInt(videoId));
+		return dao.findVideoById(videoId);
 	}
 	@Override
 	public void deleteVideo(int videoId) {
@@ -107,10 +110,28 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	}
 
 	@Override
+	public boolean isRoomOpened(String roomId, String simpSessionId, String videoId) {
+		if(!roomClientsMap.containsKey(roomId)) {
+			dao.findVideoById(videoId);
+			startVideoTimeCountingThread();
+			return false;
+		}
+		return true;
+	}
+	private void startVideoTimeCountingThread() {
+		//da
+		taskScheduler.scheduleAtFixedRate(new Runnable() {
+			
+			@Override
+			public void run() {
+				System.out.println("Task Executed in " + Thread.currentThread().getName());
+			}
+		}, 5000);
+	}
+	@Override
 	public void addUserToRoomMap(String roomId, String simpSessionId) {
 		if(roomClientsMap.containsKey(roomId)) {
 			roomClientsMap.get(roomId).add(simpSessionId);
-			//roomClientsMap.put(roomId, roomClientsMap.get(roomId) + 1);
 		} else {
 			roomClientsMap.put(roomId, new ArrayList<String>());
 			roomClientsMap.get(roomId).add(simpSessionId);
