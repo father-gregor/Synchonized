@@ -1,6 +1,12 @@
-
+var stompClient = null;
+window.onbeforeunload = disconnectWebsocket;
+var disconnectWebsocket = function() {
+	stompClient.disconnect();
+	console.log("Disconnected");
+	//return null;
+}
 $(function() {
-	var stompClient = null;
+	//var stompClient = null;
 	var playlist = null;
 	var currentVideo = {
 			id: -1
@@ -132,12 +138,7 @@ $(function() {
 		}
 		return -1;
 	}
-	var disconnectWebsocket = function(e) {
-		stompClient.disconnect();
-		console.log("Disconnected");
-		return null;
-	}
-	window.addEventListener("beforeunload", disconnectWebsocket);
+
 	//window.addEventListener("unload", disconnectWebsocket);
 	$("#upload-tabs a").click(function(e) {
 		e.preventDefault();
