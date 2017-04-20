@@ -1,12 +1,15 @@
-var stompClient = null;
-window.onbeforeunload = disconnectWebsocket;
-var disconnectWebsocket = function() {
-	stompClient.disconnect();
-	console.log("Disconnected");
-	//return null;
-}
 $(function() {
-	//var stompClient = null;
+	var stompClient = null;
+	/*window.onbeforeunload = disconnectWebsocket;
+	var disconnectWebsocket = function() {
+		stompClient.disconnect();
+		console.log("Disconnected");
+		//return null;
+	};*/
+	$(window).on('beforeunload', function() {
+		stompClient.disconnect();
+		return 'Your own message goes here...';
+	});
 	var playlist = null;
 	var currentVideo = {
 			id: -1
