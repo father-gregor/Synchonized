@@ -132,12 +132,13 @@ $(function() {
 		}
 		return -1;
 	}
-	function disconnectWebsocket() {
+	var disconnectWebsocket = function(e) {
 		stompClient.disconnect();
 		console.log("Disconnected");
+		return null;
 	}
-	window.onbeforeunload = disconnectWebsocket;
-	window.onunload = disconnectWebsocket;
+	window.addEventListener("beforeunload", disconnectWebsocket);
+	window.addEventListener("unload", disconnectWebsocket);
 	$("#upload-tabs a").click(function(e) {
 		e.preventDefault();
 		$(this).tab("show");
