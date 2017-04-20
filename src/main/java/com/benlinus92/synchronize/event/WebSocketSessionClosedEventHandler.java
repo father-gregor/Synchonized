@@ -21,6 +21,7 @@ public class WebSocketSessionClosedEventHandler implements ApplicationListener<S
 	
 	@Override
 	public void onApplicationEvent(SessionDisconnectEvent event) {
+		System.out.println("SESSION CLOSED");
 		StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
 		service.removeUserFromRoomMap(sha.getSessionId());
 		//System.out.println("ID: " + event.getMessage().getHeaders().ID);

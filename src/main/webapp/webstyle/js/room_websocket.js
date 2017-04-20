@@ -7,8 +7,10 @@ $(function() {
 		//return null;
 	};*/
 	$(window).on('beforeunload', function() {
-		stompClient.disconnect();
-		console.log("Disconnected");
+		stompClient.disconnect(function() {
+			console.log("Confirmed Disconnect");
+		});
+		console.log("Request Disconnect");
 		//return 'Your own message goes here...';
 	});
 	var playlist = null;
