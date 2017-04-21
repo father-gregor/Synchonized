@@ -39,6 +39,7 @@
 		<div class="video-wrapper no-svg" style="position:inherit">
 			<video class="video-js vjs-default-skin player-upload" id="room-player" width="640" height="400" style="width:100%">
 			</video>
+			<div id="youtube-player" style="display:none"></div>
 		</div>
 		<div style="width:100%; min-height: 500px; background: white">
 			<div style="padding: 20px; width: 700px; margin: auto" id="div-tabs">
@@ -103,7 +104,7 @@
 	</div>
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<script src="http://vjs.zencdn.net/5.19.1/video.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-youtube/2.3.2/Youtube.min.js"></script>
+	<script src="https://www.youtube.com/iframe_api"></script>
 	<script src="<c:url value='https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js' />"></script>
 	<script src="<c:url value='https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.2/sockjs.min.js'/>"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

@@ -1,11 +1,5 @@
 $(function() {
 	var stompClient = null;
-	/*window.onbeforeunload = disconnectWebsocket;
-	var disconnectWebsocket = function() {
-		stompClient.disconnect();
-		console.log("Disconnected");
-		//return null;
-	};*/
 	$(window).on('beforeunload', function() {
 		stompClient.disconnect(function() {
 			console.log("Confirmed Disconnect");
@@ -31,8 +25,6 @@ $(function() {
 		console.log("First");
 		stompClient.connect({roomId: roomId}, function(frame) {
 			console.log("Connected: " + frame);
-			console.log(JSON.stringify(playlist));
-			//send();
 			initStompSubscribe();
 		});
 	}
@@ -88,10 +80,9 @@ $(function() {
 	}
 	document.getElementById("sendid").onclick = send;
 	connect();
+	//// VIDEOJS PLAYER
 	var player = videojs("room-player", {
-		controls: true,
-		techOrder: ["html5", "youtube", "flash"],
-		youtube: { autoplay: 1}
+		controls: true
 	});
 	player.ready(function() {
 		console.log("Player's ready");
@@ -128,14 +119,17 @@ $(function() {
 		var videoType = "";
 		var url = "";
 		var index = getIndexByVideoId(currentVideo.id);
-		if(playlist[index].type === "upvideo") {
+		if(playlist[index].type === "upvideo") { //VIDEOJS VIDEO LOAD
 			videoType = "video/" + playlist[index].url.split(".").pop();
 			url = "/videos/" + roomId + "/" + playlist[index].url;
-		} else if(playlist[index].type === "youtube") {
+			player.src({type: videoType, src: url})
+			//player style display set none - write later
+		} else if(playlist[index].type === "youtube") { //YOUTUBE VIDEO LOAD
 			videoType = "video/youtube";
 			url = playlist[index].url;
+			ytPlayer.loadVideoById("5qJp6xlKEug");
+			$("#youtube-player").css("style", "inline");
 		}
-		player.src({type: videoType, src: url});
 		$("#video" + currentVideo.id).css({"background-color": "#b22222", "color": "#ffffff"});
 	}
 	function getIndexByVideoId(videoId) {
@@ -145,7 +139,24 @@ $(function() {
 		}
 		return -1;
 	}
-
+	//////YOUTUBE PLAYER
+	var ytPlayer = null;
+	function onYouTubeIframeAPIReady() {
+		ytPlayer = new YT.player("youtube-player", {
+			height: "390",
+			width: "640",
+			events: {
+				"onReady": onYoutubePlayerReady,
+				"onStateChange": onYoutubePlayerStateChange
+			}
+		});
+	}
+	function onYoutubePlayerReady(e) {
+		
+	}
+	function onYoutubePlayerStateChange(e) {
+		
+	}
 	//window.addEventListener("unload", disconnectWebsocket);
 	$("#upload-tabs a").click(function(e) {
 		e.preventDefault();
