@@ -108,5 +108,6 @@
 	<script src="<c:url value='https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.2/sockjs.min.js'/>"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="<c:url value='../webstyle/js/room_websocket.js' />"></script>
+	<script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
