@@ -96,6 +96,7 @@ $(function() {
 	});
 	//All players initially loaded
 	$.when(ytLoaded, upvideoLoaded).done(function() {
+		console.log("DEFERRER RESOLVER");
 		if(playlist !== null) {
 			setCurrentVideo();
 		} else {
@@ -165,6 +166,7 @@ $(function() {
 	}
 	function onYoutubePlayerReady(e) {
 		ytLoaded.resolve();
+		console.log("Youtube player loaded");
 	}
 	function onYoutubePlayerStateChange(e) {
 		if(e.data == -1) {
