@@ -1,21 +1,4 @@
 
-//////YOUTUBE PLAYER
-var ytPlayer = null;
-function onYouTubeIframeAPIReady() {
-	console.log("Start YOUTUBE Main Function");
-	ytPlayer = new YT.Player("youtube-player", {
-		height: "360",
-		width: "640",
-		playerVars: {
-			"autoplay": 0,
-			"controls": 0
-		},
-		events: {
-			"onReady": onYoutubePlayerReady,
-			"onStateChange": onYoutubePlayerStateChange
-		}
-	});
-}
 $(function() {
 	var PLAYER_TYPE = {
 			UPVIDEO: 0,
@@ -167,6 +150,22 @@ $(function() {
 		return -1;
 	}
 	//////YOUTUBE PLAYER
+	var ytPlayer = null;
+	window.onYouTubeIframeAPIReady = function() {
+		console.log("Start YOUTUBE Main Function");
+		ytPlayer = new YT.Player("youtube-player", {
+			height: "360",
+			width: "640",
+			playerVars: {
+				"autoplay": 0,
+				"controls": 0
+			},
+			events: {
+				"onReady": onYoutubePlayerReady,
+				"onStateChange": onYoutubePlayerStateChange
+			}
+		});
+	}
 	function onYoutubePlayerReady(e) {
 		ytLoaded.resolve();
 		console.log("Youtube player loaded");
