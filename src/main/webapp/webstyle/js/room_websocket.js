@@ -1,5 +1,11 @@
 $(function() {
+	var PLAYER_TYPE = {
+			UPVIDEO: 0,
+			YOUTUBE: 1
+	}
 	var stompClient = null;
+	var ytLoaded = $.Deferred(),
+		upvideoLoaded = $.Deferred();
 	$(window).on('beforeunload', function() {
 		stompClient.disconnect(function() {
 			console.log("Confirmed Disconnect");
@@ -81,15 +87,17 @@ $(function() {
 	document.getElementById("sendid").onclick = send;
 	connect();
 	//// VIDEOJS PLAYER
-	var player = videojs("room-player", {
+	var player = videojs("upvideo-player", {
 		controls: true
 	});
 	player.ready(function() {
 		console.log("Player's ready");
+		upvideoLoaded.resolve();
+	});
+	//All players initially loaded
+	$.when(ytLoaded, upvideoLoaded).done(function() {
 		if(playlist !== null) {
-			//if(playlistObj.videosList[0].)
 			setCurrentVideo();
-			//player.src({type: "video/youtube", src: "https://www.youtube.com/watch?v=1dONxX9rifs"});
 		} else {
 			setVideoTimerId = setInterval(function() {
 				if(playlist !== null) {
@@ -123,14 +131,14 @@ $(function() {
 			videoType = "video/" + playlist[index].url.split(".").pop();
 			url = "/videos/" + roomId + "/" + playlist[index].url;
 			player.src({type: videoType, src: url})
-			//player style display set none - write later
+			showCurrentPlayer(PLAYER_TYPE.UPVIDEO);
 		} else if(playlist[index].type === "youtube") { //YOUTUBE VIDEO LOAD
-			videoType = "video/youtube";
-			url = playlist[index].url;
-			ytPlayer.loadVideoById("5qJp6xlKEug");
-			$("#youtube-player").css("style", "inline");
+			url = parseYoutubeLink(playlist[index].url);
+			if(url) {
+				ytPlayer.loadVideoById(url);
+				showCurrentPlayer(PLAYER_TYPE.YOUTUBE);
+			}
 		}
-		$("#video" + currentVideo.id).css({"background-color": "#b22222", "color": "#ffffff"});
 	}
 	function getIndexByVideoId(videoId) {
 		for(var i = 0; i < playlist.length; i++) {
@@ -145,6 +153,10 @@ $(function() {
 		ytPlayer = new YT.player("youtube-player", {
 			height: "390",
 			width: "640",
+			playerVars: {
+				autoplay: 0,
+				controls: 0
+			},
 			events: {
 				"onReady": onYoutubePlayerReady,
 				"onStateChange": onYoutubePlayerStateChange
@@ -152,10 +164,37 @@ $(function() {
 		});
 	}
 	function onYoutubePlayerReady(e) {
-		
+		ytLoaded.resolve();
 	}
 	function onYoutubePlayerStateChange(e) {
-		
+		if(e.data == -1) {
+			ytPlayer.playVideo();
+		}
+	}
+	function parseYoutubeLink(url) {
+		if(url) {
+			var regex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+			var match = url.match(regex);
+			if(match && match[2].length == 11) {
+				return match[2];
+			}
+		}
+		return null;
+	}
+	function showCurrentPlayer(playerType) {
+		switch(playerType) {
+			case PLAYER_TYPE.UPVIDEO:
+				$("#upvideo-player").css("display", "inline");
+				$("#youtube-player").css("display", "none");
+				break;
+			case PLAYER_TYPE.YOUTUBE:
+				$("#youtube-player").css("display", "inline");
+				$("#upvideo-player").css("display", "none");
+				break;
+			default:
+				break;
+		}
+		$("#video" + currentVideo.id).css({"background-color": "#b22222", "color": "#ffffff"});
 	}
 	//window.addEventListener("unload", disconnectWebsocket);
 	$("#upload-tabs a").click(function(e) {
