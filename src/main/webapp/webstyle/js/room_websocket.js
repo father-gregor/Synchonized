@@ -3,6 +3,12 @@ $(function() {
 			UPVIDEO: 0,
 			YOUTUBE: 1
 	}
+	
+	var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    
 	var stompClient = null;
 	var ytLoaded = $.Deferred(),
 		upvideoLoaded = $.Deferred();
@@ -153,11 +159,11 @@ $(function() {
 	function onYouTubeIframeAPIReady() {
 		console.log("Start YOUTUBE Main Function");
 		ytPlayer = new YT.Player("youtube-player", {
-			height: "390",
+			height: "360",
 			width: "640",
 			playerVars: {
-				autoplay: 0,
-				controls: 0
+				"autoplay": 0,
+				"controls": 0
 			},
 			events: {
 				"onReady": onYoutubePlayerReady,
