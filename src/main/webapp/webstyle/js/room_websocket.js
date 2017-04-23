@@ -151,6 +151,7 @@ $(function() {
 	//////YOUTUBE PLAYER
 	var ytPlayer = null;
 	function onYouTubeIframeAPIReady() {
+		console.log("Start YOUTUBE Main Function");
 		ytPlayer = new YT.Player("youtube-player", {
 			height: "390",
 			width: "640",
