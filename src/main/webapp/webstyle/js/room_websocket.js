@@ -72,12 +72,20 @@ $(function() {
 						.attr("id", "video" + video.videoId).append(video.title)
 				);
 			});
+			getCurrentTime(); //add if-else for players state or implement another deferrer object to call this method
 		}
 	}
-	function getCurrentTime(videoId, duration) {
+	function getCurrentTime() {
 		console.log("Send Ask");
+		var duration = null;
+		var index = getIndexByVideoId(currentVideo.id);
+		if(playlist[index].type === "upvideo") {
+			duration = player.duration();
+		} else if(playlist[index].type === "youtube") {
+			duration = ytPlayer.getDuration();
+		}
 		stompClient.send("/app/timecenter/" + roomId + "/asktime", {}, JSON.stringify({
-			"videoId": videoId,
+			"videoId": currentVideo.id,
 			"roomId": roomId,
 			"duration": duration
 		}));
@@ -123,8 +131,8 @@ $(function() {
 		//player.play();
 	});
 	player.on("canplaythrough", function() {
-		getCurrentTime(currentVideo.id, player.duration());
-		console.log("Duration " + player.duration());
+		//getCurrentTime(currentVideo.id, player.duration());
+		//console.log("Duration " + player.duration());
 		player.play();
 	});
 	player.on("ended", function() {
@@ -193,7 +201,6 @@ $(function() {
 	}
 	function onYoutubePlayerStateChange(e) {
 		if(e.data == -1) {
-			getCurrentTime(currentVideo.id, ytPlayer.getDuration);
 			ytPlayer.playVideo();
 		} else if(e.data == YT.PlayerState.ENDED) {
 			loadNextVideo();
