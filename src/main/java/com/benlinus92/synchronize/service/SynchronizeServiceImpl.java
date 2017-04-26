@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,17 +119,17 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	@Override
 	public void startVideoTimeCountingThread(VideoDuration video) {
 		final double duration = video.getDuration();
-		ScheduledFuture<?> future = taskScheduler.scheduleAtFixedRate(new Runnable() {
+		Future<?> future = taskScheduler.scheduleAtFixedRate(new Runnable() {
 			double startTime = System.nanoTime() / 1000000000.0;
-			double endTime = duration;
+			double endTime = 10.0;//duration;
 			@Override
 			public void run() {
 				double currTime = System.nanoTime() / 1000000000.0  - startTime;
 				if(currTime <= endTime) {
 					System.out.println("Current time - " + currTime);
 				} else {
-					System.out.println("Ended - time is " + currTime + " ; duration is " + duration);
-					throw new RuntimeException();
+					//System.out.println("Ended - time is " + currTime + " ; duration is " + duration);
+					throw new RuntimeException("Ended - time is " + currTime + " ; duration is " + duration);
 				}
 			}
 		}, 1000);
