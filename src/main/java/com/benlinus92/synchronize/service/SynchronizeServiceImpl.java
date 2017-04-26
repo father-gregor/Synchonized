@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ScheduledFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.TaskScheduler;
@@ -18,6 +19,7 @@ import com.benlinus92.synchronize.dao.SynchronizeDao;
 import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
+import com.benlinus92.synchronize.model.VideoDuration;
 
 @Service("synchronizedService")
 @Transactional
@@ -110,23 +112,30 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	}
 
 	@Override
-	public boolean isRoomOpened(String roomId, String simpSessionId, String videoId) {
-		if(!roomClientsMap.containsKey(roomId)) {
-			dao.findVideoById(videoId);
-			startVideoTimeCountingThread();
-			return false;
-		}
-		return true;
+	public boolean isRoomOpened(String roomId) {
+		return roomClientsMap.containsKey(roomId);
 	}
-	private void startVideoTimeCountingThread() {
-		//da
-		taskScheduler.scheduleAtFixedRate(new Runnable() {
-			
+	@Override
+	public void startVideoTimeCountingThread(VideoDuration video) {
+		final double duration = video.getDuration();
+		ScheduledFuture<?> future = taskScheduler.scheduleAtFixedRate(new Runnable() {
+			double startTime = System.nanoTime() / 1000000000.0;
+			double endTime = duration;
 			@Override
 			public void run() {
-				System.out.println("Task Executed in " + Thread.currentThread().getName());
+				try {
+					double currTime = System.nanoTime() / 1000000000.0  - startTime;
+					if(currTime <= endTime) {
+						System.out.println("Current time - " + currTime);
+					} else {
+						System.out.println("Ended - time is " + currTime + " ; duration is " + duration);
+						throw new RuntimeException();
+					}
+				} catch(RuntimeException e) {
+					System.out.println("Thread end running " + Thread.currentThread().getName());
+				}
 			}
-		}, 5000);
+		}, 1000);
 	}
 	@Override
 	public void addUserToRoomMap(String roomId, String simpSessionId) {

@@ -39,7 +39,7 @@
 		<div class="video-wrapper no-svg" style="position:inherit">
 			<video class="video-js vjs-default-skin player-upload" id="upvideo-player" width="640" height="400" style="width:100%">
 			</video>
-			<div id="youtube-player" style="display:none"></div>
+			<div id="youtube-player" style="display:none; width:100%"></div>
 		</div>
 		<div style="width:100%; min-height: 500px; background: white">
 			<div style="padding: 20px; width: 700px; margin: auto" id="div-tabs">
@@ -82,7 +82,6 @@
 			</div>
 			<div style="padding: 15px;width: 700px; margin: auto">
 				<p class="text-center" style="font-size: 30px;font-weight: bold">Playlist</p>
-				<button id="sendid">PRESS</button>
 				<ul class="list-group playlist-ul" id="${roomId}">
 					<c:forEach var="video" items="${room.videosList}" varStatus="loop">
 						<c:choose>

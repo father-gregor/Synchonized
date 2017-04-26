@@ -64,6 +64,7 @@ import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Result;
 import com.benlinus92.synchronize.model.Room;
+import com.benlinus92.synchronize.model.VideoDuration;
 import com.benlinus92.synchronize.service.SynchronizeService;
 import com.benlinus92.synchronize.validator.ProfileValidator;
 import com.google.gson.annotations.Since;
@@ -210,8 +211,9 @@ public class WebController {
 	}
 	
 	@MessageMapping("/timecenter/{roomId}/asktime")
-	public void getAskForCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor headers, String videoId) {
+	public void getAskForCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor headers, VideoDuration vid) {
 		//Playlist video = service.findVideoById(videoId);
+		service.startVideoTimeCountingThread(vid);
 		System.out.println("SessionID - " + headers.getSessionId());
 		for(Entry<String, Object> entry: headers.toMap().entrySet()) {
 			System.out.println("Header asktime: " + entry.getKey() + " - " + entry.getValue());
@@ -220,7 +222,7 @@ public class WebController {
 		Map<String, Object> simpAttr = new HashMap<String, Object>();
 		simpAttr.put("roomId", roomId);
 		headers.setSessionAttributes(simpAttr);
-		simp.convertAndSend("/topic/timecenter/" + roomId + "/reporttime", videoId, headers.getMessageHeaders());
+		simp.convertAndSend("/topic/timecenter/" + roomId + "/reporttime", vid.getVideoId(), headers.getMessageHeaders());
 		//System.out.println("Time - "  + videoObj.getCurrTime());
 		//return new AjaxVideoTime();
 	}

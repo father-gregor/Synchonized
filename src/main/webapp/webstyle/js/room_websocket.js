@@ -68,8 +68,11 @@ $(function() {
 			});
 		}
 	}
-	function getCurrentTime(videoId, success) {
-		stompClient.send("/app/timecenter/" + roomId + "/asktime", {}, currentVideo.id);
+	function getCurrentTime(videoId, duration) {
+		stompClient.send("/app/timecenter/" + roomId + "/asktime", {}, JSON.stringify({
+			"videoId": videoId,
+			"duration": duration
+		}));
 	}
 	function getVideoList() {
 		$.ajax({
@@ -85,7 +88,6 @@ $(function() {
 			}
 		});
 	}
-	document.getElementById("sendid").onclick = send;
 	connect();
 	//// VIDEOJS PLAYER
 	var player = videojs("upvideo-player", {
@@ -113,7 +115,7 @@ $(function() {
 		//player.play();
 	});
 	player.on("canplaythrough", function() {
-		getCurrentTime(currentVideo.id);
+		getCurrentTime(currentVideo.id, player.duration());
 		console.log("Duration " + player.duration());
 		player.play();
 	});
@@ -188,11 +190,11 @@ $(function() {
 	function showCurrentPlayer(playerType) {
 		switch(playerType) {
 			case PLAYER_TYPE.UPVIDEO:
-				$("#upvideo-player").css("display", "inline");
+				$("#upvideo-player").css("display", "block");
 				$("#youtube-player").css("display", "none");
 				break;
 			case PLAYER_TYPE.YOUTUBE:
-				$("#youtube-player").css("display", "inline");
+				$("#youtube-player").css("display", "block");
 				$("#upvideo-player").css("display", "none");
 				break;
 			default:

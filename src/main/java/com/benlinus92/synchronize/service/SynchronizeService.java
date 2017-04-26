@@ -5,6 +5,7 @@ import java.util.List;
 import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
+import com.benlinus92.synchronize.model.VideoDuration;
 
 public interface SynchronizeService {
 	boolean saveUser(Profile user);
@@ -20,7 +21,8 @@ public interface SynchronizeService {
 	Playlist findVideoById(String videoId);
 	void deleteVideo(int videoId);
 	void updateVideo(int videoId, String currTime);
-	boolean isRoomOpened(String roomId, String simpSessionId, String videoId);
+	boolean isRoomOpened(String roomId);
+	void startVideoTimeCountingThread(VideoDuration video);
 	void addUserToRoomMap(String roomId, String simpSessionId);
 	void removeUserFromRoomMap(String simpSessionId);
 }
