@@ -80,8 +80,10 @@ $(function() {
 		if(playlist[index].type === "upvideo") {
 			duration = player.duration();
 		} else if(playlist[index].type === "youtube") {
-			console.log("DURATION YOUTUBE - " + ytPlayer.getDuration());
-			duration = ytPlayer.getDuration();
+			while(ytPlayer.getDuration() == 0) {
+				console.log("DURATION YOUTUBE - " + ytPlayer.getDuration());
+				duration = ytPlayer.getDuration();
+			}
 		}
 		stompClient.send("/app/timecenter/" + roomId + "/asktime", {}, JSON.stringify({
 			"videoId": currentVideo.id,
