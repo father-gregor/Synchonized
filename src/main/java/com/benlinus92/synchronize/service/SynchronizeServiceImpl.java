@@ -123,16 +123,12 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 			double endTime = duration;
 			@Override
 			public void run() {
-				try {
-					double currTime = System.nanoTime() / 1000000000.0  - startTime;
-					if(currTime <= endTime) {
-						System.out.println("Current time - " + currTime);
-					} else {
-						System.out.println("Ended - time is " + currTime + " ; duration is " + duration);
-						throw new RuntimeException();
-					}
-				} catch(RuntimeException e) {
-					System.out.println("Thread end running " + Thread.currentThread().getName());
+				double currTime = System.nanoTime() / 1000000000.0  - startTime;
+				if(currTime <= endTime) {
+					System.out.println("Current time - " + currTime);
+				} else {
+					System.out.println("Ended - time is " + currTime + " ; duration is " + duration);
+					throw new RuntimeException();
 				}
 			}
 		}, 1000);
