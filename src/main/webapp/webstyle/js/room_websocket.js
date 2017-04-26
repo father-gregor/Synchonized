@@ -16,8 +16,7 @@ $(function() {
 	});
 	var playlist = null;
 	var currentVideo = {
-			id: -1,
-			type: 
+			id: -1
 	};
 	var roomId = $("ul.list-group").attr("id");
 	var setVideoTimerId = null;
