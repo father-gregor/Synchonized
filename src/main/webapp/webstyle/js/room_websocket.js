@@ -42,7 +42,9 @@ $(function() {
 				var video = JSON.parse(res.body);
 				console.log("TIME IS " + video.currTime);
 				console.log(res.body);
-				if(currentVideo.id === video.videoId) {
+				console.log(typeof currentVideo.id);
+				console.log(typeof video.videoId);
+				if(currentVideo.id === parseInt(video.videoId)) {
 					console.log("ENTERED");
 					setCurrentTime(video.videoId, video.currTime);
 				}
