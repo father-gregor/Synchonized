@@ -47,7 +47,8 @@ $(function() {
 				}
 			});
 			stompClient.subscribe("/topic/timecenter/" + roomId + "/reporttime", function(res) {
-				//console.log(res.body);
+				consele.log("RECEIVE AT REPORT TIME");
+				console.log(res.body);
 			});
 			stompClient.subscribe("user/queue/timecenter/" + roomId + "/gettime", function(res) {
 				console.log("Received time - " + res.body);

@@ -222,6 +222,7 @@ public class WebController {
 		currentVideo.setRoomId(roomId);
 		currentVideo.setCurrTime(Double.parseDouble(videoFromDB.getCurrTime()));
 		System.out.println("Current Time is " + currentVideo.getCurrTime());
+		simp.convertAndSend("/topic/timecenter/" + roomId + "/reporttime", currentVideo, headers.getMessageHeaders());
 		/*System.out.println("SessionID - " + headers.getSessionId());
 		for(Entry<String, Object> entry: headers.toMap().entrySet()) {
 			System.out.println("Header asktime: " + entry.getKey() + " - " + entry.getValue());
