@@ -39,6 +39,8 @@ $(function() {
 		if(stompClient !== null && playlist !== null) {
 			stompClient.subscribe("/queue/timecenter/" + roomId +"/asktime", function(res) {
 				var video = JSON.parse(res.body);
+				console.log("RECEIVED");
+				console.log("TIME IS " + video.currTime);
 				console.log(res.body);
 				if(currentVideo.id === video.videoId) {
 					setCurrentTime(video.videoId, video.currTime);
@@ -73,6 +75,7 @@ $(function() {
 		}
 	}
 	function getCurrentTime(videoId, duration) {
+		console.log("Send Ask");
 		stompClient.send("/app/timecenter/" + roomId + "/asktime", {}, JSON.stringify({
 			"videoId": videoId,
 			"roomId": roomId,
@@ -190,7 +193,7 @@ $(function() {
 	}
 	function onYoutubePlayerStateChange(e) {
 		if(e.data == -1) {
-			getCurrentTime(currentVideo.id, player.duration());
+			getCurrentTime(currentVideo.id, ytPlayer.getDuration);
 			ytPlayer.playVideo();
 		} else if(e.data == YT.PlayerState.ENDED) {
 			loadNextVideo();

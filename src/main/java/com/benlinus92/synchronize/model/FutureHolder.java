@@ -17,19 +17,19 @@ public class FutureHolder {
 	public Future<?> getFuture() {
 		return future;
 	}
-	public synchronized void setFuture(Future<?> future) {
+	public void setFuture(Future<?> future) {
 		this.future = future;
 	}
 	public String getRoomId() {
 		return roomId;
 	}
-	public synchronized void setRoomId(String roomId) {
+	public void setRoomId(String roomId) {
 		this.roomId = roomId;
 	}
 	public String getVideoId() {
 		return videoId;
 	}
-	public synchronized void setVideoId(String videoId) {
+	public void setVideoId(String videoId) {
 		this.videoId = videoId;
 	}
 	

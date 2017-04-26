@@ -141,7 +141,6 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 			public void run() {
 				double currTime = System.nanoTime() / 1000000000.0  - startTime + dbCurrTime;
 				if(currTime <= endTime) {
-					System.out.println("Current time - " + (currTime));
 					dao.updateVideoTime(videoId, Double.toString(new BigDecimal(currTime).setScale(4, RoundingMode.HALF_UP).doubleValue()));
 				} else {
 					System.out.println("Ended - time is " + currTime + " ; duration is " + duration);

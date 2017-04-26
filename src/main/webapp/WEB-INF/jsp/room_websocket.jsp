@@ -9,7 +9,6 @@
 	<title>${room.title}</title>
 	<link href="http://vjs.zencdn.net/5.19.1/video-js.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<link href="<c:url value='../webstyle/build/mediaelementplayer.css' />" rel="stylesheet">
 	<link href="<c:url value='../webstyle/css/custom-room.css' />" rel="stylesheet">
 </head>
 <body style="background:#595959; min-width: 547px">
