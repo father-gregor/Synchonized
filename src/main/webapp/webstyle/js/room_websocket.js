@@ -40,12 +40,7 @@ $(function() {
 			stompClient.subscribe("/user/queue/timecenter/" + roomId +"/asktime", function(res) {
 				console.log("RECEIVED");
 				var video = JSON.parse(res.body);
-				console.log("TIME IS " + video.currTime);
-				console.log(res.body);
-				console.log(typeof currentVideo.id);
-				console.log(typeof video.videoId);
 				if(currentVideo.id === parseInt(video.videoId)) {
-					console.log("ENTERED");
 					setCurrentTime(video.videoId, video.currTime);
 				}
 			});
@@ -85,6 +80,7 @@ $(function() {
 		if(playlist[index].type === "upvideo") {
 			duration = player.duration();
 		} else if(playlist[index].type === "youtube") {
+			console.log("DURATION YOUTUBE - " + ytPlayer.getDuration());
 			duration = ytPlayer.getDuration();
 		}
 		stompClient.send("/app/timecenter/" + roomId + "/asktime", {}, JSON.stringify({
@@ -207,6 +203,7 @@ $(function() {
 	}
 	function onYoutubePlayerStateChange(e) {
 		if(e.data == -1) {
+			console.log("PLAY YOUTUBE VIDEO");
 			ytPlayer.playVideo();
 		} else if(e.data == YT.PlayerState.ENDED) {
 			loadNextVideo();
