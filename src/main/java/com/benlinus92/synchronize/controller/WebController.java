@@ -211,7 +211,7 @@ public class WebController {
 	}
 	
 	@MessageMapping("/timecenter/{roomId}/asktime")
-	public AjaxVideoTime getAskForCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor headers, VideoDuration vid) {
+	public @ResponseBody AjaxVideoTime getAskForCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor headers, VideoDuration vid) {
 		//Playlist video = service.findVideoById(videoId);
 		if(!service.isVideoStarted(vid.getVideoId())) {
 			service.startVideoTimeCountingThread(vid);

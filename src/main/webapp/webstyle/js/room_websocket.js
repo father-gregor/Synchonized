@@ -38,8 +38,8 @@ $(function() {
 	function initStompSubscribe() {
 		if(stompClient !== null && playlist !== null) {
 			stompClient.subscribe("/queue/timecenter/" + roomId +"/asktime", function(res) {
-				var video = JSON.parse(res.body);
 				console.log("RECEIVED");
+				var video = JSON.parse(res.body);
 				console.log("TIME IS " + video.currTime);
 				console.log(res.body);
 				if(currentVideo.id === video.videoId) {
