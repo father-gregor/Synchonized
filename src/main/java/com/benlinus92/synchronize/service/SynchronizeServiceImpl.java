@@ -7,7 +7,9 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.TaskScheduler;
@@ -28,7 +30,7 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	@Autowired
 	SynchronizeDao dao;
 	@Autowired
-	TaskScheduler taskScheduler;
+	ScheduledExecutorService scheduledService;
 	
 	private ConcurrentHashMap<String, List<String>> roomClientsMap = new ConcurrentHashMap<String, List<String>>();
 	
@@ -119,7 +121,7 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	@Override
 	public void startVideoTimeCountingThread(VideoDuration video) {
 		final double duration = video.getDuration();
-		Future<?> future = taskScheduler.scheduleAtFixedRate(new Runnable() {
+		Future<?> future = scheduledService.scheduleAtFixedRate(new Runnable() {
 			double startTime = System.nanoTime() / 1000000000.0;
 			double endTime = 10.0;//duration;
 			@Override
@@ -132,7 +134,7 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 					throw new RuntimeException("Ended - time is " + currTime + " ; duration is " + duration);
 				}
 			}
-		}, 1000);
+		}, 0, 1, TimeUnit.SECONDS);
 	}
 	@Override
 	public void addUserToRoomMap(String roomId, String simpSessionId) {

@@ -1,5 +1,8 @@
 package com.benlinus92.synchronize.config;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -49,11 +52,12 @@ public class AppConifg extends WebMvcConfigurerAdapter {
 	    return messageSource;
 	}
 	@Bean
-	public TaskScheduler taskScheduler() {
-		ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-		scheduler.setPoolSize(10);
+	public ScheduledExecutorService taskScheduler() {
+		//ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10);
+		//scheduler.setPoolSize(10);
 		//scheduler.
-		scheduler.setThreadNamePrefix("VideoTimerScheduler");
+		//scheduler.setThreadNamePrefix("VideoTimerScheduler");
 		return scheduler;
 	}
 	@Override
