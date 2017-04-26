@@ -43,12 +43,12 @@ $(function() {
 				console.log("TIME IS " + video.currTime);
 				console.log(res.body);
 				if(currentVideo.id === video.videoId) {
+					console.log("ENTERED");
 					setCurrentTime(video.videoId, video.currTime);
 				}
 			});
 			stompClient.subscribe("/topic/timecenter/" + roomId + "/reporttime", function(res) {
-				console.log("RECEIVE AT REPORT TIME");
-				console.log(res.body);
+
 			});
 			stompClient.subscribe("/user/queue/timecenter/" + roomId + "/gettime", function(res) {
 				console.log("Received time - " + res.body);
@@ -166,9 +166,12 @@ $(function() {
 	}
 	function setCurrentTime(videoId, currTime) {
 		var index = getIndexByVideoId(videoId);
+		console.log("IN SETCURRENTTIME BEGIN");
 		if(playlist[index].type === "upvideo") {
+			console.log("IN SETCURRENTTIME PLAYER");
 			player.currentTime(currTime);
 		} else if(playlist[index].type === "youtube") {
+			console.log("IN SETCURRENTTIME YOUTUBE");
 			ytPlayer.seekTo(currTime, true);
 		}
 	}

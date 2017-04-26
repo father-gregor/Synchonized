@@ -211,7 +211,7 @@ public class WebController {
 	}
 	
 	@MessageMapping("/timecenter/{roomId}/asktime")
-	public @ResponseBody AjaxVideoTime getAskForCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor headers, VideoDuration vid) {
+	public void getAskForCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor headers, VideoDuration vid) {
 		//Playlist video = service.findVideoById(videoId);
 		if(!service.isVideoStarted(vid.getVideoId())) {
 			service.startVideoTimeCountingThread(vid);
@@ -222,7 +222,7 @@ public class WebController {
 		currentVideo.setRoomId(roomId);
 		currentVideo.setCurrTime(Double.parseDouble(videoFromDB.getCurrTime()));
 		System.out.println("Current Time is " + currentVideo.getCurrTime());
-		simp.convertAndSend("/topic/timecenter/" + roomId + "/reporttime", currentVideo, headers.getMessageHeaders());
+		//simp.convertAndSend("/topic/timecenter/" + roomId + "/reporttime", currentVideo, headers.getMessageHeaders());
 		simp.convertAndSendToUser(headers.getUser().getName(),"/queue/timecenter/" + roomId + "/asktime", currentVideo, headers.getMessageHeaders());
 		/*System.out.println("SessionID - " + headers.getSessionId());
 		for(Entry<String, Object> entry: headers.toMap().entrySet()) {
@@ -234,7 +234,7 @@ public class WebController {
 		headers.setSessionAttributes(simpAttr);
 		simp.convertAndSend("/topic/timecenter/" + roomId + "/reporttime", vid.getVideoId(), headers.getMessageHeaders());*/
 		//System.out.println("Time - "  + videoObj.getCurrTime());
-		return currentVideo;
+		//return currentVideo;
 	}
 	@MessageMapping("/timecenter/{roomId}/reporttime")
 	public void getCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor header, AjaxVideoTime video) {
