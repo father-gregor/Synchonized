@@ -213,7 +213,9 @@ public class WebController {
 	@MessageMapping("/timecenter/{roomId}/asktime")
 	public void getAskForCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor headers, VideoDuration vid) {
 		//Playlist video = service.findVideoById(videoId);
-		service.startVideoTimeCountingThread(vid);
+		if(!service.isVideoStarted(vid.getVideoId())) {
+			service.startVideoTimeCountingThread(vid);
+		}
 		System.out.println("SessionID - " + headers.getSessionId());
 		for(Entry<String, Object> entry: headers.toMap().entrySet()) {
 			System.out.println("Header asktime: " + entry.getKey() + " - " + entry.getValue());

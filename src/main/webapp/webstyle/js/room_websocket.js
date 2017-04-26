@@ -71,6 +71,7 @@ $(function() {
 	function getCurrentTime(videoId, duration) {
 		stompClient.send("/app/timecenter/" + roomId + "/asktime", {}, JSON.stringify({
 			"videoId": videoId,
+			"roomId": roomId,
 			"duration": duration
 		}));
 	}

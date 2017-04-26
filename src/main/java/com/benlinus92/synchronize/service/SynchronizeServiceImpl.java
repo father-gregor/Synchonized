@@ -1,6 +1,7 @@
 package com.benlinus92.synchronize.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.benlinus92.synchronize.dao.SynchronizeDao;
+import com.benlinus92.synchronize.model.FutureHolder;
 import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
@@ -33,6 +35,8 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	ScheduledExecutorService scheduledService;
 	
 	private ConcurrentHashMap<String, List<String>> roomClientsMap = new ConcurrentHashMap<String, List<String>>();
+	private CopyOnWriteArrayList<FutureHolder> countThreadFutureList = new CopyOnWriteArrayList<FutureHolder>();
+	//ConcurrentHashMap<String, List<Future<?>>> countThreadFutureMap = new ConcurrentHashMap<String, List<Future<?>>>();
 	
 	@Override
 	public boolean saveUser(Profile user) {
@@ -115,26 +119,35 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	}
 
 	@Override
-	public boolean isRoomOpened(String roomId) {
-		return roomClientsMap.containsKey(roomId);
+	public boolean isVideoStarted(String videoId) {
+		Iterator<FutureHolder> it = countThreadFutureList.iterator();
+		while(it.hasNext()) {
+			if(it.next().getVideoId().equals(videoId))
+				return true;
+		}
+		return false;
 	}
 	@Override
 	public void startVideoTimeCountingThread(VideoDuration video) {
+		final double dbCurrTime = Double.parseDouble(dao.findVideoById(video.getVideoId()).getCurrTime());
+		final int videoId = Integer.parseInt(video.getVideoId());
 		final double duration = video.getDuration();
 		Future<?> future = scheduledService.scheduleAtFixedRate(new Runnable() {
 			double startTime = System.nanoTime() / 1000000000.0;
-			double endTime = 10.0;//duration;
+			double endTime = duration;
 			@Override
 			public void run() {
-				double currTime = System.nanoTime() / 1000000000.0  - startTime;
+				double currTime = System.nanoTime() / 1000000000.0  - startTime + dbCurrTime;
 				if(currTime <= endTime) {
-					System.out.println("Current time - " + currTime);
+					System.out.println("Current time - " + (currTime));
+					dao.updateVideoTime(videoId, Double.toString(currTime));
 				} else {
-					//System.out.println("Ended - time is " + currTime + " ; duration is " + duration);
-					throw new RuntimeException("Ended - time is " + currTime + " ; duration is " + duration);
+					System.out.println("Ended - time is " + currTime + " ; duration is " + duration);
+					throw new RuntimeException();
 				}
 			}
 		}, 0, 1, TimeUnit.SECONDS);
+		countThreadFutureList.add(new FutureHolder(future, video.getRoomId(), video.getVideoId()));
 	}
 	@Override
 	public void addUserToRoomMap(String roomId, String simpSessionId) {
@@ -153,12 +166,31 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 				String roomId = entry.getKey();
 				int clients = roomClientsMap.get(roomId).size();
 				System.out.println("ROOM " + roomId + " size: " + clients);
-				if(clients - 1 <= 0)
+				if(clients - 1 <= 0) {
 					roomClientsMap.remove(roomId);
-				else
+					stopVideoTimeCountingThread(roomId);
+				} else
 					roomClientsMap.get(roomId).remove(simpSessionId);
 				break;
 			}
 		}
+	}
+	@Override
+	public void stopVideoTimeCountingThread(String roomId) {
+		Iterator<FutureHolder> it = countThreadFutureList.iterator();
+		int index = 0;
+		while(it.hasNext()) {
+			if(it.next().getRoomId().equals(roomId)) {
+				cancelThreadTaskByFuture(countThreadFutureList.get(index).getFuture());
+				countThreadFutureList.remove(index);
+			}
+			index++;
+		}
+	}
+	private void cancelThreadTaskByFuture(Future<?> future) {
+		while(!future.isDone()) {
+			future.cancel(false);
+		}
+		System.out.println("Cancelled - " + future.isDone());
 	}
 }

@@ -2,6 +2,7 @@ package com.benlinus92.synchronize.model;
 
 public class VideoDuration {
 	private String videoId;
+	private String roomId;
 	private double duration;
 	
 	public String getVideoId() {
@@ -9,6 +10,12 @@ public class VideoDuration {
 	}
 	public void setVideoId(String videoId) {
 		this.videoId = videoId;
+	}
+	public String getRoomId() {
+		return roomId;
+	}
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
 	}
 	public double getDuration() {
 		return duration;
