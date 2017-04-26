@@ -39,6 +39,7 @@ $(function() {
 		if(stompClient !== null && playlist !== null) {
 			stompClient.subscribe("/queue/timecenter/" + roomId +"/asktime", function(res) {
 				var video = JSON.parse(res.body);
+				console.log(res.body);
 				if(currentVideo.id === video.videoId) {
 					setCurrentTime(video.videoId, video.currTime);
 				}

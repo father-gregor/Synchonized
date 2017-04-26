@@ -1,5 +1,7 @@
 package com.benlinus92.synchronize.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -140,7 +142,7 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 				double currTime = System.nanoTime() / 1000000000.0  - startTime + dbCurrTime;
 				if(currTime <= endTime) {
 					System.out.println("Current time - " + (currTime));
-					dao.updateVideoTime(videoId, Double.toString(currTime));
+					dao.updateVideoTime(videoId, Double.toString(new BigDecimal(currTime).setScale(4, RoundingMode.HALF_UP).doubleValue()));
 				} else {
 					System.out.println("Ended - time is " + currTime + " ; duration is " + duration);
 					throw new RuntimeException();
@@ -183,8 +185,8 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 			if(it.next().getRoomId().equals(roomId)) {
 				cancelThreadTaskByFuture(countThreadFutureList.get(index).getFuture());
 				countThreadFutureList.remove(index);
-			}
-			index++;
+			} else
+				index++;
 		}
 	}
 	private void cancelThreadTaskByFuture(Future<?> future) {
