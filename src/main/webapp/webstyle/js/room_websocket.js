@@ -16,7 +16,8 @@ $(function() {
 	});
 	var playlist = null;
 	var currentVideo = {
-			id: -1
+			id: -1,
+			type: 
 	};
 	var roomId = $("ul.list-group").attr("id");
 	var setVideoTimerId = null;
@@ -38,7 +39,10 @@ $(function() {
 	function initStompSubscribe() {
 		if(stompClient !== null && playlist !== null) {
 			stompClient.subscribe("/queue/timecenter/" + roomId +"/asktime", function(res) {
-				
+				var video = JSON.parse(res.body);
+				if(currentVideo.id === video.videoId) {
+					setCurrentTime(video.videoId, video.currTime);
+				}
 			});
 			stompClient.subscribe("/topic/timecenter/" + roomId + "/reporttime", function(res) {
 				//console.log(res.body);
@@ -121,12 +125,7 @@ $(function() {
 		player.play();
 	});
 	player.on("ended", function() {
-		var index = getIndexByVideoId(currentVideo.id);
-		if(index <= playlist.length - 1) {
-			$("#video" + currentVideo.id).css({"background-color": "#ffffff", "color": "#000000"});
-			currentVideo.id = playlist[++index].videoId;
-			setCurrentVideo();
-		}
+		loadNextVideo();
 	});
 	function setCurrentVideo() {
 		var videoType = "";
@@ -143,6 +142,22 @@ $(function() {
 				ytPlayer.loadVideoById(url);
 				showCurrentPlayer(PLAYER_TYPE.YOUTUBE);
 			}
+		}
+	}
+	function loadNextVideo() {
+		var index = getIndexByVideoId(currentVideo.id);
+		if(index <= playlist.length - 1) {
+			$("#video" + currentVideo.id).css({"background-color": "#ffffff", "color": "#000000"});
+			currentVideo.id = playlist[++index].videoId;
+			setCurrentVideo();
+		}
+	}
+	function setCurrentTime(videoId, currTime) {
+		var index = getIndexByVideoId(videoId);
+		if(playlist[index].type === "upvideo") {
+			player.currentTime(currTime);
+		} else if(playlist[index].type === "youtube") {
+			ytPlayer.seekTo(currTime, true);
 		}
 	}
 	function getIndexByVideoId(videoId) {
@@ -175,7 +190,10 @@ $(function() {
 	}
 	function onYoutubePlayerStateChange(e) {
 		if(e.data == -1) {
+			getCurrentTime(currentVideo.id, player.duration());
 			ytPlayer.playVideo();
+		} else if(e.data == YT.PlayerState.ENDED) {
+			loadNextVideo();
 		}
 	}
 	function parseYoutubeLink(url) {

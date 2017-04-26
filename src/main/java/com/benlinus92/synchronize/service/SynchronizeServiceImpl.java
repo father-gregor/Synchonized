@@ -100,7 +100,7 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	}
 	@Override
 	public Playlist findVideoById(String videoId) {
-		return dao.findVideoById(videoId);
+		return dao.findVideoById(Integer.parseInt(videoId));
 	}
 	@Override
 	public void deleteVideo(int videoId) {
@@ -129,7 +129,7 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	}
 	@Override
 	public void startVideoTimeCountingThread(VideoDuration video) {
-		final double dbCurrTime = Double.parseDouble(dao.findVideoById(video.getVideoId()).getCurrTime());
+		final double dbCurrTime = Double.parseDouble(dao.findVideoById(Integer.parseInt(video.getVideoId())).getCurrTime());
 		final int videoId = Integer.parseInt(video.getVideoId());
 		final double duration = video.getDuration();
 		Future<?> future = scheduledService.scheduleAtFixedRate(new Runnable() {
