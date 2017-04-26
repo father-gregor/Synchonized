@@ -37,7 +37,7 @@ $(function() {
 	}
 	function initStompSubscribe() {
 		if(stompClient !== null && playlist !== null) {
-			stompClient.subscribe("/queue/timecenter/" + roomId +"/asktime", function(res) {
+			stompClient.subscribe("/user/queue/timecenter/" + roomId +"/asktime", function(res) {
 				console.log("RECEIVED");
 				var video = JSON.parse(res.body);
 				console.log("TIME IS " + video.currTime);
@@ -47,10 +47,10 @@ $(function() {
 				}
 			});
 			stompClient.subscribe("/topic/timecenter/" + roomId + "/reporttime", function(res) {
-				consele.log("RECEIVE AT REPORT TIME");
+				console.log("RECEIVE AT REPORT TIME");
 				console.log(res.body);
 			});
-			stompClient.subscribe("user/queue/timecenter/" + roomId + "/gettime", function(res) {
+			stompClient.subscribe("/user/queue/timecenter/" + roomId + "/gettime", function(res) {
 				console.log("Received time - " + res.body);
 				var video = JSON.parse(res.body);
 				if(currentVideo.id === video.videoId) {
