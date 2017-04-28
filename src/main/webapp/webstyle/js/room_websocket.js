@@ -138,8 +138,6 @@ $(function() {
 	player.on("canplaythrough", function() {
 		//getCurrentTime(currentVideo.id, player.duration());
 		//console.log("Duration " + player.duration());
-		if(initialSubscribe == true) 
-			getCurrentTime();
 		player.play();
 	});
 	player.on("ended", function() {
@@ -168,6 +166,7 @@ $(function() {
 			$("#video" + currentVideo.id).css({"background-color": "#ffffff", "color": "#000000"});
 			currentVideo.id = playlist[++index].videoId;
 			setCurrentVideo();
+			getCurrentTime();
 		}
 	}
 	function setCurrentTime(videoId, currTime) {
