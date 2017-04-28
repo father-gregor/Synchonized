@@ -90,7 +90,7 @@ $(function() {
 				"duration": duration
 			}));
 		} else {
-			setTimeout(getCurrentTime(), 3000);
+			setTimeout(getCurrentTime, 3000);
 		}
 	}
 	function getVideoList() {
