@@ -70,7 +70,7 @@ $(function() {
 						.attr("id", "video" + video.videoId).append(video.title)
 				);
 			});
-			getCurrentTime(); //add if-else for players state or implement another deferrer object to call this method
+			getCurrentTime();
 		}
 	}
 	function getCurrentTime() {
@@ -80,16 +80,18 @@ $(function() {
 		if(playlist[index].type === "upvideo") {
 			duration = player.duration();
 		} else if(playlist[index].type === "youtube") {
-			while(ytPlayer.getDuration() == 0) {
-				console.log("DURATION YOUTUBE - " + ytPlayer.getDuration());
-				duration = ytPlayer.getDuration();
-			}
+			console.log("DURATION YOUTUBE - " + ytPlayer.getDuration());
+			duration = ytPlayer.getDuration();
 		}
-		stompClient.send("/app/timecenter/" + roomId + "/asktime", {}, JSON.stringify({
-			"videoId": currentVideo.id,
-			"roomId": roomId,
-			"duration": duration
-		}));
+		if(Number(duration) > 0) {
+			stompClient.send("/app/timecenter/" + roomId + "/asktime", {}, JSON.stringify({
+				"videoId": currentVideo.id,
+				"roomId": roomId,
+				"duration": duration
+			}));
+		} else {
+			setTimeout(getCurrentTime(), 3000);
+		}
 	}
 	function getVideoList() {
 		$.ajax({
