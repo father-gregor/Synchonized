@@ -5,6 +5,7 @@ $(function() {
 			YOUTUBE: 1
 	}
 	var stompClient = null;
+	var initialSubscribe = false;
 	var ytLoaded = $.Deferred(),
 		upvideoLoaded = $.Deferred();
 	$(window).on('beforeunload', function() {
@@ -71,6 +72,7 @@ $(function() {
 				);
 			});
 			getCurrentTime();
+			initialSubscribe = true;
 		}
 	}
 	function getCurrentTime() {
@@ -136,6 +138,8 @@ $(function() {
 	player.on("canplaythrough", function() {
 		//getCurrentTime(currentVideo.id, player.duration());
 		//console.log("Duration " + player.duration());
+		if(initialSubscribe == true) 
+			getCurrentTime();
 		player.play();
 	});
 	player.on("ended", function() {
@@ -208,6 +212,8 @@ $(function() {
 	function onYoutubePlayerStateChange(e) {
 		if(e.data == -1) {
 			console.log("PLAY YOUTUBE VIDEO");
+			if(initialSubscribe == true) 
+				getCurrentTime();
 			ytPlayer.playVideo();
 		} else if(e.data == YT.PlayerState.ENDED) {
 			loadNextVideo();
