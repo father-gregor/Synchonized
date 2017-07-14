@@ -212,7 +212,7 @@ public class WebController {
 	
 	@MessageMapping("/timecenter/{roomId}/asktime")
 	public void getAskForCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor headers, VideoDuration vid) {
-		if(!service.isVideoStarted(vid.getVideoId())) {
+		if(!service.isVideoStarted(vid.getVideoId())) {//перенести в service
 			service.startVideoTimeCountingThread(vid);
 		}
 		Playlist videoFromDB = service.findVideoById(vid.getVideoId());

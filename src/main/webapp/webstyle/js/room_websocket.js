@@ -5,7 +5,6 @@ $(function() {
 			YOUTUBE: 1
 	}
 	var stompClient = null;
-	var initialSubscribe = false;
 	var ytLoaded = $.Deferred(),
 		upvideoLoaded = $.Deferred();
 	$(window).on('beforeunload', function() {
@@ -72,7 +71,6 @@ $(function() {
 				);
 			});
 			getCurrentTime();
-			initialSubscribe = true;
 		}
 	}
 	function getCurrentTime() {

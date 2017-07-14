@@ -21,7 +21,7 @@ public class AppWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer
 	}
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/videoroom").withSockJS().setInterceptors(new HttpSessionHandshakeInterceptor());
+		registry.addEndpoint("/videoroom").withSockJS().setInterceptors(new HttpSessionHandshakeInterceptor()).setHeartbeatTime(10000);
 	}
 	@Bean
 	public SessionAttributeHandshakeInterceptor sessionAttributeHandshakeInterceptor() {
