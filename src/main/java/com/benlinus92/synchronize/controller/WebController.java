@@ -209,6 +209,10 @@ public class WebController {
 		System.out.println("What we receive: " + res.getResult());
 		return new Result("WEBSOCKET WORKING");
 	}
+	@MessageMapping("/alivebeat") 
+	public void getAliveMessage(SimpMessageHeaderAccessor headers) {
+		System.out.println("----------Session Beat Received from = " + headers.getSessionId() + "------------");
+	}
 	
 	@MessageMapping("/timecenter/{roomId}/asktime")
 	public void getAskForCurrentTime(@DestinationVariable String roomId, Principal userCred, SimpMessageHeaderAccessor headers, VideoDuration vid) {

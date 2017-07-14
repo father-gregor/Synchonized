@@ -19,7 +19,7 @@ public class AppWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer
 	public void configureMessageBroker(MessageBrokerRegistry config) {
 		ThreadPoolTaskScheduler pingerScheduler = new ThreadPoolTaskScheduler();
 		pingerScheduler.initialize();
-		config.enableSimpleBroker("/topic", "/queue").setHeartbeatValue(new long[] {10000, 0}).setTaskScheduler(pingerScheduler);
+		config.enableSimpleBroker("/topic", "/queue");
 		config.setApplicationDestinationPrefixes("/app");
 	}
 	@Override
