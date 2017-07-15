@@ -15,7 +15,9 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -37,6 +39,8 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	private ScheduledExecutorService scheduledService;
 	@Autowired
 	private UserPerRoomTrackerService userTrackerService;
+	@Autowired
+	private SimpMessagingTemplate simp;
 	
 	private ConcurrentHashMap<String, List<String>> roomClientsMap = new ConcurrentHashMap<String, List<String>>();
 	private CopyOnWriteArrayList<FutureHolder> countThreadFutureList = new CopyOnWriteArrayList<FutureHolder>();
@@ -136,6 +140,10 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 				return true;
 		}
 		return false;
+	}
+	@Scheduled(fixedDelay=5000)
+	public void checkUsers() {
+		simp.convertAndSend("/topic/alive", "");
 	}
 	@Override
 	public void startVideoTimeCountingThread(VideoDuration video) {

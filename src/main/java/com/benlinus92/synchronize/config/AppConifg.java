@@ -61,10 +61,6 @@ public class AppConifg extends WebMvcConfigurerAdapter {
 		//scheduler.setThreadNamePrefix("VideoTimerScheduler");
 		return scheduler;
 	}
-	@Bean
-	public ActiveUserScheduler activeUserTask() {
-		return new ActiveUserScheduler();
-	}
 	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/webstyle/**").addResourceLocations("/webstyle/");
