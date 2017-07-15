@@ -66,6 +66,7 @@ import com.benlinus92.synchronize.model.Result;
 import com.benlinus92.synchronize.model.Room;
 import com.benlinus92.synchronize.model.VideoDuration;
 import com.benlinus92.synchronize.service.SynchronizeService;
+import com.benlinus92.synchronize.service.UserPerRoomTrackerService;
 import com.benlinus92.synchronize.validator.ProfileValidator;
 import com.google.gson.annotations.Since;
 
@@ -76,6 +77,8 @@ public class WebController {
 	
 	@Autowired
 	private SynchronizeService service;
+	@Autowired
+	private UserPerRoomTrackerService clientTrackerService;
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
@@ -210,8 +213,8 @@ public class WebController {
 		return new Result("WEBSOCKET WORKING");
 	}
 	@MessageMapping("/alivebeat") 
-	public void getAliveMessage(SimpMessageHeaderAccessor headers) {
-		System.out.println("----------Session Beat Received from = " + headers.getSessionId() + "------------");
+	public void getAliveMessage(SimpMessageHeaderAccessor headers, String roomId) {
+		System.out.println("----------Session Beat Received from = " + headers.getSessionId() + "------------" + roomId);
 	}
 	
 	@MessageMapping("/timecenter/{roomId}/asktime")

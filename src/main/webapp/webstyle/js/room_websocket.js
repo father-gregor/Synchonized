@@ -70,12 +70,18 @@ $(function() {
 						.attr("id", "video" + video.videoId).append(video.title)
 				);
 			});
+			stompClient.subscribe("/topic/alive", function(res) {
+				respondAlive();
+			})
 			getCurrentTime();
-			(function sendAliveMessage() {
+			/*(function sendAliveMessage() {
 				stompClient.send("/app/alivebeat");
 				setTimeout(sendAliveMessage, 5000);
-			})();
+			})();*/
 		}
+	}
+	function respondAlive() {
+		stompClient.send("/app/alivebeat", {}, roomId);
 	}
 	function getCurrentTime() {
 		console.log("Send Ask");
