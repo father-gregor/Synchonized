@@ -14,7 +14,7 @@ import com.benlinus92.synchronize.scheduler.ActiveUserScheduler;
 public class ActiveUserSchedulingConfigurer implements SchedulingConfigurer {
 
 	@Bean
-	public ThreadPoolTaskScheduler taskScheduler() {
+	public ThreadPoolTaskScheduler configTaskScheduler() {
 		return new ThreadPoolTaskScheduler();
 	}
 	@Bean
@@ -23,6 +23,6 @@ public class ActiveUserSchedulingConfigurer implements SchedulingConfigurer {
 	}
 	@Override
 	public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-		taskRegistrar.setScheduler(taskScheduler());
+		taskRegistrar.setScheduler(configTaskScheduler());
 	}
 }
