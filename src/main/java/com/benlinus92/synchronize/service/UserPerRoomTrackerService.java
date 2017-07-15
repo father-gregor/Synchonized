@@ -34,12 +34,14 @@ public class UserPerRoomTrackerService {
 		for(int i = 0; i < usersPerRoom.size(); i++) {
 			if(usersPerRoom.get(i).getSessionId().equals(sessionId)) {
 				long prevAccess = usersPerRoom.get(i).getLastAccess();
-				System.out.println("ACCESS SUB " + (usersPerRoom.get(i).setLastAccess() - prevAccess));
 				if((usersPerRoom.get(i).setLastAccess() - prevAccess) > 8000)
 					removeUser(roomId, sessionId);
 				break;
 			}
 		}
+	}
+	public boolean isRoomActive(String roomId) {
+		return roomUsersMap.containsKey(roomId);
 	}
 	private class ActiveRoomUser {
 		private String sessionId = new String();

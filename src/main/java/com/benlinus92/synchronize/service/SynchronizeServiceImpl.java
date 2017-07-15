@@ -124,6 +124,9 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	@Override
 	public void updateActiveUser(String roomId, String sessionId) {
 		userTrackerService.markUserAccess(roomId, sessionId);
+		if(!userTrackerService.isRoomActive(roomId)) {
+			stopVideoTimeCountingThread(roomId);
+		}
 	}
 	@Override
 	public boolean isVideoStarted(String videoId) {
@@ -189,6 +192,7 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 			if(it.next().getRoomId().equals(roomId)) {
 				cancelThreadTaskByFuture(countThreadFutureList.get(index).getFuture());
 				countThreadFutureList.remove(index);
+				break;
 			} else
 				index++;
 		}

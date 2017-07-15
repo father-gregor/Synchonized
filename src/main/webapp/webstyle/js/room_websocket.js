@@ -74,10 +74,6 @@ $(function() {
 				respondAlive();
 			})
 			getCurrentTime();
-			/*(function sendAliveMessage() {
-				stompClient.send("/app/alivebeat");
-				setTimeout(sendAliveMessage, 5000);
-			})();*/
 		}
 	}
 	function respondAlive() {
