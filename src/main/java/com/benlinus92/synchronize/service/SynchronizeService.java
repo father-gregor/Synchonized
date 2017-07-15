@@ -2,6 +2,8 @@ package com.benlinus92.synchronize.service;
 
 import java.util.List;
 
+import org.springframework.scheduling.annotation.Scheduled;
+
 import com.benlinus92.synchronize.model.Playlist;
 import com.benlinus92.synchronize.model.Profile;
 import com.benlinus92.synchronize.model.Room;
@@ -22,6 +24,8 @@ public interface SynchronizeService {
 	void deleteVideo(int videoId);
 	void updateVideo(int videoId, String currTime);
 	void updateActiveUser(String roomId, String sessionId);
+	@Scheduled
+	void checkUsers();
 	boolean isVideoStarted(String videoId);
 	void startVideoTimeCountingThread(VideoDuration video);
 	void stopVideoTimeCountingThread(String roomId);

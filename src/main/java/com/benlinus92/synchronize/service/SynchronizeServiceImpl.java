@@ -141,6 +141,7 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 		}
 		return false;
 	}
+	@Override
 	@Scheduled(fixedDelay=5000)
 	public void checkUsers() {
 		simp.convertAndSend("/topic/alive", "");
