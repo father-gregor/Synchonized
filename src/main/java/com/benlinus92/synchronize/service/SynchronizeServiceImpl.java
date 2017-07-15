@@ -32,9 +32,11 @@ import com.benlinus92.synchronize.model.VideoDuration;
 @Transactional
 public class SynchronizeServiceImpl implements SynchronizeService {
 	@Autowired
-	SynchronizeDao dao;
+	private SynchronizeDao dao;
 	@Autowired
-	ScheduledExecutorService scheduledService;
+	private ScheduledExecutorService scheduledService;
+	@Autowired
+	private UserPerRoomTrackerService userTrackerService;
 	
 	private ConcurrentHashMap<String, List<String>> roomClientsMap = new ConcurrentHashMap<String, List<String>>();
 	private CopyOnWriteArrayList<FutureHolder> countThreadFutureList = new CopyOnWriteArrayList<FutureHolder>();
@@ -119,7 +121,10 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 		List<Playlist> list = dao.findRoomById(roomId).getVideosList();;
 		return list;
 	}
-
+	@Override
+	public void updateActiveUser(String roomId, String sessionId) {
+		userTrackerService.markUserAccess(roomId, sessionId);
+	}
 	@Override
 	public boolean isVideoStarted(String videoId) {
 		Iterator<FutureHolder> it = countThreadFutureList.iterator();

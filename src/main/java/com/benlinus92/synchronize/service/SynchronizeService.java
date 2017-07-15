@@ -21,6 +21,7 @@ public interface SynchronizeService {
 	Playlist findVideoById(String videoId);
 	void deleteVideo(int videoId);
 	void updateVideo(int videoId, String currTime);
+	void updateActiveUser(String roomId, String sessionId);
 	boolean isVideoStarted(String videoId);
 	void startVideoTimeCountingThread(VideoDuration video);
 	void stopVideoTimeCountingThread(String roomId);
