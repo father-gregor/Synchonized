@@ -22,6 +22,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import com.benlinus92.synchronize.scheduler.ActiveUserScheduler;
+
 @Configuration
 @EnableWebMvc
 @EnableScheduling
@@ -58,6 +60,10 @@ public class AppConifg extends WebMvcConfigurerAdapter {
 		//scheduler.
 		//scheduler.setThreadNamePrefix("VideoTimerScheduler");
 		return scheduler;
+	}
+	@Bean
+	public ActiveUserScheduler activeUserTask() {
+		return new ActiveUserScheduler();
 	}
 	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
