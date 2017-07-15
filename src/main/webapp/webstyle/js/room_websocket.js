@@ -81,6 +81,7 @@ $(function() {
 		}
 	}
 	function respondAlive() {
+		console.log("Send Alivebeat");
 		stompClient.send("/app/alivebeat", {}, roomId);
 	}
 	function getCurrentTime() {

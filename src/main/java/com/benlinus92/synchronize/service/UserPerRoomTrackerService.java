@@ -35,7 +35,7 @@ public class UserPerRoomTrackerService {
 			if(usersPerRoom.get(i).getSessionId().equals(sessionId)) {
 				long prevAccess = usersPerRoom.get(i).getLastAccess();
 				System.out.println("ACCESS SUB " + (usersPerRoom.get(i).setLastAccess() - prevAccess));
-				if((usersPerRoom.get(i).setLastAccess() - prevAccess) > 8000000)
+				if((usersPerRoom.get(i).setLastAccess() - prevAccess) > 8000)
 					removeUser(roomId, sessionId);
 				break;
 			}
@@ -43,12 +43,12 @@ public class UserPerRoomTrackerService {
 	}
 	private class ActiveRoomUser {
 		private String sessionId = new String();
-		private AtomicLong lastAccess = new AtomicLong(System.nanoTime());
+		private AtomicLong lastAccess = new AtomicLong(convertToMillis(System.nanoTime()));
 		public ActiveRoomUser(String sessionId) {
 			this.sessionId = sessionId;
 		}
 		private long setLastAccess() {
-			lastAccess = new AtomicLong(System.nanoTime());
+			lastAccess = new AtomicLong(convertToMillis(System.nanoTime()));
 			System.out.println("LAST ACCESS FROM " + sessionId + " WAS AT " + lastAccess);
 			return lastAccess.get();
 		}
@@ -57,6 +57,9 @@ public class UserPerRoomTrackerService {
 		}
 		private String getSessionId() {
 			return sessionId;
+		}
+		private long convertToMillis(long nanos) {
+			return nanos / 1000000;
 		}
 		@Override
 		public boolean equals(Object obj) {
