@@ -33,6 +33,7 @@ public class UserPerRoomTrackerService {
 		roomUsersMap.get(roomId).remove(new ActiveRoomUser(sessionId));
 		if(roomUsersMap.get(roomId).size() == 0) {
 			roomUsersMap.remove(roomId);
+			System.out.println("Room # " + roomId + " empty. Delete it");
 			mainService.stopVideoTimeCountingThread(roomId);
 		}
 	}
@@ -43,10 +44,9 @@ public class UserPerRoomTrackerService {
 			usersPerRoom = roomUsersMap.get(roomId);
 		}
 		for(int i = 0; i < usersPerRoom.size(); i++) {
-			if(usersPerRoom.get(i).getSessionId().equals(sessionId)) {
-				long prevAccess = usersPerRoom.get(i).getLastAccess();
-				if((usersPerRoom.get(i).setLastAccess() - prevAccess) > 8000)
-					removeUser(roomId, sessionId);
+			ActiveRoomUser activeUser = usersPerRoom.get(i);
+			if(activeUser.getSessionId().equals(sessionId)) {
+				activeUser.setLastAccess();
 				break;
 			}
 		}

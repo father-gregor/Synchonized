@@ -23,7 +23,7 @@ public class WebSocketSessionClosedEventHandler implements ApplicationListener<S
 	public void onApplicationEvent(SessionDisconnectEvent event) {
 		System.out.println("SESSION CLOSED - " + event.getCloseStatus().getCode() + " - " + event.getCloseStatus().getReason());
 		StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
-		service.removeUserFromRoomMap(sha.getSessionId());
+		//service.removeUserFromRoomMap(sha.getSessionId());
 		//System.out.println("ID: " + event.getMessage().getHeaders().ID);
 		for(Entry<String, Object> entry: sha.toMap().entrySet()) {
 			System.out.println("MAP: " + entry.getKey() + " - " + entry.getValue());

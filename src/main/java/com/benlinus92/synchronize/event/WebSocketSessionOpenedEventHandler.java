@@ -20,11 +20,7 @@ public class WebSocketSessionOpenedEventHandler implements ApplicationListener<S
 	@Override
 	public void onApplicationEvent(SessionConnectEvent event) {
 		StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
-		service.addUserToRoomMap(sha.getNativeHeader("roomId").get(0), sha.getSessionId());
-		for(Entry<String, Object> entry: sha.toMap().entrySet()) {
-			System.out.println("MAP: " + entry.getKey() + " - " + entry.getValue());
-		}
-		System.out.println("\n\n");
+		//service.addUserToRoomMap(sha.getNativeHeader("roomId").get(0), sha.getSessionId());
 	}
 
 }

@@ -78,6 +78,8 @@ public class WebController {
 	@Autowired
 	private SynchronizeService service;
 	@Autowired
+	private UserPerRoomTrackerService userTrackerService;
+	@Autowired
 	private MessageSource messageSource;
 	@Autowired
 	private SimpMessagingTemplate simp;
@@ -213,6 +215,7 @@ public class WebController {
 	@MessageMapping("/alivebeat") 
 	public void getAliveMessage(SimpMessageHeaderAccessor headers, String roomId) {
 		System.out.println("----------Session Beat Received from = " + headers.getSessionId() + "------------" + roomId);
+		userTrackerService.markUserLastAccess(roomId, headers.getSessionId());
 	}
 	
 	@MessageMapping("/timecenter/{roomId}/asktime")
