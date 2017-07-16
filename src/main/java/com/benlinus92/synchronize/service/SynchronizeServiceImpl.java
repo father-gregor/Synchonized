@@ -37,10 +37,6 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	private SynchronizeDao dao;
 	@Autowired
 	private ScheduledExecutorService scheduledService;
-	@Autowired
-	private UserPerRoomTrackerService userTrackerService;
-	@Autowired
-	private SimpMessagingTemplate simp;
 	
 	private ConcurrentHashMap<String, List<String>> roomClientsMap = new ConcurrentHashMap<String, List<String>>();
 	private CopyOnWriteArrayList<FutureHolder> countThreadFutureList = new CopyOnWriteArrayList<FutureHolder>();
@@ -127,10 +123,10 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	}
 	@Override
 	public void updateActiveUser(String roomId, String sessionId) {
-		userTrackerService.markUserAccess(roomId, sessionId);
-		if(!userTrackerService.isRoomActive(roomId)) {
-			stopVideoTimeCountingThread(roomId);
-		}
+		//userTrackerService.markUserAccess(roomId, sessionId);
+		//if(!userTrackerService.isRoomActive(roomId)) {
+		//	stopVideoTimeCountingThread(roomId);
+		//}
 	}
 	@Override
 	public boolean isVideoStarted(String videoId) {
@@ -140,11 +136,6 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 				return true;
 		}
 		return false;
-	}
-	@Override
-	@Scheduled(fixedDelay=5000)
-	public void checkUsers() {
-		simp.convertAndSend("/topic/alive", "");
 	}
 	@Override
 	public void startVideoTimeCountingThread(VideoDuration video) {

@@ -213,7 +213,6 @@ public class WebController {
 	@MessageMapping("/alivebeat") 
 	public void getAliveMessage(SimpMessageHeaderAccessor headers, String roomId) {
 		System.out.println("----------Session Beat Received from = " + headers.getSessionId() + "------------" + roomId);
-		service.updateActiveUser(roomId, headers.getSessionId());
 	}
 	
 	@MessageMapping("/timecenter/{roomId}/asktime")

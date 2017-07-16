@@ -2,13 +2,23 @@ package com.benlinus92.synchronize.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserPerRoomTrackerService {
+	@Autowired
+	private SynchronizeService mainService;
+	@Autowired
+	private SimpMessagingTemplate simp;
 	private ConcurrentHashMap<String, List<ActiveRoomUser>> roomUsersMap = new ConcurrentHashMap<String, List<ActiveRoomUser>>();
 	
 	public void addActiveUser(String roomId, String sessionId) {
@@ -23,9 +33,10 @@ public class UserPerRoomTrackerService {
 		roomUsersMap.get(roomId).remove(new ActiveRoomUser(sessionId));
 		if(roomUsersMap.get(roomId).size() == 0) {
 			roomUsersMap.remove(roomId);
+			mainService.stopVideoTimeCountingThread(roomId);
 		}
 	}
-	public void markUserAccess(String roomId, String sessionId) {
+	public void markUserLastAccess(String roomId, String sessionId) {
 		List<ActiveRoomUser> usersPerRoom = null;
 		if((usersPerRoom = roomUsersMap.get(roomId)) == null) {
 			addActiveUser(roomId, sessionId);
@@ -40,8 +51,24 @@ public class UserPerRoomTrackerService {
 			}
 		}
 	}
-	public boolean isRoomActive(String roomId) {
-		return roomUsersMap.containsKey(roomId);
+	public void checkActiveUsers() {
+		for(Entry<String, List<ActiveRoomUser>> roomEntry: roomUsersMap.entrySet()) {
+			List<ActiveRoomUser> userList = roomEntry.getValue();
+			for(int i = 0; i < userList.size(); i++) {
+				long now = convertToMillis(System.nanoTime());
+				if((now - userList.get(i).getLastAccess()) > 8000) {
+					removeUser(roomEntry.getKey(), userList.get(i).getSessionId());
+				}
+			}
+		}
+	}
+	@Scheduled(fixedDelay=5000)
+	private void checkUsers() {
+		checkActiveUsers();
+		simp.convertAndSend("/topic/alive", "");
+	}
+	private static long convertToMillis(long nanos) {
+		return nanos / 1000000;
 	}
 	private class ActiveRoomUser {
 		private String sessionId = new String();
@@ -59,9 +86,6 @@ public class UserPerRoomTrackerService {
 		}
 		private String getSessionId() {
 			return sessionId;
-		}
-		private long convertToMillis(long nanos) {
-			return nanos / 1000000;
 		}
 		@Override
 		public boolean equals(Object obj) {

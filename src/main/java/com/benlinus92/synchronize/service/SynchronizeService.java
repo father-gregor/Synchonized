@@ -24,8 +24,6 @@ public interface SynchronizeService {
 	void deleteVideo(int videoId);
 	void updateVideo(int videoId, String currTime);
 	void updateActiveUser(String roomId, String sessionId);
-	@Scheduled
-	void checkUsers();
 	boolean isVideoStarted(String videoId);
 	void startVideoTimeCountingThread(VideoDuration video);
 	void stopVideoTimeCountingThread(String roomId);
