@@ -38,7 +38,6 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	@Autowired
 	private ScheduledExecutorService scheduledService;
 	
-	private ConcurrentHashMap<String, List<String>> roomClientsMap = new ConcurrentHashMap<String, List<String>>();
 	private CopyOnWriteArrayList<FutureHolder> countThreadFutureList = new CopyOnWriteArrayList<FutureHolder>();
 	//ConcurrentHashMap<String, List<Future<?>>> countThreadFutureMap = new ConcurrentHashMap<String, List<Future<?>>>();
 	
