@@ -27,6 +27,4 @@ public interface SynchronizeService {
 	boolean isVideoStarted(String videoId);
 	void startVideoTimeCountingThread(VideoDuration video);
 	void stopVideoTimeCountingThread(String roomId);
-	void addUserToRoomMap(String roomId, String simpSessionId);
-	void removeUserFromRoomMap(String simpSessionId);
 }

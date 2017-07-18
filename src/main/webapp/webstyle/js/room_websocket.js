@@ -7,13 +7,6 @@ $(function() {
 	var stompClient = null;
 	var ytLoaded = $.Deferred(),
 		upvideoLoaded = $.Deferred();
-	$(window).on('beforeunload', function() {
-		stompClient.disconnect(function() {
-			console.log("Confirmed Disconnect");
-		});
-		console.log("Request Disconnect");
-		//return 'Your own message goes here...';
-	});
 	var playlist = null;
 	var currentVideo = {
 			id: -1
@@ -76,6 +69,52 @@ $(function() {
 			getCurrentTime();
 		}
 	}
+	$(window).on('beforeunload', function() {
+		stompClient.disconnect(function() {
+			console.log("Confirmed Disconnect");
+		});
+		console.log("Request Disconnect");
+	});
+	$("#btn-upvideo").click(function() {
+		if(typeof FormData === "function") {
+			var uploadForm = new FormData($("#form-upvideo"));
+			$.ajax( {
+				url: "/playlist/16/add-upvideo",
+				data: uploadForm,
+				dataType: "text",
+				processData: false,
+				contentType: false,
+				type: "POST",
+				success: function(data) {
+					console.log("Video Uploaded");
+					console.log(data);
+				},
+				error: function(err) {
+					console.log("Error while uploading");
+					console.log(err);
+				}
+			});
+		} else {
+			$("#form-upvideo").submit();
+		}
+		return false;
+	});
+	$("#btn-youtube").click(function() {
+		$.ajax( {
+			url: "/playlist/16/add-youtube",
+			type: "POST",
+			data: JSON.stringify({
+				
+			}),
+			dataType: "json",
+			success: function(data) {
+				console.log("Video Uploaded");
+			},
+			error: function(err) {
+				console.log("Video upload failed");
+			}
+		});
+	})
 	function respondAlive() {
 		console.log("Send Alivebeat");
 		stompClient.send("/app/alivebeat", {}, roomId);
@@ -167,7 +206,7 @@ $(function() {
 	}
 	function loadNextVideo() {
 		var index = getIndexByVideoId(currentVideo.id);
-		if(index <= playlist.length - 1) {
+		if(index < playlist.length) {
 			$("#video" + currentVideo.id).css({"background-color": "#ffffff", "color": "#000000"});
 			currentVideo.id = playlist[++index].videoId;
 			setCurrentVideo();

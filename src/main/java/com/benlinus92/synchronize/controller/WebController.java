@@ -296,6 +296,10 @@ public class WebController {
 		service.deleteRoomById(roomId, getPrincipal());
 		return "redirect:/profile/{userName}";
 	}
+	@RequestMapping(value="/playlist/{roomId}/add-{videoType}", method=RequestMethod.POST)
+	public String addVideo() {
+		return "";
+	}
 	@RequestMapping(value="/playlist/add-{videoType}-{roomId}", method=RequestMethod.POST)
 	public String addVideoToPlaylist(@ModelAttribute("videoObj")  Playlist video, @PathVariable String videoType,
 			@PathVariable int roomId, BindingResult result, HttpServletRequest request) {

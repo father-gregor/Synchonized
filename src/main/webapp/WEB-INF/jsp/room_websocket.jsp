@@ -48,7 +48,7 @@
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane active" id="your-file">
-						<form:form action="/playlist/add-upvideo-${roomId}" method="POST" modelAttribute="videoObj" enctype="multipart/form-data">
+						<form:form id="form-upvideo" action="/playlist/add-upvideo-${roomId}" method="POST" modelAttribute="videoObj" enctype="multipart/form-data">
 							<div class="form-group">
 								<label for="upload-input">Загрузить файл</label>
 								<form:input type="file" accept="video/*" path="file" id="upload-input" class="form-control"/>
@@ -59,11 +59,11 @@
 								<form:input type="text" path="title" id="title-input" class="form-control"/>
 								<form:errors path="title"/>
 							</div>
-							<form:button type="submit" value="upload-video" class="btn btn-default">Добавить в Playlist</form:button>
+							<form:button id="btn-upvideo" type="submit" value="upload-video" class="btn btn-default">Добавить в Playlist</form:button>
 						</form:form>
 					</div>
 					<div class="tab-pane" id="youtube-url">
-						<form:form action="/playlist/add-youtube-${roomId}" method="POST" modelAttribute="videoObj">
+						<form:form id="form-youtube" action="/playlist/add-youtube-${roomId}" method="POST" modelAttribute="videoObj">
 							<div class="form-group">
 								<label for="youtube-input">Ссылка на Youtube</label>
 								<form:input type="text" path="url" id="youtube-input" class="form-control"/>
@@ -74,7 +74,7 @@
 								<form:input type="text" path="title" id="title-input" class="form-control"/>
 								<form:errors path="title"/>
 							</div>
-							<form:button type="submit" value="upload-video" class="btn btn-default">Добавить в Playlist</form:button>
+							<form:button id="btn-youtube" type="submit" value="upload-video" class="btn btn-default">Добавить в Playlist</form:button>
 						</form:form>
 					</div>
 				</div>

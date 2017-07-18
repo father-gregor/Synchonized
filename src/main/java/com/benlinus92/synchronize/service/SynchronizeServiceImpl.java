@@ -39,7 +39,6 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 	private ScheduledExecutorService scheduledService;
 	
 	private CopyOnWriteArrayList<FutureHolder> countThreadFutureList = new CopyOnWriteArrayList<FutureHolder>();
-	//ConcurrentHashMap<String, List<Future<?>>> countThreadFutureMap = new ConcurrentHashMap<String, List<Future<?>>>();
 	
 	@Override
 	public boolean saveUser(Profile user) {
@@ -156,32 +155,6 @@ public class SynchronizeServiceImpl implements SynchronizeService {
 			}
 		}, 0, 1, TimeUnit.SECONDS);
 		countThreadFutureList.add(new FutureHolder(future, video.getRoomId(), video.getVideoId()));
-	}
-	@Override
-	public void addUserToRoomMap(String roomId, String simpSessionId) {
-		if(roomClientsMap.containsKey(roomId)) {
-			roomClientsMap.get(roomId).add(simpSessionId);
-		} else {
-			roomClientsMap.put(roomId, new ArrayList<String>());
-			roomClientsMap.get(roomId).add(simpSessionId);
-		}
-		System.out.println("ROOM " + roomId + " size: " + roomClientsMap.get(roomId).size());
-	}
-	@Override
-	public void removeUserFromRoomMap(String simpSessionId) {
-		for(Entry<String, List<String>> entry: roomClientsMap.entrySet()) {
-			if(entry.getValue().contains(simpSessionId)) {
-				String roomId = entry.getKey();
-				int clients = roomClientsMap.get(roomId).size();
-				System.out.println("ROOM " + roomId + " size: " + clients);
-				if(clients - 1 <= 0) {
-					roomClientsMap.remove(roomId);
-					stopVideoTimeCountingThread(roomId);
-				} else
-					roomClientsMap.get(roomId).remove(simpSessionId);
-				break;
-			}
-		}
 	}
 	@Override
 	public void stopVideoTimeCountingThread(String roomId) {
