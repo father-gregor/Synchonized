@@ -91,7 +91,7 @@ $(function() {
 				},
 				error: function(err) {
 					console.log("Error while uploading");
-					console.log(err);
+					console.log(err.responseText);
 				}
 			});
 		} else {
