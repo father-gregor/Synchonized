@@ -297,12 +297,29 @@ public class WebController {
 		return "redirect:/profile/{userName}";
 	}
 	@RequestMapping(value="/playlist/{roomId}/add-{videoType}", method=RequestMethod.POST)
-	public String addVideo() {
+	public String addVideo(Playlist video, @PathVariable String videoType, @PathVariable int roomId) {
+		try {
+			video.setTitle(videoType);
+			video.setCurrTime("0");
+			if(video.getType().equals(AppConstants.TYPE_UPLOAD_VIDEO)) {
+				String folderPath = AppConstants.VIDEOSTORE_LOCATION + roomId + "/";
+				video.setUrl(video.getFile().getOriginalFilename());
+				if(!new File(folderPath).exists())
+					new File(folderPath).mkdir();
+				video.getFile().transferTo(new File(folderPath + video.getFile().getOriginalFilename()));
+			}
+			System.out.println("VIDEO URL: " + video.getTitle() + "   " + video.getUrl());
+			service.saveVideo(video, roomId);
+			simp.convertAndSend("/topic/newvideo/" + roomId, video);
+		} catch(IOException e) {
+			e.printStackTrace();
+			return "error";
+		}
 		return "";
 	}
 	@RequestMapping(value="/playlist/add-{videoType}-{roomId}", method=RequestMethod.POST)
 	public String addVideoToPlaylist(@ModelAttribute("videoObj")  Playlist video, @PathVariable String videoType,
-			@PathVariable int roomId, BindingResult result, HttpServletRequest request) {
+			@PathVariable int roomId, BindingResult result) {
 		if(result.hasErrors()) {
 			return "redirect:/room/" + roomId;
 		}

@@ -104,7 +104,8 @@ $(function() {
 			url: "/playlist/16/add-youtube",
 			type: "POST",
 			data: JSON.stringify({
-				
+				"title": $("input#title-input").val(),
+				"url": $("input#youtube-input").val()
 			}),
 			dataType: "json",
 			success: function(data) {
